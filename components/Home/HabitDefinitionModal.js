@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Modal,
+  //Modal,
   TouchableWithoutFeedback,
   StyleSheet,
   TextInput,
@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
+import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
 import IconPicker from "./IconPicker";
 import Colors from "../../constants/Colors";
@@ -25,11 +26,6 @@ const HabitDefinitionModal = (props) => {
   const [height, setHeight] = useState(0);
   // const [difficulty, setDifficulty] = useState()
   // const [notificiation, setNotification] = useState()
-
-  useEffect(() => {
-    console.log("MODAL:", Dimensions.get("window").height);
-    console.log("Height:", height);
-  }, [height]);
 
   const onIconPress = (name) => {
     setChosenIconName(name);
@@ -66,184 +62,186 @@ const HabitDefinitionModal = (props) => {
   };
 
   return (
-    <View>
-      <Modal animationType="slide" transparent visible={props.modalVisible}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            props.setModalVisible(false);
-            setChosenColor(""), setChosenIconName("");
+    <View >
+      <Modal
+        isVisible={props.modalVisible}
+        animationIn="slideInDown"
+        backdropColor={Colors.primaryDark}
+        backdropOpacity={0.6}
+        animationOut="slideOutUp"
+        useNativeDriver={true}
+        onBackdropPress={() => {
+          props.setModalVisible(false),
+            setChosenColor(""),
+            setChosenIconName("");
+        }}
+      >
+        <View
+          onLayout={(e) => {
+            const newHeight = e.nativeEvent.layout.height;
+            setHeight(newHeight);
           }}
         >
-          <View
-            onLayout={(e) => {
-              const newHeight = e.nativeEvent.layout.height;
-              setHeight(newHeight);
-            }}
-            style={{
-              // flex: 1,
-              backgroundColor: props.modalVisible ? "rgba(0,0,0,0.5)" : "white", // Slidet leider mit rein
-            }}
-          >
-            <TouchableWithoutFeedback onPress={() => {}}>
-              <ScrollView style={styles.modalView}>
-                <View style={{}}>
-                  <View
-                    style={{
-                      height: height * 0.77,
-                      //height: "78%",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    {/* <View style={{ marginHorizontal: 10, marginTop: 10 }}> */}
-                    <View>
-                      <MyText content="Batterie erstellen" semiBold />
-                    </View>
+          <ScrollView style={styles.modalView}>
+            <View style={{}}>
+              <View
+                style={{
+                  height: height * 0.77,
 
-                    <TextInput
-                      style={styles.input}
-                      onChangeText={(name) => setChosenName(name)}
-                      placeholder="Name des Habits"
-                      keyboardType="default"
-                    />
+                  //height: "78%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ marginHorizontal: "4%", marginTop: "5%" }}>
+                  <MyText content="Batterie erstellen" semiBold />
+                </View>
 
-                    {/* <TextInput
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(name) => setChosenName(name)}
+                  placeholder="Name des Habits"
+                  keyboardType="default"
+                  placeholderTextColor="grey"
+                />
+
+                {/* <TextInput
                     style={styles.input}
                     placeholder="Schwierigkeit"
                     keyboardType="default"
                   /> */}
-                    <TextInput
-                      style={styles.input}
-                      onChangeText={(amount) => setChosenAmount(amount)}
-                      placeholder="Anzahl pro Woche"
-                      keyboardType="numeric"
-                    />
-                    <TextInput
-                      style={styles.input}
-                      // onChangeText={onChangeNumber}
-                      // value={number}
-                      placeholder="Benachrichtigungen"
-                      keyboardType="numeric"
-                    />
-                    <IconPicker
-                      icons={[
-                        "fitness-center",
-                        "pool",
-                        "sports-volleyball",
-                        "sports-soccer",
-                        "sports-esports",
-                        "directions-bike",
-                        "directions-run",
-                      ]}
-                      chosenIconName={chosenIconName}
-                      setChosenIconName={setChosenIconName}
-                      onIconPress={onIconPress}
-                    />
-                    <IconPicker
-                      icons={[
-                        "center-focus-weak",
-                        "self-improvement",
-                        "menu-book",
-                        "volunteer-activism",
-                        "no-food",
-                        "no-drinks",
-                        "school",
-                      ]}
-                      chosenIconName={chosenIconName}
-                      setChosenIconName={setChosenIconName}
-                      onIconPress={onIconPress}
-                    />
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(amount) => setChosenAmount(amount)}
+                  placeholder="Anzahl pro Woche"
+                  keyboardType="numeric"
+                  placeholderTextColor="grey"
+                />
+                <TextInput
+                  style={styles.input}
+                  // onChangeText={onChangeNumber}
+                  // value={number}
+                  placeholder="Benachrichtigungen"
+                  keyboardType="numeric"
+                  placeholderTextColor="grey"
+                />
+                <IconPicker
+                  icons={[
+                    "fitness-center",
+                    "pool",
+                    "sports-volleyball",
+                    "sports-soccer",
+                    "sports-esports",
+                    "directions-bike",
+                    "directions-run",
+                  ]}
+                  chosenIconName={chosenIconName}
+                  setChosenIconName={setChosenIconName}
+                  onIconPress={onIconPress}
+                />
+                <IconPicker
+                  icons={[
+                    "center-focus-weak",
+                    "self-improvement",
+                    "menu-book",
+                    "volunteer-activism",
+                    "no-food",
+                    "no-drinks",
+                    "school",
+                  ]}
+                  chosenIconName={chosenIconName}
+                  setChosenIconName={setChosenIconName}
+                  onIconPress={onIconPress}
+                />
 
-                    <ColorPicker
-                      onColorPress={onColorPress}
-                      setChosenColor={setChosenColor}
-                      chosenColor={chosenColor}
+                <ColorPicker
+                  onColorPress={onColorPress}
+                  setChosenColor={setChosenColor}
+                  chosenColor={chosenColor}
+                />
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 30,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      chosenName != "" &&
+                      chosenAmount != 0 &&
+                      chosenColor != "" &&
+                      chosenIconName != ""
+                        ? saveHabit()
+                        : Alert.alert("Fülle erst alle Felder aus");
+                    }}
+                    style={{
+                      height: 45,
+                      width: "80%",
+                      backgroundColor: Colors.yellow,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 30,
+                    }}
+                  >
+                    <MyText content="Speichern" semiBold size={15} />
+                  </TouchableOpacity>
+                </View>
+                {/* </View> */}
+              </View>
+              <View style={{}}>
+                <View style={{}}>
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 20,
+                    }}
+                  >
+                    <MyText content="Vorschläge" size={16} />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                    }}
+                  >
+                    <View
+                      style={{
+                        marginTop: 20,
+                        borderBottomColor: Colors.primaryLight,
+                        borderBottomWidth: 1,
+                        width: "34%",
+                      }}
+                    />
+                    <MaterialIcons // Mit flexbox content so anpassen, dass das hier immer noch grade so zu sehen ist...
+                      style={{ top: 10 }}
+                      name="keyboard-arrow-down"
+                      size={24}
+                      color={Colors.primaryDark}
                     />
                     <View
                       style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: 30,
+                        marginTop: 20,
+                        borderBottomColor: Colors.primaryLight,
+                        borderBottomWidth: 1,
+                        width: "34%",
                       }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => {
-                          chosenName != "" &&
-                          chosenAmount != 0 &&
-                          chosenColor != "" &&
-                          chosenIconName != ""
-                            ? saveHabit()
-                            : Alert.alert("Fülle erst alle Felder aus");
-                        }}
-                        style={{
-                          height: 45,
-                          width: "80%",
-                          backgroundColor: Colors.yellow,
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: 30,
-                        }}
-                      >
-                        <MyText content="Speichern" semiBold size={15} />
-                      </TouchableOpacity>
-                    </View>
-                    {/* </View> */}
-                  </View>
-                  <View style={{}}>
-                    <View style={{}}>
-                      <View
-                        style={{
-                          justifyContent: "center",
-                          alignItems: "center",
-                          marginTop: 20,
-                        }}
-                      >
-                        <MyText content="Vorschläge" size={16} />
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <View
-                          style={{
-                            marginTop: 20,
-                            borderBottomColor: Colors.primaryLight,
-                            borderBottomWidth: 1,
-                            width: "34%",
-                          }}
-                        />
-                        <MaterialIcons // Mit flexbox content so anpassen, dass das hier immer noch grade so zu sehen ist...
-                          style={{ top: 10 }}
-                          name="keyboard-arrow-down"
-                          size={24}
-                          color={Colors.primaryDark}
-                        />
-                        <View
-                          style={{
-                            marginTop: 20,
-                            borderBottomColor: Colors.primaryLight,
-                            borderBottomWidth: 1,
-                            width: "34%",
-                          }}
-                        />
-                      </View>
-                    </View>
-                    <View style={{ marginTop: 20 }}>
-                      <MyText content="HIER KOMMEN VORSCHLÄGE" />
-                      <MyText content=" Vorschlag 1" />
-                      <MyText content=" Vorschlag 2" />
-                      <MyText content=" Vorschlag 3" />
-                      <MyText content=" Vorschlag 4" />
-                      <MyText content=" Vorschlag 4" />
-                      <MyText content=" Vorschlag 4" />
-                    </View>
+                    />
                   </View>
                 </View>
-              </ScrollView>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
+                <View style={{ marginTop: 20 }}>
+                  <MyText content="HIER KOMMEN VORSCHLÄGE" />
+                  <MyText content=" Vorschlag 1" />
+                  <MyText content=" Vorschlag 2" />
+                  <MyText content=" Vorschlag 3" />
+                  <MyText content=" Vorschlag 4" />
+                  <MyText content=" Vorschlag 4" />
+                  <MyText content=" Vorschlag 4" />
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+        </View>
       </Modal>
     </View>
   );

@@ -16,7 +16,7 @@ const ColorPicker = (props) => {
     <View
       style={{
         marginTop: 40,
-        marginHorizontal: 30,
+        marginHorizontal: 20,
         flexDirection: "row",
         justifyContent: "space-evenly",
       }}

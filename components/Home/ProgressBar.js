@@ -17,7 +17,11 @@ const ProgressBar = ({ step, steps, color, name }) => {
   }, []);
 
   useEffect(() => {
-    reactive.setValue(-width + (width * step) / steps);
+    if (step <= steps) {
+      reactive.setValue(-width + (width * step) / steps);
+    } else {
+      reactive.setValue(0);
+    }
   }, [step, width]);
 
   return (
@@ -30,7 +34,7 @@ const ProgressBar = ({ step, steps, color, name }) => {
       style={{
         width: "100%",
         height: "100%",
-        overflow: "hidden",
+        // overflow: "hidden",
         marginHorizontal: 10,
         justifyContent: "center",
         alignItems: "center",

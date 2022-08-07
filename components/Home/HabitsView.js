@@ -16,7 +16,12 @@ const HabitsView = (props) => {
         }}
       >
         {slots[0] !== "empty" ? (
-          <HabitSquare habit={slots[0]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[0]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -24,7 +29,12 @@ const HabitsView = (props) => {
           />
         )}
         {slots[1] !== "empty" ? (
-          <HabitSquare habit={slots[1]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[1]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -40,7 +50,12 @@ const HabitsView = (props) => {
         }}
       >
         {slots[2] !== "empty" ? (
-          <HabitSquare habit={slots[2]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[2]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -48,7 +63,12 @@ const HabitsView = (props) => {
           />
         )}
         {slots[3] !== "empty" ? (
-          <HabitSquare habit={slots[3]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[3]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -64,7 +84,12 @@ const HabitsView = (props) => {
         }}
       >
         {slots[4] !== "empty" ? (
-          <HabitSquare habit={slots[4]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[4]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -72,7 +97,12 @@ const HabitsView = (props) => {
           />
         )}
         {slots[5] !== "empty" ? (
-          <HabitSquare habit={slots[5]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[5]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -89,7 +119,12 @@ const HabitsView = (props) => {
         }}
       >
         {slots[6] !== "empty" ? (
-          <HabitSquare habit={slots[6]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[6]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
@@ -97,7 +132,12 @@ const HabitsView = (props) => {
           />
         )}
         {slots[7] !== "empty" ? (
-          <HabitSquare habit={slots[7]} getHabits={props.getHabits} />
+          <HabitSquare
+            habit={slots[7]}
+            getHabits={props.getHabits}
+            setHabitInfosVisible={props.setHabitInfosVisible}
+            setCurrentHabit={props.setCurrentHabit}
+          />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}

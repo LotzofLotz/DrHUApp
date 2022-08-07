@@ -6,8 +6,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import isThisWeek from "date-fns/isThisWeek";
 import parseISO from "date-fns/parseISO";
 import ProgressBar from "./ProgressBar";
+import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
-const HabitSquare = ({ habit, getHabits }) => {
+const HabitSquare = ({
+  habit,
+  getHabits,
+  setHabitInfosVisible,
+  setCurrentHabit,
+}) => {
   const width = Dimensions.get("window").width;
 
   const filterSessions = () => {
@@ -40,12 +46,22 @@ const HabitSquare = ({ habit, getHabits }) => {
         alignItems: "center",
         height: 0.44 * width,
         width: 0.44 * width,
-        borderRadius: 35,
-        borderWidth: 3,
-        borderColor: Colors.primaryLight,
+        borderRadius: 30,
+        backgroundColor: "#F0F0F0",
+        elevation: 10,
+        shadowOffset: 10,
+        // borderWidth: 3,
+        // borderColor: Colors.primaryDark,
       }}
     >
-      <TouchableOpacity onPress={() => addSession(habit.value["Name"])}>
+      <TouchableOpacity
+        onPress={() => addSession(habit.value["Name"])}
+        onLongPress={() => {
+          console.log("currentHabit: " + habit.value["Name"]),
+            setCurrentHabit(habit),
+            setHabitInfosVisible(true);
+        }}
+      >
         <View style={{ flex: 3 }}>
           <View
             style={{
@@ -98,6 +114,10 @@ const HabitSquare = ({ habit, getHabits }) => {
         >
           <MyText content={habit.value["Name"]} semiBold />
           <MyText content={habit.value["Amount"] + "x pro Woche"} size={15} />
+          <MyText
+            content={filterSessions().length + "/" + habit.value["Amount"]}
+            size={15}
+          />
         </View>
       </TouchableOpacity>
     </View>

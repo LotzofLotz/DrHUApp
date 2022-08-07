@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, StatusBar } from "react-native";
 import { MyText } from "./MyText";
 import Colors from "../../constants/Colors";
 
@@ -10,12 +10,13 @@ const MyHeader = ({ title }) => {
         flexDirection: "row",
         marginLeft: 10,
 
-        // marginTop: "7%",
+        marginTop: StatusBar.currentHeight,
         alignItems: "flex-end",
-        height: "12%",
+
+        // height: "4%",
       }}
     >
-      <View style={{ left: "14%" }}>
+      <View style={{ left: "14%", marginBottom: 10 }}>
         <MyText content={title} size={24} semiBold />
       </View>
       <View

@@ -60,7 +60,7 @@ const MyTabBar = ({ navigation }) => {
             fill-opacity={0}
           >
             <Path
-              d="M265.44,48.67c-11.276,0-21.39,5.706-25.646,16.158a52.018,52.018,0,0,1-96.373,0c-4.257-10.45-14.371-16.158-25.646-16.158l-.041,72H265.553Z"
+              d="M265.644,48.67c-11.276,0-21.593,5.706-25.85,16.158a52.018,52.018,0,0,1-96.373,0c-4.257-10.45-14.5-16.158-25.777-16.158v72h148Z"
               transform="translate(-117.734 -48.67)"
               fill="#2a4a4f"
             />
@@ -78,7 +78,10 @@ const MyTabBar = ({ navigation }) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Home"), setFocused("Home");
+          // funktioniert aufm iphone irgwie nicht richtig
+          console.log("NAVIGAZE HOME"),
+            navigation.navigate("Home"),
+            setFocused("Home");
         }}
       >
         <View
@@ -86,12 +89,18 @@ const MyTabBar = ({ navigation }) => {
             position: "absolute",
             borderColor: Colors.yellow,
             borderWidth: focused == "Home" ? 3 : 0,
-            width: middleIconSize,
-            height: middleIconSize,
+            width: focused == "Home" ? middleIconSize : 84,
+            height: focused == "Home" ? middleIconSize : 84,
             borderRadius: midRadius,
             backgroundColor: Colors.primaryDark,
-            left: width / 2 - midRadius,
-            bottom: tabBarHeight - midRadius,
+            left:
+              focused == "Home"
+                ? width / 2 - midRadius
+                : width / 2 - midRadius + 3,
+            bottom:
+              focused == "Home"
+                ? tabBarHeight - midRadius
+                : tabBarHeight - midRadius + 3,
             alignItems: "center",
             justifyContent: "center",
           }}

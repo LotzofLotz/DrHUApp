@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { View, ScrollView, Modal, Dimensions } from "react-native";
+import { View, ScrollView, StatusBar } from "react-native";
+import Modal from "react-native-modal";
 import MyHeader from "../components/Global/MyHeader";
 import HabitSlot from "../components/Home/HabitSlot";
 import HabitDefinitionModal from "../components/Home/HabitDefinitionModal";
@@ -9,15 +10,24 @@ import MyText from "../components/Global/MyText";
 import EmptyHabitsView from "../components/Home/EmptyHabitsView";
 import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
+import HabitInfosModal from "../components/Home/HabitInfosModal";
 
 const Home = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [habitInfosVisible, setHabitInfosVisible] = useState(false);
   const [habits, setHabits] = useState("");
   const [slotz, setSlotz] = useState([]);
+  const [currentHabit, setCurrentHabit] = useState();
 
   useEffect(() => {
     getHabits();
+    // console.log("habits", habits);
+    // console.log("STATusbarheight:", StatusBar.currentHeight);
   }, []);
+
+  // useEffect(() => {
+  //   console.log("curr: ", currentHabit);
+  // }, [currentHabit]);
 
   useFocusEffect(
     useCallback(() => {
@@ -31,7 +41,7 @@ const Home = () => {
   //   }, [slotz]);
 
   const getHabits = async () => {
-    console.log("getHabits triggered");
+    // console.log("getHabits triggered");
     let slots = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -58,8 +68,7 @@ const Home = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Modal animationType="slide" transparent={true} visible={modalVisible} />
-
+      {/* <StatusBar hidden={true} /> */}
       <MyHeader title="Energiesammlung" />
 
       <HabitDefinitionModal
@@ -67,12 +76,20 @@ const Home = () => {
         setModalVisible={setModalVisible}
         getHabits={getHabits}
       />
+
+      <HabitInfosModal
+        habitInfosVisible={habitInfosVisible}
+        setHabitInfosVisible={setHabitInfosVisible}
+        habit={currentHabit}
+      />
       <ScrollView>
         {habits.length > 0 && slotz.length > 0 ? (
           <HabitsView
+            setHabitInfosVisible={setHabitInfosVisible}
             setModalVisible={setModalVisible}
             getHabits={getHabits}
             slots={slotz}
+            setCurrentHabit={setCurrentHabit}
           />
         ) : (
           <EmptyHabitsView setModalVisible={setModalVisible} />
