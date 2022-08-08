@@ -16,6 +16,7 @@ export default function TabScreens() {
       tabBar={(props) => <MyTabBar {...props} />}
       screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen name="Home" component={Home} />

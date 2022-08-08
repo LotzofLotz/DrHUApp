@@ -2,8 +2,9 @@ import React from "react";
 import { View, Image, StatusBar } from "react-native";
 import { MyText } from "./MyText";
 import Colors from "../../constants/Colors";
+import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
-const MyHeader = ({ title }) => {
+const MyHeader = ({ title, energy }) => {
   return (
     <View
       style={{
@@ -37,7 +38,7 @@ const MyHeader = ({ title }) => {
           source={require("../../assets/Batterieicon_Currency.png")}
           style={{ width: 28, height: 28 }}
         />
-        <MyText color="white" content=" 5x" bold size={25} />
+        <MyText color="white" content={" " + energy + "x"} bold size={25} />
       </View>
     </View>
   );

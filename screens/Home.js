@@ -18,16 +18,12 @@ const Home = () => {
   const [habits, setHabits] = useState("");
   const [slotz, setSlotz] = useState([]);
   const [currentHabit, setCurrentHabit] = useState();
+  const [energy, setEnergy] = useState(0);
 
   useEffect(() => {
     getHabits();
-    // console.log("habits", habits);
-    // console.log("STATusbarheight:", StatusBar.currentHeight);
+    onFirstOpen();
   }, []);
-
-  // useEffect(() => {
-  //   console.log("curr: ", currentHabit);
-  // }, [currentHabit]);
 
   useFocusEffect(
     useCallback(() => {
@@ -36,9 +32,20 @@ const Home = () => {
     }, [])
   );
 
-  //   useEffect(() => {
-  //     console.log("sLOTZ have been updated");
-  //   }, [slotz]);
+  const onFirstOpen = async () => {
+    try {
+      const energy = await AsyncStorage.getItem("Energy");
+
+      if (!energy) {
+        await AsyncStorage.setItem("Energy", "0"),
+          console.log("Energy upgesettet");
+      } else {
+        setEnergy(energy);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const getHabits = async () => {
     // console.log("getHabits triggered");
@@ -61,6 +68,8 @@ const Home = () => {
       }
       setSlotz(slots);
       setHabits(result);
+      const energy = await AsyncStorage.getItem("Energy");
+      setEnergy(parseInt(energy));
     } catch (e) {
       console.log("error", e);
     }
@@ -69,7 +78,7 @@ const Home = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {/* <StatusBar hidden={true} /> */}
-      <MyHeader title="Energiesammlung" />
+      <MyHeader title="Energiesammlung" energy={energy} />
 
       <HabitDefinitionModal
         modalVisible={modalVisible}
@@ -81,6 +90,8 @@ const Home = () => {
         habitInfosVisible={habitInfosVisible}
         setHabitInfosVisible={setHabitInfosVisible}
         habit={currentHabit}
+        getHabits={getHabits}
+        currentHabit={currentHabit}
       />
       <ScrollView>
         {habits.length > 0 && slotz.length > 0 ? (

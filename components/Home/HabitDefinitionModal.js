@@ -9,6 +9,7 @@ import {
   Alert,
   Dimensions,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
@@ -62,7 +63,7 @@ const HabitDefinitionModal = (props) => {
   };
 
   return (
-    <View >
+    <View>
       <Modal
         isVisible={props.modalVisible}
         animationIn="slideInDown"
@@ -81,6 +82,7 @@ const HabitDefinitionModal = (props) => {
             const newHeight = e.nativeEvent.layout.height;
             setHeight(newHeight);
           }}
+          style={{ alignItems: "center", justifyContent: "center" }}
         >
           <ScrollView style={styles.modalView}>
             <View style={{}}>
@@ -188,8 +190,8 @@ const HabitDefinitionModal = (props) => {
                 </View>
                 {/* </View> */}
               </View>
-              <View style={{}}>
-                <View style={{}}>
+              <View>
+                <View>
                   <View
                     style={{
                       justifyContent: "center",
@@ -253,6 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 30,
     borderRadius: 10,
+    width: "100%",
     // shadowColor: "black", // shadow for ios , elevation for android
     // shadowOffset: { width: 0, height: 2 },
     // shadowRadius: 6,

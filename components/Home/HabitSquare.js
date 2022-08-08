@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import isThisWeek from "date-fns/isThisWeek";
 import parseISO from "date-fns/parseISO";
 import ProgressBar from "./ProgressBar";
-import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
 const HabitSquare = ({
   habit,
@@ -28,7 +27,15 @@ const HabitSquare = ({
       const habit = await AsyncStorage.getItem("Habit_" + name);
       const parsed = JSON.parse(habit);
       parsed.Sessions.push(new Date());
+      if (parsed.Amount - 1 == filterSessions().length) {
+        console.log("this was the final step !!");
+        const energy = await AsyncStorage.getItem("Energy");
+        let newEnergy = parseInt(energy) + 1;
+        console.log("NEW ENERGY:", newEnergy);
+        await AsyncStorage.setItem("Energy", newEnergy.toString());
+      }
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
+
       getHabits();
     } catch (e) {
       console.log(e);
