@@ -18,6 +18,8 @@ import Colors from "../../constants/Colors";
 import ColorPicker from "./ColorPicker";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import RecommendationSquare from "./RecommendationSquare";
+import HabitRecommendationModal from "./HabitRecommendationModal";
 
 const HabitDefinitionModal = (props) => {
   const [chosenIconName, setChosenIconName] = useState("");
@@ -25,6 +27,9 @@ const HabitDefinitionModal = (props) => {
   const [chosenName, setChosenName] = useState("");
   const [chosenAmount, setChosenAmount] = useState(0);
   const [height, setHeight] = useState(0);
+  const [recommendationModalVisible, setRecommendationModalVisible] =
+    useState(false);
+  const [chosenRecommendation, setChosenRecommendation] = useState("");
   // const [difficulty, setDifficulty] = useState()
   // const [notificiation, setNotification] = useState()
 
@@ -36,6 +41,10 @@ const HabitDefinitionModal = (props) => {
     setChosenColor(name);
   };
 
+  useState(() => {
+    console.log(chosenRecommendation, recommendationModalVisible);
+  }, [chosenRecommendation, recommendationModalVisible]);
+
   const saveHabit = async () => {
     try {
       const habit = {
@@ -45,6 +54,7 @@ const HabitDefinitionModal = (props) => {
         Color: chosenColor,
         Notifications: "will be added later",
         Sessions: [],
+        PerfectWeeks: [],
         BatteryCount: 0,
       };
       const jsonHabit = JSON.stringify(habit);
@@ -64,10 +74,16 @@ const HabitDefinitionModal = (props) => {
 
   return (
     <View>
+      <HabitRecommendationModal
+        chosenRecommendation={chosenRecommendation}
+        setRecommendationModalVisible={setRecommendationModalVisible}
+        recommendationModalVisible={recommendationModalVisible}
+        getHabits={props.getHabits}
+      />
       <Modal
         isVisible={props.modalVisible}
         animationIn="slideInDown"
-        backdropColor={Colors.primaryDark}
+        backdropColor={"#132224"}
         backdropOpacity={0.6}
         animationOut="slideOutUp"
         useNativeDriver={true}
@@ -85,10 +101,10 @@ const HabitDefinitionModal = (props) => {
           style={{ alignItems: "center", justifyContent: "center" }}
         >
           <ScrollView style={styles.modalView}>
-            <View style={{}}>
+            <View>
               <View
                 style={{
-                  height: height * 0.77,
+                  // height: height * 0.77,
 
                   //height: "78%",
                   justifyContent: "space-between",
@@ -199,7 +215,7 @@ const HabitDefinitionModal = (props) => {
                       marginTop: 20,
                     }}
                   >
-                    <MyText content="Vorschläge" size={16} />
+                    <MyText content="Der Doktor empfiehlt" size={16} />
                   </View>
                   <View
                     style={{
@@ -231,14 +247,45 @@ const HabitDefinitionModal = (props) => {
                     />
                   </View>
                 </View>
-                <View style={{ marginTop: 20 }}>
-                  <MyText content="HIER KOMMEN VORSCHLÄGE" />
-                  <MyText content=" Vorschlag 1" />
-                  <MyText content=" Vorschlag 2" />
-                  <MyText content=" Vorschlag 3" />
-                  <MyText content=" Vorschlag 4" />
-                  <MyText content=" Vorschlag 4" />
-                  <MyText content=" Vorschlag 4" />
+                <View style={{ margin: 10 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      margin: 4,
+                    }}
+                  >
+                    <RecommendationSquare
+                      name={"Fappen"}
+                      setChosenRecommendation={setChosenRecommendation}
+                      setRecommendationModalVisible={
+                        setRecommendationModalVisible
+                      }
+                      setModalVisible={props.setModalVisible}
+                      getHabits={props.getHabits}
+                    />
+                    <RecommendationSquare name={"Hacken"} />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      margin: 4,
+                    }}
+                  >
+                    <RecommendationSquare name={"Joggen"} />
+                    <RecommendationSquare name={"Fasten"} />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      margin: 4,
+                    }}
+                  >
+                    <RecommendationSquare name={"Achtsamkeit"} />
+                    <RecommendationSquare name={"DigitalDetox"} />
+                  </View>
                 </View>
               </View>
             </View>

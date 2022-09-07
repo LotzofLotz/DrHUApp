@@ -20,7 +20,7 @@ const MyHeader = ({ title, energy }) => {
       <View style={{ left: "14%", marginBottom: 10 }}>
         <MyText content={title} size={24} semiBold />
       </View>
-      <View
+      {/* <View
         style={{
           backgroundColor: Colors.primaryDark,
           position: "absolute",
@@ -33,13 +33,27 @@ const MyHeader = ({ title, energy }) => {
           borderTopLeftRadius: 30,
           flexDirection: "row",
         }}
+      > */}
+      <View
+        style={{
+          position: "absolute",
+          right: 4,
+          top: 0,
+          flexDirection: "row",
+        }}
       >
         <Image
-          source={require("../../assets/Batterieicon_Currency.png")}
-          style={{ width: 28, height: 28 }}
+          source={require("../../assets/Batterieicon_Currency_alt.png")}
+          style={{ width: 32, height: 32, top: 5 }}
         />
-        <MyText color="white" content={" " + energy + "x"} bold size={25} />
+        <MyText
+          color={Colors.primaryDark}
+          content={" " + energy + "x"}
+          bold
+          size={28}
+        />
       </View>
+      {/* </View> */}
     </View>
   );
 };

@@ -4,8 +4,8 @@ import { Icon } from "react-native-elements";
 import Colors from "../../constants/Colors";
 
 const ProgressBar = ({ step, steps, color, name }) => {
-  const animatedValue = useRef(new Animated.Value(-300)).current;
-  const reactive = useRef(new Animated.Value(-300)).current;
+  const animatedValue = useRef(new Animated.Value(-1000)).current;
+  const reactive = useRef(new Animated.Value(-1000)).current;
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const ProgressBar = ({ step, steps, color, name }) => {
     } else {
       reactive.setValue(0);
     }
-  }, [step, width]);
+  }, [step, steps, width]);
 
   return (
     <View

@@ -5,7 +5,9 @@ import Colors from "../../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import isThisWeek from "date-fns/isThisWeek";
 import parseISO from "date-fns/parseISO";
+import getWeek from "date-fns/getWeek";
 import ProgressBar from "./ProgressBar";
+import { AntDesign } from "@expo/vector-icons";
 
 const HabitSquare = ({
   habit,
@@ -28,10 +30,21 @@ const HabitSquare = ({
       const parsed = JSON.parse(habit);
       parsed.Sessions.push(new Date());
       if (parsed.Amount - 1 == filterSessions().length) {
-        console.log("this was the final step !!");
+        // console.log("this was the final step !!");
         const energy = await AsyncStorage.getItem("Energy");
         let newEnergy = parseInt(energy) + 1;
-        console.log("NEW ENERGY:", newEnergy);
+        console.log(
+          "perfect week added : ",
+          getWeek(new Date(), {
+            weekStartsOn: 1,
+          })
+        );
+        parsed.PerfectWeeks.push(
+          getWeek(new Date(), {
+            weekStartsOn: 1,
+          })
+        );
+        // console.log("NEW ENERGY:", newEnergy);
         await AsyncStorage.setItem("Energy", newEnergy.toString());
       }
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
@@ -55,10 +68,16 @@ const HabitSquare = ({
         width: 0.44 * width,
         borderRadius: 30,
         backgroundColor: "#F0F0F0",
-        elevation: 10,
-        shadowOffset: 10,
+        borderWidth: 3,
+        //filterSessions().length >= habit.value["Amount"] ? 3 : 0,
+
+        // elevation: 10,
+        // shadowOffset: 10,
         // borderWidth: 3,
-        // borderColor: Colors.primaryDark,
+        borderColor:
+          filterSessions().length >= habit.value["Amount"]
+            ? Colors.yellow
+            : "#F0F0F0",
       }}
     >
       <TouchableOpacity
@@ -127,6 +146,21 @@ const HabitSquare = ({
           />
         </View>
       </TouchableOpacity>
+
+      {filterSessions().length >= habit.value["Amount"] ? (
+        <View
+          style={{
+            position: "absolute",
+            top: 0.39 * width,
+            backgroundColor: "white",
+            borderRadius: 420,
+          }}
+        >
+          <AntDesign name="checkcircle" size={34} color={Colors.yellow} />
+        </View>
+      ) : (
+        <View />
+      )}
     </View>
   );
 };

@@ -68,6 +68,7 @@ const Home = () => {
       }
       setSlotz(slots);
       setHabits(result);
+
       const energy = await AsyncStorage.getItem("Energy");
       setEnergy(parseInt(energy));
     } catch (e) {
