@@ -6,12 +6,12 @@ import { MyText } from "../Global/MyText";
 import ProgressBar from "./ProgressBar";
 import isThisWeek from "date-fns/isThisWeek";
 import parseISO from "date-fns/parseISO";
+import getWeek from "date-fns/getWeek";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import { Calendar } from "react-native-calendars";
 import HabitEditModal from "./HabitEditModal";
-import getWeek from "date-fns/getWeek";
 
 //TODO:::: komplettes modal ohne pixel size, damit es auf alle screensizes passt
 
@@ -30,6 +30,11 @@ const HabitInfosModal = (props) => {
   );
 
   const markedObject = {};
+  const [perfectWeeks, setPerfectWeeks] = useState([]);
+
+  useEffect(() => {
+    setCalendarObject(markDays(props.habit?.value["Sessions"]));
+  }, [perfectWeeks]);
 
   //returns this weeks sessions
   const filterSessions = () => {
@@ -44,37 +49,49 @@ const HabitInfosModal = (props) => {
   const markDays = (sessions) => {
     let dates = [];
     let obj = {};
+    // let perfectWeeks = props.habit?.value["PerfectWeeks"];
     sessions?.map((session) => dates.push(session.slice(0, 10)));
     const uniques = [...new Set(dates)]; //removes duplicates
     uniques.map(
       (date) =>
         (obj[date] = {
           selected: true,
-          selectedColor: props.habit?.value["Color"],
+          selectedColor: perfectWeeks?.includes(getWeek(parseISO(date)))
+            ? Colors.yellow
+            : props.habit?.value["Color"],
         })
     );
+
     return obj;
   };
+
+  const [calendarObject, setCalendarObject] = useState({});
 
   useEffect(() => {
     // if (props.habitInfosVisible == true) {
     // erst wenn modal sichtbar
     console.log(":::::", props.habit);
+    setPerfectWeeks(props.habit?.value["PerfectWeeks"]);
     calculateStreaks();
     setBatteries(props.habit?.value["PerfectWeeks"].length);
-    markDays(props.habit?.value["Sessions"]);
+    // markDays(props.habit?.value["Sessions"]);
+    setCalendarObject(markDays(props.habit?.value["Sessions"]));
     filterSessions();
-    // }
-  }, [props.currentHabit]);
+  }, [props.habit]);
 
-  useEffect(() => {
-    console.log("HEIGHT:", height);
-  }, [height]);
+  // useEffect(() => {
+  //   console.log("HEIGHT:", height);
+  // }, [height]);
+
+  // useEffect(()=> {
+  //   markDays()
+  // },[perfectWeeks])
 
   const addSession = async (name) => {
     try {
       const habit = await AsyncStorage.getItem("Habit_" + name);
       const parsed = JSON.parse(habit);
+      parsed.Sessions.push(new Date());
       //final step
       if (parsed.Amount - 1 == step) {
         console.log("final session added ");
@@ -85,15 +102,20 @@ const HabitInfosModal = (props) => {
             weekStartsOn: 1,
           })
         );
+        setPerfectWeeks(parsed.PerfectWeeks);
+
         await AsyncStorage.setItem("Energy", newEnergy.toString());
         setBatteries(batteries + 1);
         setCurrStreak(currStreak + 1);
         if (streakActive || longestStreak == 0)
           setLongestStreak(longestStreak + 1);
+      } else {
+        setCalendarObject(
+          markDays(JSON.parse(JSON.stringify(parsed.Sessions)))
+        );
       }
-
-      parsed.Sessions.push(new Date());
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
+
       props.getHabits();
       setStep(step + 1);
     } catch (e) {
@@ -105,18 +127,22 @@ const HabitInfosModal = (props) => {
     try {
       const habit = await AsyncStorage.getItem("Habit_" + name);
       const parsed = JSON.parse(habit);
+      parsed.Sessions.pop();
       //final step
       if (parsed.Amount == step) {
         const energy = await AsyncStorage.getItem("Energy");
         let newEnergy = parseInt(energy) - 1;
         parsed.PerfectWeeks.pop();
+        setPerfectWeeks(parsed.PerfectWeeks);
         await AsyncStorage.setItem("Energy", newEnergy.toString());
         setBatteries(batteries - 1);
         setCurrStreak(currStreak - 1);
         if (streakActive) setLongestStreak(longestStreak - 1);
+      } else {
+        setCalendarObject(
+          markDays(JSON.parse(JSON.stringify(parsed.Sessions)))
+        );
       }
-      parsed.Sessions.pop();
-
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
       props.getHabits();
       setStep(step - 1);
@@ -403,7 +429,7 @@ const HabitInfosModal = (props) => {
                     //   "2022-08-14": { endingDay: true, color: Colors.yellow },
                     // }}
 
-                    markedDates={markDays(props.habit?.value["Sessions"])}
+                    markedDates={calendarObject}
                   />
                 )}
               </View>

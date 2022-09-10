@@ -4,12 +4,12 @@
     "slug": "Dr.HU",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/DRHUFace.png",
     "userInterfaceStyle": "light",
    
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/DRHUFace.png",
+       "resizeMode":"contain", 
       "backgroundColor": "#ffffff"
     },
     "updates": {

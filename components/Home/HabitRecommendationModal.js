@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HabitRecommendationModal = (props) => {
   const [selectedDifficulty, setSelectedDifficulty] = useState("Mittel");
+  const [amount, setAmount] = useState(3);
   const content =
     "Dieses Habit ist besonders empfehlenswert, weil es sehr gesund für dich ist. hör einfach auf mich und mache es !";
 
@@ -14,9 +15,9 @@ const HabitRecommendationModal = (props) => {
     try {
       const habit = {
         Name: props.chosenRecommendation,
-        Amount: 4,
+        Amount: amount.toString(), //keine ahnung wieso, aber muss hier stringifien
         Icon: "no-food",
-        Color: "Green",
+        Color: "green",
         Notifications: "will be added later",
         Sessions: [],
         PerfectWeeks: [],
@@ -45,6 +46,8 @@ const HabitRecommendationModal = (props) => {
         useNativeDriver={true}
         onBackdropPress={() => {
           props.setRecommendationModalVisible(false);
+          setSelectedDifficulty("Mittel");
+          setAmount(3);
         }}
       >
         <View
@@ -52,26 +55,17 @@ const HabitRecommendationModal = (props) => {
             padding: 10,
             backgroundColor: "white",
             borderRadius: 16,
-            backgroundColor: "lightgrey",
+            // backgroundColor: "lightgrey",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
           <Image
-            source={require("../../assets/NAVBarLaborIcon.png")}
-            style={{ width: 50, height: 50 }}
+            source={require("../../assets/DRHUFace.png")}
+            style={{ width: 100, height: 100 }}
           />
           <MyText content={props.chosenRecommendation} size={35} />
-          <MyText
-            content={
-              selectedDifficulty == "Mittel"
-                ? "3x pro Woche"
-                : selectedDifficulty == "Einfach"
-                ? "1x pro Woche"
-                : "5x pro Woche"
-            }
-            size={16}
-          />
+          <MyText content={amount + "x pro Woche"} size={16} />
           <View
             style={{
               marginTop: "4%",
@@ -80,7 +74,11 @@ const HabitRecommendationModal = (props) => {
               justifyContent: "space-around",
             }}
           >
-            <TouchableOpacity onPress={() => setSelectedDifficulty("Einfach")}>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedDifficulty("Einfach"), setAmount(1);
+              }}
+            >
               <View
                 style={{
                   height: 29,
@@ -108,7 +106,11 @@ const HabitRecommendationModal = (props) => {
                 />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelectedDifficulty("Mittel")}>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedDifficulty("Mittel"), setAmount(3);
+              }}
+            >
               <View
                 style={{
                   height: 29,
@@ -135,7 +137,11 @@ const HabitRecommendationModal = (props) => {
                 />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelectedDifficulty("Schwer")}>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedDifficulty("Schwer"), setAmount(5);
+              }}
+            >
               <View
                 style={{
                   height: 29,
@@ -171,13 +177,35 @@ const HabitRecommendationModal = (props) => {
               width: "90%",
             }}
           />
-          <View style={{ marginTop: "4%" }}>
+          <View style={{ marginTop: "4%", paddingHorizontal: "3%" }}>
             <MyText
               content={
                 "Warum empfiehlt der Doktor " + props.chosenRecommendation + "?"
               }
             />
             <MyText content={content} size={16} />
+            <MyText
+              content={"Wenn du mir nicht glaubst, dann guck halt hier: "}
+              size={16}
+            />
+            <View
+              style={{
+                // height: 30,
+                borderWidth: 1,
+                borderColor: Colors.primaryLight,
+                borderRadius: 10,
+                alignSelf: "baseline",
+                paddingHorizontal: 5,
+              }}
+            >
+              <TouchableOpacity>
+                <MyText
+                  content={"Mehr Informationen"}
+                  size={12}
+                  color={Colors.primaryLight}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View
             style={{
@@ -194,7 +222,33 @@ const HabitRecommendationModal = (props) => {
               width: "100%",
             }}
           >
-            <MyText content={"Crazy Spruch"} />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: "4%",
+              }}
+            >
+              <View
+                style={{
+                  flex: 3,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MyText
+                  content={"Crazy Spruch lmfao lelmao xd"}
+                  italic
+                  size={16}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Image
+                  source={require("../../assets/DRHUFace.png")}
+                  style={{ width: 60, height: 60 }}
+                />
+              </View>
+            </View>
             <TouchableOpacity onPress={() => saveRecommendation()}>
               <View
                 style={{

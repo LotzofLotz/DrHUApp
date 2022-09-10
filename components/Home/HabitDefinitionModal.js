@@ -55,7 +55,7 @@ const HabitDefinitionModal = (props) => {
         Notifications: "will be added later",
         Sessions: [],
         PerfectWeeks: [],
-        BatteryCount: 0,
+        // BatteryCount: 0,
       };
       const jsonHabit = JSON.stringify(habit);
       await AsyncStorage.setItem("Habit_" + chosenName, jsonHabit);

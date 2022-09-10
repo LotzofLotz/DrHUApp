@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Image, StatusBar } from "react-native";
+import { View, Image, StatusBar, Platform } from "react-native";
 import { MyText } from "./MyText";
 import Colors from "../../constants/Colors";
-import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
+import Constants from "expo-constants";
 
 const MyHeader = ({ title, energy }) => {
   return (
@@ -10,11 +10,13 @@ const MyHeader = ({ title, energy }) => {
       style={{
         flexDirection: "row",
         marginLeft: 10,
-
-        marginTop: StatusBar.currentHeight,
+        marginTop:
+          Platform.OS === "ios"
+            ? //   ? Constants.statusBarHeight + 20
+              //   : Constants.statusBarHeight,
+              StatusBar.currentHeight + 20
+            : StatusBar.currentHeight,
         alignItems: "flex-end",
-
-        // height: "4%",
       }}
     >
       <View style={{ left: "14%", marginBottom: 10 }}>

@@ -18,15 +18,22 @@ const RecommendationSquare = (props) => {
           height: width * 0.38,
           width: width * 0.38,
           borderRadius: 27,
-          borderColor: Colors.primaryDark,
-          borderWidth: 1,
+          elevation: 3,
+          // borderWidth: 2,
+          borderColor: "#F6F6F6",
+
+          shadowColor: "#171717",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
+          backgroundColor: "#F6F6F6", //?? imo zu weiß
+          borderWidth: 3,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "lightgrey",
         }}
       >
         <Image
-          source={require("../../assets/NAVBarLaborIcon.png")}
+          source={require("../../assets/DRHUFace.png")}
           style={{ width: 50, height: 50 }}
         />
         <MyText content={props.name} />

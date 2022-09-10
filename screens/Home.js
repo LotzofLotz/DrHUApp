@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { View, ScrollView, StatusBar } from "react-native";
+import { View, ScrollView } from "react-native";
 import Modal from "react-native-modal";
 import MyHeader from "../components/Global/MyHeader";
 import HabitSlot from "../components/Home/HabitSlot";
@@ -11,6 +11,7 @@ import EmptyHabitsView from "../components/Home/EmptyHabitsView";
 import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
 import HabitInfosModal from "../components/Home/HabitInfosModal";
+import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,6 +20,7 @@ const Home = () => {
   const [slotz, setSlotz] = useState([]);
   const [currentHabit, setCurrentHabit] = useState();
   const [energy, setEnergy] = useState(0);
+  // const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     getHabits();
@@ -68,7 +70,6 @@ const Home = () => {
       }
       setSlotz(slots);
       setHabits(result);
-
       const energy = await AsyncStorage.getItem("Energy");
       setEnergy(parseInt(energy));
     } catch (e) {
@@ -78,7 +79,15 @@ const Home = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      {/* <StatusBar hidden={true} /> */}
+      <StatusBar
+        // backgroundColor={"transparent"}
+        translucent={true}
+        backgroundColor={
+          modalVisible || habitInfosVisible ? "#13222499" : "transparent"
+          // modalOpen ? "#13222499" : "transparent"
+        }
+        // backgroundColor="lightgreen"
+      />
       <MyHeader title="Energiesammlung" energy={energy} />
 
       <HabitDefinitionModal
@@ -92,7 +101,6 @@ const Home = () => {
         setHabitInfosVisible={setHabitInfosVisible}
         habit={currentHabit}
         getHabits={getHabits}
-        currentHabit={currentHabit}
       />
       <ScrollView>
         {habits.length > 0 && slotz.length > 0 ? (

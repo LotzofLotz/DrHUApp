@@ -67,17 +67,22 @@ const HabitSquare = ({
         height: 0.44 * width,
         width: 0.44 * width,
         borderRadius: 30,
-        backgroundColor: "#F0F0F0",
+        // backgroundColor: "#F0F0F0",
+        backgroundColor: "#F6F6F6", //?? imo zu weiß
         borderWidth: 3,
         //filterSessions().length >= habit.value["Amount"] ? 3 : 0,
 
+        // mit Shadow siehts imo besser aus
         // elevation: 10,
-        // shadowOffset: 10,
-        // borderWidth: 3,
+        // shadowColor: "#171717",
+        // shadowOffset: { width: 0, height: 4 },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 3,
+
         borderColor:
           filterSessions().length >= habit.value["Amount"]
             ? Colors.yellow
-            : "#F0F0F0",
+            : "#F6F6F6",
       }}
     >
       <TouchableOpacity

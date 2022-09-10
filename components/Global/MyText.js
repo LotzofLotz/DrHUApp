@@ -5,14 +5,16 @@ import {
   WorkSans_700Bold,
   WorkSans_500Medium,
   WorkSans_600SemiBold,
+  WorkSans_500Medium_Italic,
 } from "@expo-google-fonts/work-sans";
 import Colors from "../../constants/Colors";
 
-const MyText = ({ content, bold, color, size, semiBold }) => {
+const MyText = ({ content, bold, color, size, semiBold, italic }) => {
   let [fontsLoaded] = useFonts({
     WorkSans_500Medium,
     WorkSans_700Bold,
     WorkSans_600SemiBold,
+    WorkSans_500Medium_Italic,
   });
 
   if (!fontsLoaded) {
@@ -25,6 +27,8 @@ const MyText = ({ content, bold, color, size, semiBold }) => {
             ? "WorkSans_700Bold"
             : semiBold
             ? "WorkSans_600SemiBold"
+            : italic
+            ? "WorkSans_500Medium_Italic"
             : "WorkSans_500Medium",
           color: color ? color : Colors.primaryDark,
           fontSize: size ? size : 20,
