@@ -8,8 +8,6 @@ const IconPicker = (props) => {
     <View
       style={{
         flexDirection: "row",
-        marginTop: 10,
-        marginHorizontal: 14,
         justifyContent: "space-evenly",
       }}
     >
@@ -26,7 +24,7 @@ const IconPicker = (props) => {
                 : Colors.primaryLight
             }
             name={icon}
-            size={35}
+            size={props.modalHeight * 0.055} // vllt hier eher die modalWidth berücksichtigen?
           />
         );
       })}

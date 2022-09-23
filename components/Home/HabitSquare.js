@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Dimensions, TouchableOpacity } from "react-native";
+import { View, Dimensions, TouchableOpacity, Image } from "react-native";
 import { MyText } from "../Global/MyText";
 import Colors from "../../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -8,6 +8,7 @@ import parseISO from "date-fns/parseISO";
 import getWeek from "date-fns/getWeek";
 import ProgressBar from "./ProgressBar";
 import { AntDesign } from "@expo/vector-icons";
+import { MyRecommendations } from "../Global/MyRecommendations";
 
 const HabitSquare = ({
   habit,
@@ -30,21 +31,13 @@ const HabitSquare = ({
       const parsed = JSON.parse(habit);
       parsed.Sessions.push(new Date());
       if (parsed.Amount - 1 == filterSessions().length) {
-        // console.log("this was the final step !!");
         const energy = await AsyncStorage.getItem("Energy");
         let newEnergy = parseInt(energy) + 1;
-        console.log(
-          "perfect week added : ",
-          getWeek(new Date(), {
-            weekStartsOn: 1,
-          })
-        );
         parsed.PerfectWeeks.push(
           getWeek(new Date(), {
             weekStartsOn: 1,
           })
         );
-        // console.log("NEW ENERGY:", newEnergy);
         await AsyncStorage.setItem("Energy", newEnergy.toString());
       }
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
@@ -70,14 +63,12 @@ const HabitSquare = ({
         // backgroundColor: "#F0F0F0",
         backgroundColor: "#F6F6F6", //?? imo zu weiß
         borderWidth: 3,
-        //filterSessions().length >= habit.value["Amount"] ? 3 : 0,
-
         // mit Shadow siehts imo besser aus
-        // elevation: 10,
-        // shadowColor: "#171717",
-        // shadowOffset: { width: 0, height: 4 },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 3,
+        elevation: 10,
+        shadowColor: "#171717",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
 
         borderColor:
           filterSessions().length >= habit.value["Amount"]
@@ -85,12 +76,37 @@ const HabitSquare = ({
             : "#F6F6F6",
       }}
     >
+      {habit.value["Recommended"] == true ? (
+        <View
+          style={{
+            position: "absolute",
+            left: 0.37 * width,
+            bottom: 0.37 * width,
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            borderWidth: 1,
+            borderColor: Colors.primaryDark,
+            backgroundColor:
+              MyRecommendations[habit.value["Name"]].category == "physisch"
+                ? Colors.primaryLight
+                : "#BF8CA2",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={require("../../assets/NAVBarLaborIcon.png")}
+            style={{ width: "70%", height: "70%", resizeMode: "contain" }}
+          />
+        </View>
+      ) : (
+        <View />
+      )}
       <TouchableOpacity
         onPress={() => addSession(habit.value["Name"])}
         onLongPress={() => {
-          console.log("currentHabit: " + habit.value["Name"]),
-            setCurrentHabit(habit),
-            setHabitInfosVisible(true);
+          setCurrentHabit(habit), setHabitInfosVisible(true);
         }}
       >
         <View style={{ flex: 3 }}>
@@ -101,7 +117,6 @@ const HabitSquare = ({
               flex: 1,
               alignItems: "center",
               justifyContent: "center",
-              // bottom: "2%",
             }}
           >
             <View
@@ -117,7 +132,16 @@ const HabitSquare = ({
               }}
             >
               <ProgressBar
-                color={habit.value["Color"]}
+                color={
+                  habit.value["Recommended"] == true &&
+                  MyRecommendations[habit.value["Name"]]?.category == "physisch"
+                    ? Colors.primaryLight
+                    : habit.value["Recommended"] == true &&
+                      MyRecommendations[habit.value["Name"]]?.category ==
+                        "psychisch"
+                    ? "#BF8CA2"
+                    : habit.value["Color"]
+                }
                 steps={habit.value["Amount"]}
                 step={filterSessions().length}
                 name={habit.value["Icon"]}

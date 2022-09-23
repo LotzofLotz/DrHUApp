@@ -1,12 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
-import Modal from "react-native-modal";
 import MyHeader from "../components/Global/MyHeader";
-import HabitSlot from "../components/Home/HabitSlot";
 import HabitDefinitionModal from "../components/Home/HabitDefinitionModal";
-import HabitSquare from "../components/Home/HabitSquare";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MyText from "../components/Global/MyText";
 import EmptyHabitsView from "../components/Home/EmptyHabitsView";
 import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
@@ -20,12 +16,25 @@ const Home = () => {
   const [slotz, setSlotz] = useState([]);
   const [currentHabit, setCurrentHabit] = useState();
   const [energy, setEnergy] = useState(0);
-  // const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
+    // clearAllData();
     getHabits();
     onFirstOpen();
   }, []);
+
+  // const clearAllData = () => {
+  //   AsyncStorage.getAllKeys()
+  //     .then((keys) => AsyncStorage.multiRemove(keys))
+  //     .then(() => alert("success"));
+  // };
+
+  useEffect(() => {
+    console.log("modaLvisible:", modalVisible),
+      console.log("modalopen:", modalOpen),
+      console.log("habitinfosvisible:", habitInfosVisible);
+  }, [modalVisible, modalOpen, habitInfosVisible]);
 
   useFocusEffect(
     useCallback(() => {
@@ -80,13 +89,12 @@ const Home = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar
-        // backgroundColor={"transparent"}
         translucent={true}
         backgroundColor={
-          modalVisible || habitInfosVisible ? "#13222499" : "transparent"
-          // modalOpen ? "#13222499" : "transparent"
+          modalVisible || habitInfosVisible || modalOpen
+            ? "#13222499"
+            : "transparent"
         }
-        // backgroundColor="lightgreen"
       />
       <MyHeader title="Energiesammlung" energy={energy} />
 
@@ -94,6 +102,7 @@ const Home = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         getHabits={getHabits}
+        setModalOpen={setModalOpen}
       />
 
       <HabitInfosModal
@@ -101,6 +110,7 @@ const Home = () => {
         setHabitInfosVisible={setHabitInfosVisible}
         habit={currentHabit}
         getHabits={getHabits}
+        setModalOpen={setModalOpen}
       />
       <ScrollView>
         {habits.length > 0 && slotz.length > 0 ? (

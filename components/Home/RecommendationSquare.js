@@ -1,14 +1,19 @@
 import React from "react";
-import { View, TouchableOpacity, Dimensions, Image } from "react-native";
+import { View, TouchableWithoutFeedback, Dimensions } from "react-native";
+import { Icon } from "react-native-elements";
 import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
+import { MyRecommendations } from "../Global/MyRecommendations";
 
 const RecommendationSquare = (props) => {
   const width = Dimensions.get("window").width;
+  const recommendation = MyRecommendations[props.name];
+
   return (
-    <TouchableOpacity
+    <TouchableWithoutFeedback
       onPress={() => {
         props.setRecommendationModalVisible(true);
+        props.setModalOpen(true);
         props.setChosenRecommendation(props.name);
         props.setModalVisible(false);
       }}
@@ -19,9 +24,7 @@ const RecommendationSquare = (props) => {
           width: width * 0.38,
           borderRadius: 27,
           elevation: 3,
-          // borderWidth: 2,
           borderColor: "#F6F6F6",
-
           shadowColor: "#171717",
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.2,
@@ -32,13 +35,10 @@ const RecommendationSquare = (props) => {
           alignItems: "center",
         }}
       >
-        <Image
-          source={require("../../assets/DRHUFace.png")}
-          style={{ width: 50, height: 50 }}
-        />
+        <Icon size={50} color={Colors.primaryDark} name={recommendation.icon} />
         <MyText content={props.name} />
       </View>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -15,8 +15,9 @@ const ColorPicker = (props) => {
   return (
     <View
       style={{
-        marginTop: 40,
-        marginHorizontal: 20,
+        marginTop: props.modalHeight * 0.025,
+        marginBottom: props.modalHeight * 0.025,
+        marginHorizontal: props.modalHeight * 0.02,
         flexDirection: "row",
         justifyContent: "space-evenly",
       }}
@@ -25,9 +26,9 @@ const ColorPicker = (props) => {
         <View
           key={color}
           style={{
-            width: 34,
-            height: 34,
-            borderRadius: 17,
+            width: props.modalHeight * 0.054,
+            height: props.modalHeight * 0.054,
+            borderRadius: 420,
             backgroundColor: "white",
             borderWidth: props.chosenColor == color ? 1 : 0,
             borderColor: Colors.primaryDark,
@@ -38,9 +39,9 @@ const ColorPicker = (props) => {
           <TouchableOpacity onPress={() => props.onColorPress(color)}>
             <View
               style={{
-                height: 30,
-                width: 30,
-                borderRadius: 15,
+                height: props.modalHeight * 0.048,
+                width: props.modalHeight * 0.048,
+                borderRadius: 420,
                 backgroundColor: color,
               }}
             />

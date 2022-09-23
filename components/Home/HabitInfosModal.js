@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { View, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Dimensions, Alert } from "react-native";
 import Modal from "react-native-modal";
 import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
@@ -9,32 +9,28 @@ import parseISO from "date-fns/parseISO";
 import getWeek from "date-fns/getWeek";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "@react-navigation/native";
 import { Calendar } from "react-native-calendars";
 import HabitEditModal from "./HabitEditModal";
-
-//TODO:::: komplettes modal ohne pixel size, damit es auf alle screensizes passt
 
 //Modal mit Möglichkeit Sessions zu entfernen, CalendarView und Streak-Stats
 
 const HabitInfosModal = (props) => {
-  const [height, setHeight] = useState(0);
+  const height =
+    Dimensions.get("window").height * 0.9 > 700
+      ? 700
+      : Dimensions.get("window").height * 0.9;
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [batteries, setBatteries] = useState(0);
   const [currStreak, setCurrStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
   const [streakActive, setStreakActive] = useState(false); //streakActive bedeutet, dass die currentStreak auch die longestStreak ist
-
   const [step, setStep] = useState(
     filterSessions?.length < 0 ? filterSessions?.length : 0
   );
 
   const markedObject = {};
   const [perfectWeeks, setPerfectWeeks] = useState([]);
-
-  useEffect(() => {
-    setCalendarObject(markDays(props.habit?.value["Sessions"]));
-  }, [perfectWeeks]);
+  const [sessionDates, setSessionDates] = useState([]);
 
   //returns this weeks sessions
   const filterSessions = () => {
@@ -46,17 +42,20 @@ const HabitInfosModal = (props) => {
   };
 
   //marks Days, where Sessions have been done
-  const markDays = (sessions) => {
+  const markDays = (sessions, perfectWeeks) => {
     let dates = [];
     let obj = {};
-    // let perfectWeeks = props.habit?.value["PerfectWeeks"];
     sessions?.map((session) => dates.push(session.slice(0, 10)));
     const uniques = [...new Set(dates)]; //removes duplicates
     uniques.map(
       (date) =>
         (obj[date] = {
           selected: true,
-          selectedColor: perfectWeeks?.includes(getWeek(parseISO(date)))
+          selectedColor: perfectWeeks?.includes(
+            getWeek(parseISO(date), {
+              weekStartsOn: 1,
+            })
+          )
             ? Colors.yellow
             : props.habit?.value["Color"],
         })
@@ -68,33 +67,26 @@ const HabitInfosModal = (props) => {
   const [calendarObject, setCalendarObject] = useState({});
 
   useEffect(() => {
-    // if (props.habitInfosVisible == true) {
-    // erst wenn modal sichtbar
-    console.log(":::::", props.habit);
     setPerfectWeeks(props.habit?.value["PerfectWeeks"]);
     calculateStreaks();
     setBatteries(props.habit?.value["PerfectWeeks"].length);
-    // markDays(props.habit?.value["Sessions"]);
-    setCalendarObject(markDays(props.habit?.value["Sessions"]));
+    setSessionDates(props.habit?.value["Sessions"]);
+    setCalendarObject(
+      markDays(
+        props.habit?.value["Sessions"],
+        props.habit?.value["PerfectWeeks"]
+      )
+    );
     filterSessions();
   }, [props.habit]);
-
-  // useEffect(() => {
-  //   console.log("HEIGHT:", height);
-  // }, [height]);
-
-  // useEffect(()=> {
-  //   markDays()
-  // },[perfectWeeks])
 
   const addSession = async (name) => {
     try {
       const habit = await AsyncStorage.getItem("Habit_" + name);
       const parsed = JSON.parse(habit);
       parsed.Sessions.push(new Date());
-      //final step
+      setSessionDates(parsed.Sessions);
       if (parsed.Amount - 1 == step) {
-        console.log("final session added ");
         const energy = await AsyncStorage.getItem("Energy");
         let newEnergy = parseInt(energy) + 1;
         parsed.PerfectWeeks.push(
@@ -103,7 +95,12 @@ const HabitInfosModal = (props) => {
           })
         );
         setPerfectWeeks(parsed.PerfectWeeks);
-
+        setCalendarObject(
+          markDays(
+            JSON.parse(JSON.stringify(parsed.Sessions)),
+            parsed.PerfectWeeks
+          )
+        );
         await AsyncStorage.setItem("Energy", newEnergy.toString());
         setBatteries(batteries + 1);
         setCurrStreak(currStreak + 1);
@@ -111,7 +108,7 @@ const HabitInfosModal = (props) => {
           setLongestStreak(longestStreak + 1);
       } else {
         setCalendarObject(
-          markDays(JSON.parse(JSON.stringify(parsed.Sessions)))
+          markDays(JSON.parse(JSON.stringify(parsed.Sessions)), perfectWeeks)
         );
       }
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
@@ -128,19 +125,27 @@ const HabitInfosModal = (props) => {
       const habit = await AsyncStorage.getItem("Habit_" + name);
       const parsed = JSON.parse(habit);
       parsed.Sessions.pop();
-      //final step
       if (parsed.Amount == step) {
         const energy = await AsyncStorage.getItem("Energy");
         let newEnergy = parseInt(energy) - 1;
         parsed.PerfectWeeks.pop();
         setPerfectWeeks(parsed.PerfectWeeks);
+        setCalendarObject(
+          markDays(
+            JSON.parse(JSON.stringify(parsed.Sessions)),
+            parsed.PerfectWeeks
+          )
+        );
         await AsyncStorage.setItem("Energy", newEnergy.toString());
         setBatteries(batteries - 1);
         setCurrStreak(currStreak - 1);
         if (streakActive) setLongestStreak(longestStreak - 1);
       } else {
         setCalendarObject(
-          markDays(JSON.parse(JSON.stringify(parsed.Sessions)))
+          markDays(
+            JSON.parse(JSON.stringify(parsed.Sessions)),
+            parsed.PerfectWeeks
+          )
         );
       }
       await AsyncStorage.mergeItem("Habit_" + name, JSON.stringify(parsed));
@@ -163,8 +168,9 @@ const HabitInfosModal = (props) => {
   };
 
   const editHabit = () => {
-    setEditModalVisible(true);
     props.setHabitInfosVisible(false);
+    props.getHabits();
+    setEditModalVisible(true);
   };
 
   //calculates current and longest Streak
@@ -177,8 +183,8 @@ const HabitInfosModal = (props) => {
       perfectWeeks?.forEach((current) => {
         // To decide whether or not to create a new chunk, we compare the current number with the previous number. If the difference isn't exactly 1, then they're not consecutive, so we need to start a new chunk.
         if (current - prev != 1) {
-          console.log("pushing new chunk, prev:", prev, "current:", current),
-            chunks.push([]);
+          // console.log("pushing new chunk, prev:", prev, "current:", current),
+          chunks.push([]);
         }
         // Now we can add our number to the current chunk!
         chunks[chunks.length - 1].push(current);
@@ -240,6 +246,10 @@ const HabitInfosModal = (props) => {
         habit={props.habit}
         getHabits={props.getHabits}
         setInfoModalVisible={props.setHabitInfosVisible}
+        setModalOpen={props.setModalOpen}
+        sessions={step}
+        perfectWeeks={perfectWeeks}
+        sessionDates={sessionDates}
       />
       <Modal
         isVisible={props.habitInfosVisible}
@@ -247,28 +257,25 @@ const HabitInfosModal = (props) => {
         backdropColor={"#132224"}
         backdropOpacity={0.6}
         animationOut="slideOutUp"
+        useNativeDriver={true}
         onBackdropPress={() => props.setHabitInfosVisible(false)}
       >
         <View
-          onLayout={(e) => {
-            const newHeight = e.nativeEvent.layout.height;
-            setHeight(newHeight);
-          }}
+          // onLayout={(e) => {
+          //   const newHeight = e.nativeEvent.layout.height;
+          //   setHeight(newHeight);
+          // }}
           style={{
             justifyContent: "center",
             alignItems: "center",
-
-            // height: "90%",
+            maxHeight: height,
           }}
         >
           <View
             style={{
-              // padding: 8,
-              // flex: 1,
               backgroundColor: "white",
               borderRadius: 10,
               width: "100%",
-              // height: "100%",
               justifyContent: "space-between",
             }}
           >
@@ -282,13 +289,13 @@ const HabitInfosModal = (props) => {
                 <MyText
                   content={props.habit?.value["Name"]}
                   semiBold
-                  size={28}
+                  size={height * 0.05}
                 />
                 <View style={{ flexDirection: "row", marginTop: "3%" }}>
                   <MaterialIcons
                     style={{ marginHorizontal: 10 }}
                     name="edit"
-                    size={28}
+                    size={height * 0.05}
                     color={Colors.primaryDark}
                     onPress={() => editHabit(props.habit?.value["Name"])}
                   />
@@ -313,9 +320,8 @@ const HabitInfosModal = (props) => {
                       )
                     }
                     name="delete"
-                    size={28}
+                    size={height * 0.05}
                     color={Colors.primaryDark}
-                    // style={{ top: 10 }}
                   />
                 </View>
               </View>
@@ -341,14 +347,14 @@ const HabitInfosModal = (props) => {
                       : console.log("nix zum abziehen");
                   }}
                   name="do-not-disturb-on"
-                  size={42}
+                  size={height * 0.07}
                   color={Colors.primaryDark}
                   style={{ right: "24%" }}
                 />
                 <View
                   style={{
                     left: "6%",
-                    height: 80,
+                    height: height * 0.125,
                     width: "50%",
                     borderRadius: 12,
                     borderWidth: 7,
@@ -361,7 +367,6 @@ const HabitInfosModal = (props) => {
                     color={props.habit?.value["Color"]}
                     steps={props.habit?.value["Amount"]}
                     step={step}
-                    //step={step}
                     name={props.habit?.value["Icon"]}
                   />
                 </View>
@@ -378,7 +383,7 @@ const HabitInfosModal = (props) => {
                 <MaterialIcons
                   onPress={() => addSession(props.habit?.value["Name"])}
                   name="add-circle"
-                  size={42}
+                  size={height * 0.07}
                   color={Colors.primaryDark}
                   style={{ left: "24%" }}
                 />
@@ -388,47 +393,15 @@ const HabitInfosModal = (props) => {
                   <MyText content="Loading" />
                 ) : (
                   <Calendar
-                    // style={{ marginTop: "5%" }}
-                    style={{ height: height * 0.55 }}
+                    // style={{ height: height * 0.5 }}
                     firstDay={1}
-                    // hideArrows={true}
                     theme={{
                       arrowColor: Colors.primaryDark,
                       dayTextColor: Colors.primaryDark,
                       monthTextColor: Colors.primaryDark,
                       textSectionTitleColor: Colors.primaryDark,
+                      todayTextColor: Colors.primaryLight, // welche Farbe?
                     }}
-                    // markingType={"period"}
-                    // markedDates={{
-                    //   "2022-08-02": {
-                    //     startingDay: true,
-                    //     endingDay: true,
-                    //     color: props.habit?.value["Color"],
-                    //   },
-                    //   "2022-08-05": {
-                    //     startingDay: true,
-                    //     endingDay: true,
-                    //     color: props.habit?.value["Color"],
-                    //   },
-                    //   "2022-08-03": {
-                    //     startingDay: true,
-                    //     endingDay: true,
-                    //     color: props.habit?.value["Color"],
-                    //   },
-                    //   "2022-08-16": {
-                    //     startingDay: true,
-                    //     endingDay: true,
-                    //     color: props.habit?.value["Color"],
-                    //   },
-                    //   "2022-08-08": { startingDay: true, color: Colors.yellow },
-                    //   "2022-08-09": { color: Colors.yellow },
-                    //   "2022-08-10": { color: Colors.yellow },
-                    //   "2022-08-11": { color: Colors.yellow },
-                    //   "2022-08-12": { color: Colors.yellow },
-                    //   "2022-08-13": { color: Colors.yellow },
-                    //   "2022-08-14": { endingDay: true, color: Colors.yellow },
-                    // }}
-
                     markedDates={calendarObject}
                   />
                 )}
@@ -438,7 +411,6 @@ const HabitInfosModal = (props) => {
               style={{
                 justifyContent: "center",
                 alignItems: "center",
-                // flex: 1.5,
               }}
             >
               <View
@@ -460,14 +432,13 @@ const HabitInfosModal = (props) => {
                 <View
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
-                  <MyText content="aktuelle" size={14} />
-                  <MyText content="Streak" size={14} />
+                  <MyText content="aktuelle" size={height * 0.024} />
+                  <MyText content="Streak" size={height * 0.024} />
                   <View
                     style={{
-                      // marginTop: 5,
-                      height: 50,
-                      width: 50,
-                      borderRadius: 25,
+                      height: height * 0.075,
+                      width: height * 0.075,
+                      borderRadius: 420,
                       backgroundColor: props.habit?.value["Color"],
                       justifyContent: "center",
                       alignItems: "center",
@@ -479,14 +450,13 @@ const HabitInfosModal = (props) => {
                 <View
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
-                  <MyText content="längste " size={14} />
-                  <MyText content=" Streak" size={14} />
+                  <MyText content="längste " size={height * 0.024} />
+                  <MyText content=" Streak" size={height * 0.024} />
                   <View
                     style={{
-                      // margin: 5,
-                      height: 50,
-                      width: 50,
-                      borderRadius: 25,
+                      height: height * 0.075,
+                      width: height * 0.075,
+                      borderRadius: 420,
                       backgroundColor: Colors.primaryDark,
                       justifyContent: "center",
                       alignItems: "center",
@@ -498,14 +468,13 @@ const HabitInfosModal = (props) => {
                 <View
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
-                  <MyText content="Batterien " size={14} />
-                  <MyText content=" verdient" size={14} />
+                  <MyText content="Batterien " size={height * 0.024} />
+                  <MyText content=" verdient" size={height * 0.024} />
                   <View
                     style={{
-                      // margin: 5,
-                      height: 50,
-                      width: 50,
-                      borderRadius: 25,
+                      height: height * 0.075,
+                      width: height * 0.075,
+                      borderRadius: 420,
                       backgroundColor: Colors.yellow,
                       justifyContent: "center",
                       alignItems: "center",

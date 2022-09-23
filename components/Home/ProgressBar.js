@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Animated, StyleSheet } from "react-native";
+import { View, Animated } from "react-native";
 import { Icon } from "react-native-elements";
 import Colors from "../../constants/Colors";
 
@@ -28,7 +28,6 @@ const ProgressBar = ({ step, steps, color, name }) => {
     <View
       onLayout={(e) => {
         const newWidth = e.nativeEvent.layout.width;
-
         setWidth(newWidth);
       }}
       style={{
