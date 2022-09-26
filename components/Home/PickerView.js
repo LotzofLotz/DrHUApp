@@ -1,15 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Dimensions } from "react-native";
 import IconPicker from "./IconPicker";
 import ColorPicker from "./ColorPicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PickerView = (props) => {
-  useEffect(() => {
-    console.log("Modalheight in PickerView:", props.modalHeight);
-
-    console.log("dimensionsheight:", Dimensions.get("window").height);
-  }, [props.modalHeight]);
+  const [unlockedColors, setUnlockedColors] = useState("");
   const modalHeight = Dimensions.get("window").height * 0.9;
+
+  useEffect(() => {
+    getColors();
+    console.log("hier:", typeof unlockedColors);
+  }, [unlockedColors]);
+
+  const getColors = async () => {
+    try {
+      const colors = await AsyncStorage.getItem("Colors");
+      setUnlockedColors(colors);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View>
       <View
@@ -55,6 +66,7 @@ const PickerView = (props) => {
           onColorPress={props.onColorPress}
           setChosenColor={props.setChosenColor}
           chosenColor={props.chosenColor}
+          unlockedColors={unlockedColors}
         />
       </View>
     </View>

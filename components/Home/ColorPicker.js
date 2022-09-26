@@ -28,6 +28,7 @@ const ColorPicker = (props) => {
           style={{
             width: props.modalHeight * 0.054,
             height: props.modalHeight * 0.054,
+            opacity: props.unlockedColors.includes(color) ? 1 : 0.34,
             borderRadius: 420,
             backgroundColor: "white",
             borderWidth: props.chosenColor == color ? 1 : 0,
@@ -36,7 +37,13 @@ const ColorPicker = (props) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity onPress={() => props.onColorPress(color)}>
+          <TouchableOpacity
+            onPress={() => {
+              props.unlockedColors.includes(color)
+                ? props.onColorPress(color)
+                : console.log("not yet unlocked");
+            }}
+          >
             <View
               style={{
                 height: props.modalHeight * 0.048,

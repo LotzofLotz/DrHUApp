@@ -41,7 +41,9 @@ const HabitInfosModal = (props) => {
     setStep(filtered?.length);
     return filtered;
   };
-
+  useEffect(() => {
+    console.log("streak aktive? ", streakActive);
+  }, [streakActive]);
   //marks Days, where Sessions have been done
   const markDays = (sessions, perfectWeeks) => {
     let dates = [];
@@ -102,9 +104,11 @@ const HabitInfosModal = (props) => {
             parsed.PerfectWeeks
           )
         );
+
         await AsyncStorage.setItem("Energy", newEnergy.toString());
         setBatteries(batteries + 1);
         setCurrStreak(currStreak + 1);
+        setStreakActive(true); //bug fixed, maybe caused another?
         if (streakActive || longestStreak == 0)
           setLongestStreak(longestStreak + 1);
       } else {

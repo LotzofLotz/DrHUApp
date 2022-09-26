@@ -25,10 +25,6 @@ const Home = () => {
     onFirstOpen();
   }, []);
 
-  useEffect(() => {
-    console.log("Scrolled?:", scrolled);
-  }, [scrolled]);
-
   const clearAllData = () => {
     AsyncStorage.getAllKeys()
       .then((keys) => AsyncStorage.multiRemove(keys))
@@ -45,10 +41,23 @@ const Home = () => {
   const onFirstOpen = async () => {
     try {
       const energy = await AsyncStorage.getItem("Energy");
+      const colors = await AsyncStorage.getItem("Colors");
 
-      if (!energy) {
+      if (!energy && !colors) {
         await AsyncStorage.setItem("Energy", "0"),
-          console.log("Energy upgesettet");
+          await AsyncStorage.setItem(
+            "Colors",
+            [
+              "#8C91BF",
+              "#BF918C",
+              "#8CBF9B",
+              "#639C90",
+              "#A9D3EB",
+              "#AFAFAF",
+              "#EEBF91",
+            ].toString()
+          );
+        console.log("Energy und Colors upgesettet");
       } else {
         setEnergy(energy);
       }
@@ -61,6 +70,7 @@ const Home = () => {
     let slots = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
+      // console.log("keys:", keys);
       const habitKeys = keys.filter((key) => key.startsWith("Habit_"));
       const habits = await AsyncStorage.multiGet(habitKeys);
       const result = habits.map((x) => ({
@@ -85,7 +95,7 @@ const Home = () => {
   };
 
   const handleScroll = (offset) => {
-    console.log("offset:", offset);
+    // console.log("offset:", offset);
     if (offset > 20) {
       setScrolled(true);
     } else {
@@ -103,6 +113,7 @@ const Home = () => {
             : "transparent"
         }
       />
+
       <MyHeader title="Energiesammlung" energy={energy} scrolled={scrolled} />
 
       <HabitDefinitionModal
