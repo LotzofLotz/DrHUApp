@@ -29,6 +29,30 @@ const RecommendationsView = (props) => {
           setModalOpen={props.setModalOpen}
         />
       </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          margin: 4,
+        }}
+      >
+        <RecommendationSquare
+          name={"Schritte"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+        <RecommendationSquare
+          name={"Muskelrelaxation"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+      </View>
 
       <View
         style={{
@@ -36,7 +60,24 @@ const RecommendationsView = (props) => {
           justifyContent: "space-between",
           margin: 4,
         }}
-      ></View>
+      >
+        <RecommendationSquare
+          name={"Kochen"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+        <RecommendationSquare
+          name={"Abstinenz"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+      </View>
 
       <View
         style={{
@@ -44,7 +85,96 @@ const RecommendationsView = (props) => {
           justifyContent: "space-between",
           margin: 4,
         }}
-      ></View>
+      >
+        <RecommendationSquare
+          name={"Trinken"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+        <RecommendationSquare
+          name={"Pause"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          margin: 4,
+        }}
+      >
+        <RecommendationSquare
+          name={"Trinken"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+        <RecommendationSquare
+          name={"Atemübungen"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          margin: 4,
+        }}
+      >
+        <RecommendationSquare
+          name={"Augengymnastik"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+        <RecommendationSquare
+          name={"Achtsamkeit"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          margin: 4,
+        }}
+      >
+        <RecommendationSquare
+          name={"DigitalDetox"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+        <RecommendationSquare
+          name={"Neues"}
+          setChosenRecommendation={props.setChosenRecommendation}
+          setRecommendationModalVisible={props.setRecommendationModalVisible}
+          setModalVisible={props.setModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
+      </View>
     </View>
   );
 };

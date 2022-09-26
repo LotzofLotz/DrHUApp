@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
-import { View, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Linking,
+  Dimensions,
+} from "react-native";
 import Colors from "../../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MyRecommendations } from "../Global/MyRecommendations";
@@ -14,15 +20,19 @@ const HabitRecommendationModal = (props) => {
   //   "Dieses Habit ist besonders empfehlenswert, weil es sehr gesund für dich ist. hör einfach auf mich und mache es !";
 
   const recommendation = MyRecommendations[props.chosenRecommendation];
+  const modalHeight =
+    Dimensions.get("window").height * 0.9 > 700
+      ? 700
+      : Dimensions.get("window").height * 0.9;
 
   // useEffect(() => {
-  //   console.log("recom:", recommendation);
+  //   console.log("recom:", recommendation.name);
   // }, [recommendation]);
 
   const saveRecommendation = async () => {
     try {
       const habit = {
-        Name: props.chosenRecommendation,
+        Name: props.chosenRecommendation, //recommendation.name nicht
         Amount: amount.toString(), //keine ahnung wieso, aber muss hier stringifien
         Icon: recommendation?.icon,
         Color: recommendation?.color,
@@ -75,10 +85,11 @@ const HabitRecommendationModal = (props) => {
               flexDirection: "row",
               width: "100%",
               justifyContent: "space-between",
+              // marginTop: modalHeight * 0.02,
             }}
           >
             <MyText
-              size={15}
+              size={modalHeight * 0.025}
               content={recommendation?.category}
               color={
                 recommendation?.category == "physisch"
@@ -86,18 +97,29 @@ const HabitRecommendationModal = (props) => {
                   : "#BF8CA2"
               }
             />
-            <Icon size={15} color={Colors.primaryDark} name={"close"} />
+            <TouchableOpacity
+              onPress={() => (
+                props.setRecommendationModalVisible(false),
+                props.setModalOpen(false)
+              )}
+            >
+              <Icon
+                size={modalHeight * 0.036}
+                color={Colors.primaryDark}
+                name={"close"}
+              />
+            </TouchableOpacity>
           </View>
 
           <Icon
-            size={80}
+            size={modalHeight * 0.15}
             color={Colors.primaryDark}
             name={recommendation?.icon}
           />
-          <MyText content={props.chosenRecommendation} size={35} />
+          <MyText content={recommendation?.name} size={modalHeight * 0.052} />
           <MyText
             content={amount + "x pro Woche"}
-            size={16}
+            size={modalHeight * 0.025}
             color={
               recommendation?.category == "physisch"
                 ? Colors.primaryLight
@@ -119,8 +141,8 @@ const HabitRecommendationModal = (props) => {
             >
               <View
                 style={{
-                  height: 29,
-                  width: 90,
+                  height: modalHeight * 0.042,
+                  width: modalHeight * 0.15,
                   borderWidth: 1,
                   borderColor:
                     selectedDifficulty == "Einfach" &&
@@ -131,10 +153,9 @@ const HabitRecommendationModal = (props) => {
                       ? "#BF8CA2"
                       : Colors.primaryDark,
 
-                  borderRadius: 20,
+                  borderRadius: modalHeight * 0.03,
                   justifyContent: "center",
                   alignItems: "center",
-                  paddingHorizontal: 10,
                   backgroundColor:
                     selectedDifficulty == "Einfach" &&
                     recommendation?.category == "physisch"
@@ -147,7 +168,7 @@ const HabitRecommendationModal = (props) => {
               >
                 <MyText
                   content="Einfach"
-                  size={16}
+                  size={modalHeight * 0.023}
                   color={selectedDifficulty == "Einfach" ? "white" : "black"}
                 />
               </View>
@@ -159,8 +180,8 @@ const HabitRecommendationModal = (props) => {
             >
               <View
                 style={{
-                  height: 29,
-                  width: 90,
+                  height: modalHeight * 0.042,
+                  width: modalHeight * 0.15,
                   borderWidth: 1,
                   borderColor:
                     selectedDifficulty == "Mittel" &&
@@ -170,10 +191,9 @@ const HabitRecommendationModal = (props) => {
                         recommendation?.category == "psychisch"
                       ? "#BF8CA2"
                       : Colors.primaryDark,
-                  borderRadius: 20,
+                  borderRadius: modalHeight * 0.03,
                   justifyContent: "center",
                   alignItems: "center",
-                  paddingHorizontal: 10,
                   backgroundColor:
                     selectedDifficulty == "Mittel" &&
                     recommendation?.category == "physisch"
@@ -186,7 +206,7 @@ const HabitRecommendationModal = (props) => {
               >
                 <MyText
                   content="Mittel"
-                  size={16}
+                  size={modalHeight * 0.023}
                   color={selectedDifficulty == "Mittel" ? "white" : "black"}
                 />
               </View>
@@ -198,8 +218,8 @@ const HabitRecommendationModal = (props) => {
             >
               <View
                 style={{
-                  height: 29,
-                  width: 90,
+                  height: modalHeight * 0.042,
+                  width: modalHeight * 0.15,
                   borderWidth: 1,
                   borderColor:
                     selectedDifficulty == "Schwer" &&
@@ -209,10 +229,9 @@ const HabitRecommendationModal = (props) => {
                         recommendation?.category == "psychisch"
                       ? "#BF8CA2"
                       : Colors.primaryDark,
-                  borderRadius: 20,
+                  borderRadius: modalHeight * 0.03,
                   justifyContent: "center",
                   alignItems: "center",
-                  paddingHorizontal: 10,
                   backgroundColor:
                     selectedDifficulty == "Schwer" &&
                     recommendation?.category == "physisch"
@@ -225,7 +244,7 @@ const HabitRecommendationModal = (props) => {
               >
                 <MyText
                   content="Schwer"
-                  size={16}
+                  size={modalHeight * 0.023}
                   color={selectedDifficulty == "Schwer" ? "white" : "black"}
                 />
               </View>
@@ -233,46 +252,51 @@ const HabitRecommendationModal = (props) => {
           </View>
           <View
             style={{
-              marginTop: 20,
+              marginTop: modalHeight * 0.028,
               borderBottomColor: Colors.primaryLight,
               borderBottomWidth: 1,
               width: "90%",
             }}
           />
-          <View style={{ marginTop: "4%", paddingHorizontal: "3%" }}>
+          <View
+            style={{
+              marginTop: modalHeight * 0.02,
+              paddingHorizontal: modalHeight * 0.018,
+            }}
+          >
             <MyText
               content={
-                "Warum empfiehlt der Doktor " + props.chosenRecommendation + "?"
+                "Warum empfiehlt der Doktor " + recommendation?.name + "?"
               }
             />
-            <MyText content={recommendation?.content} size={16} />
             <MyText
-              content={"Wenn du mir nicht glaubst, dann guck halt hier: "}
-              size={16}
+              content={recommendation?.content}
+              size={modalHeight * 0.023}
             />
             <View
               style={{
-                // height: 30,
                 borderWidth: 1,
-                borderColor: Colors.primaryLight,
+                borderColor: recommendation?.color,
                 borderRadius: 10,
                 alignSelf: "baseline",
                 paddingHorizontal: 5,
+                marginTop: modalHeight * 0.01,
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(recommendation.link)}
+              >
                 <MyText
                   content={"Mehr Informationen"}
-                  //recommendation.link
-                  size={12}
-                  color={Colors.primaryLight}
+                  size={modalHeight * 0.02}
+                  color={recommendation?.color}
                 />
               </TouchableOpacity>
             </View>
           </View>
           <View
             style={{
-              marginTop: 20,
+              marginTop: modalHeight * 0.027,
               borderBottomColor: Colors.primaryLight,
               borderBottomWidth: 1,
               width: "90%",
@@ -299,30 +323,34 @@ const HabitRecommendationModal = (props) => {
                   alignItems: "center",
                 }}
               >
-                <MyText content={recommendation?.quote} italic size={16} />
+                <MyText
+                  content={recommendation?.quote}
+                  italic
+                  size={modalHeight * 0.024}
+                />
               </View>
               <View style={{ flex: 1 }}>
                 <Image
                   source={require("../../assets/DRHUFace.png")}
-                  style={{ width: 60, height: 60 }}
+                  style={{
+                    width: modalHeight * 0.09,
+                    height: modalHeight * 0.09,
+                  }}
                 />
               </View>
             </View>
             <TouchableOpacity onPress={() => saveRecommendation()}>
               <View
                 style={{
-                  //   width: "100%",
-                  height: 40,
                   borderRadius: 20,
                   backgroundColor: Colors.yellow,
-                  margin: 10,
-                  paddingHorizontal: "10%",
-                  //   marginHorizontal: "15%",
+                  margin: modalHeight * 0.02,
+                  paddingHorizontal: modalHeight * 0.03,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <MyText content={props.chosenRecommendation + " hinzufügen"} />
+                <MyText content={recommendation?.name + " hinzufügen"} center />
               </View>
             </TouchableOpacity>
           </View>

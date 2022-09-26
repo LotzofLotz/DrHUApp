@@ -9,7 +9,7 @@ import {
 } from "@expo-google-fonts/work-sans";
 import Colors from "../../constants/Colors";
 
-const MyText = ({ content, bold, color, size, semiBold, italic }) => {
+const MyText = ({ content, bold, color, size, semiBold, italic, center }) => {
   let [fontsLoaded] = useFonts({
     WorkSans_500Medium,
     WorkSans_700Bold,
@@ -32,6 +32,7 @@ const MyText = ({ content, bold, color, size, semiBold, italic }) => {
             : "WorkSans_500Medium",
           color: color ? color : Colors.primaryDark,
           fontSize: size ? size : 20,
+          textAlign: center ? "center" : "auto",
         }}
       >
         {content}

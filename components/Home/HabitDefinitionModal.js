@@ -152,6 +152,7 @@ const HabitDefinitionModal = (props) => {
                 placeholder="Name des Habits"
                 keyboardType="default"
                 placeholderTextColor="grey"
+                maxLength={25}
               />
               <TextInput
                 style={{

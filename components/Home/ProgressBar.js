@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Animated } from "react-native";
+import { View, Animated, Dimensions } from "react-native";
 import { Icon } from "react-native-elements";
 import Colors from "../../constants/Colors";
 
@@ -7,6 +7,7 @@ const ProgressBar = ({ step, steps, color, name }) => {
   const animatedValue = useRef(new Animated.Value(-1000)).current;
   const reactive = useRef(new Animated.Value(-1000)).current;
   const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -40,6 +41,10 @@ const ProgressBar = ({ step, steps, color, name }) => {
       }}
     >
       <View
+        onLayout={(e) => {
+          const newHeight = e.nativeEvent.layout.height;
+          setHeight(newHeight);
+        }}
         style={{
           width: "94%",
           height: "88%",
@@ -49,8 +54,8 @@ const ProgressBar = ({ step, steps, color, name }) => {
           borderRadius: 7,
         }}
       >
-        <View style={{ zIndex: 100 }}>
-          <Icon size={34} color={Colors.primaryDark} name={name} />
+        <View style={{ zIndex: 420 }}>
+          <Icon size={height * 0.9} color={Colors.primaryDark} name={name} />
         </View>
 
         <Animated.View

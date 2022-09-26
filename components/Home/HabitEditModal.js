@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
-import IconPicker from "./IconPicker";
 import Colors from "../../constants/Colors";
-import ColorPicker from "./ColorPicker";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -73,7 +71,6 @@ const HabitEditModal = (props) => {
         props.sessions < props.habit?.value["Amount"] &&
         props.sessions >= chosenAmount
       ) {
-        console.log("HIER MUSS EINE NEUE PERFECT WEEK GEADDED WERDEN");
         perfectWeeks.push(
           getWeek(new Date(), {
             weekStartsOn: 1,
@@ -82,7 +79,6 @@ const HabitEditModal = (props) => {
         energy = parseInt(energy) + 1;
         await AsyncStorage.setItem("Energy", energy.toString());
       }
-      props.setModalOpen(false);
     }
 
     try {
@@ -99,12 +95,12 @@ const HabitEditModal = (props) => {
       };
 
       const jsonHabit = JSON.stringify(habit);
-      console.log("THIS IS GETTING SAVED IN EDIT: ", jsonHabit);
       await AsyncStorage.removeItem("Habit_" + props.habit.value["Name"]);
       await AsyncStorage.setItem("Habit_" + chosenName, jsonHabit);
 
       Alert.alert("Habit erfolgreich editiert");
       props.getHabits();
+      props.setModalOpen(false);
       props.setInfoModalVisible(false);
       props.setEditModalVisible(false);
       // props.getHabits();
@@ -147,10 +143,14 @@ const HabitEditModal = (props) => {
               <MyText content="Batterie editieren" semiBold />
             </View>
             <TextInput
+              editable={
+                props.habit?.value["Recommended"] == true ? false : true
+              }
               style={styles.input}
               onChangeText={(name) => setChosenName(name)}
               defaultValue={chosenName}
               keyboardType="default"
+              maxLength={25}
             />
 
             {/* <TextInput
@@ -172,49 +172,20 @@ const HabitEditModal = (props) => {
               keyboardType="numeric"
               placeholderTextColor="grey"
             />
-            {/* <IconPicker
-            icons={[
-              "fitness-center",
-              "pool",
-              "sports-volleyball",
-              "sports-soccer",
-              "sports-esports",
-              "directions-bike",
-              "directions-run",
-            ]}
-            chosenIconName={chosenIconName}
-            setChosenIconName={setChosenIconName}
-            onIconPress={onIconPress}
-          />
-          <IconPicker
-            icons={[
-              "center-focus-weak",
-              "self-improvement",
-              "menu-book",
-              "volunteer-activism",
-              "no-food",
-              "no-drinks",
-              "school",
-            ]}
-            chosenIconName={chosenIconName}
-            setChosenIconName={setChosenIconName}
-            onIconPress={onIconPress}
-          />
 
-          <ColorPicker
-            onColorPress={onColorPress}
-            setChosenColor={setChosenColor}
-            chosenColor={chosenColor}
-          /> */}
-            <PickerView
-              modalHeight={modalHeight}
-              chosenIconName={chosenIconName}
-              setChosenIconName={setChosenIconName}
-              onIconPress={onIconPress}
-              onColorPress={onColorPress}
-              setChosenColor={setChosenColor}
-              chosenColor={chosenColor}
-            />
+            {props.habit?.value["Recommended"] == true ? (
+              <View />
+            ) : (
+              <PickerView
+                modalHeight={modalHeight}
+                chosenIconName={chosenIconName}
+                setChosenIconName={setChosenIconName}
+                onIconPress={onIconPress}
+                onColorPress={onColorPress}
+                setChosenColor={setChosenColor}
+                chosenColor={chosenColor}
+              />
+            )}
             <View
               style={{
                 justifyContent: "center",

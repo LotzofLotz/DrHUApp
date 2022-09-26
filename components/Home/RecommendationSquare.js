@@ -33,10 +33,39 @@ const RecommendationSquare = (props) => {
           borderWidth: 3,
           justifyContent: "center",
           alignItems: "center",
+          // flex: 1,
         }}
       >
-        <Icon size={50} color={Colors.primaryDark} name={recommendation.icon} />
-        <MyText content={props.name} />
+        <View
+          style={{ flex: 2.5, justifyContent: "center", alignItems: "center" }}
+        >
+          <Icon
+            size={width * 0.18}
+            color={Colors.primaryDark}
+            name={recommendation.icon}
+          />
+        </View>
+        <View
+          style={{
+            flex: 1.5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MyText
+            content={recommendation.name}
+            center
+            size={width * 0.042}
+            semiBold
+          />
+        </View>
+        <View style={{ flex: 0.7 }}>
+          <MyText
+            content={recommendation.category}
+            size={width * 0.03}
+            color={recommendation.color}
+          />
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );

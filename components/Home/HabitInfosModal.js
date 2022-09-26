@@ -11,6 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Calendar } from "react-native-calendars";
 import HabitEditModal from "./HabitEditModal";
+import { MyRecommendations } from "../Global/MyRecommendations";
 
 //Modal mit Möglichkeit Sessions zu entfernen, CalendarView und Streak-Stats
 
@@ -286,14 +287,22 @@ const HabitInfosModal = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <MyText
-                  content={props.habit?.value["Name"]}
-                  semiBold
-                  size={height * 0.05}
-                />
-                <View style={{ flexDirection: "row", marginTop: "3%" }}>
+                <View style={{ flex: 5 }}>
+                  <MyText
+                    content={
+                      props.habit?.value["Recommended"] == false
+                        ? props.habit?.value["Name"]
+                        : MyRecommendations[props.habit?.value["Name"]]?.name
+                    }
+                    semiBold
+                    size={height * 0.045}
+                  />
+                </View>
+                <View
+                  style={{ flexDirection: "row", marginTop: "3%", flex: 1 }}
+                >
                   <MaterialIcons
-                    style={{ marginHorizontal: 10 }}
+                    style={{ marginHorizontal: "2%" }}
                     name="edit"
                     size={height * 0.05}
                     color={Colors.primaryDark}
@@ -415,7 +424,7 @@ const HabitInfosModal = (props) => {
             >
               <View
                 style={{
-                  marginTop: "5%",
+                  marginTop: "2%",
                   borderBottomColor: "lightgrey",
                   borderBottomWidth: 2,
                   width: "92%",

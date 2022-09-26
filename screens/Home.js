@@ -17,6 +17,7 @@ const Home = () => {
   const [currentHabit, setCurrentHabit] = useState();
   const [energy, setEnergy] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     // clearAllData();
@@ -24,17 +25,15 @@ const Home = () => {
     onFirstOpen();
   }, []);
 
-  // const clearAllData = () => {
-  //   AsyncStorage.getAllKeys()
-  //     .then((keys) => AsyncStorage.multiRemove(keys))
-  //     .then(() => alert("success"));
-  // };
-
   useEffect(() => {
-    console.log("modaLvisible:", modalVisible),
-      console.log("modalopen:", modalOpen),
-      console.log("habitinfosvisible:", habitInfosVisible);
-  }, [modalVisible, modalOpen, habitInfosVisible]);
+    console.log("Scrolled?:", scrolled);
+  }, [scrolled]);
+
+  const clearAllData = () => {
+    AsyncStorage.getAllKeys()
+      .then((keys) => AsyncStorage.multiRemove(keys))
+      .then(() => alert("success"));
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -59,7 +58,6 @@ const Home = () => {
   };
 
   const getHabits = async () => {
-    // console.log("getHabits triggered");
     let slots = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -86,6 +84,15 @@ const Home = () => {
     }
   };
 
+  const handleScroll = (offset) => {
+    console.log("offset:", offset);
+    if (offset > 20) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar
@@ -96,7 +103,7 @@ const Home = () => {
             : "transparent"
         }
       />
-      <MyHeader title="Energiesammlung" energy={energy} />
+      <MyHeader title="Energiesammlung" energy={energy} scrolled={scrolled} />
 
       <HabitDefinitionModal
         modalVisible={modalVisible}
@@ -112,7 +119,9 @@ const Home = () => {
         getHabits={getHabits}
         setModalOpen={setModalOpen}
       />
-      <ScrollView>
+      <ScrollView
+        onScroll={(event) => handleScroll(event.nativeEvent.contentOffset.y)}
+      >
         {habits.length > 0 && slotz.length > 0 ? (
           <HabitsView
             setHabitInfosVisible={setHabitInfosVisible}

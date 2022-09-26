@@ -18,6 +18,10 @@ const HabitSquare = ({
 }) => {
   const width = Dimensions.get("window").width;
 
+  // useEffect(() => {
+  //   console.log(":::::", MyRecommendations[habit.value["Name"]]?.name);
+  // }, []);
+
   const filterSessions = () => {
     const filtered = habit.value["Sessions"].filter((session) =>
       isThisWeek(parseISO(session), { weekStartsOn: 1 })
@@ -88,9 +92,10 @@ const HabitSquare = ({
             borderWidth: 1,
             borderColor: Colors.primaryDark,
             backgroundColor:
-              MyRecommendations[habit.value["Name"]].category == "physisch"
+              MyRecommendations[habit.value["Name"]]?.category == "physisch"
                 ? Colors.primaryLight
                 : "#BF8CA2",
+            // Colors.primaryLight,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -141,6 +146,7 @@ const HabitSquare = ({
                         "psychisch"
                     ? "#BF8CA2"
                     : habit.value["Color"]
+                  // habit.value["Color"]
                 }
                 steps={habit.value["Amount"]}
                 step={filterSessions().length}
@@ -167,12 +173,35 @@ const HabitSquare = ({
             bottom: "10%",
           }}
         >
-          <MyText content={habit.value["Name"]} semiBold />
-          <MyText content={habit.value["Amount"] + "x pro Woche"} size={15} />
-          <MyText
-            content={filterSessions().length + "/" + habit.value["Amount"]}
-            size={15}
-          />
+          <View
+            style={{
+              flex: 2,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {habit?.value["Recommended"] == false ? (
+              <MyText content={habit.value["Name"]} semiBold center />
+            ) : (
+              <MyText
+                content={MyRecommendations[habit.value["Name"]]?.name}
+                semiBold
+                center
+              />
+            )}
+          </View>
+          <View style={{ flex: 0.8 }}>
+            {/* <MyText content={habit.value["Amount"] + "x pro Woche"} size={15} /> */}
+            <MyText
+              content={
+                filterSessions().length +
+                "/" +
+                habit.value["Amount"] +
+                " x pro Woche"
+              }
+              size={15}
+            />
+          </View>
         </View>
       </TouchableOpacity>
 
