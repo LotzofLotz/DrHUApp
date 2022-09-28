@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import HabitRecommendationModal from "./HabitRecommendationModal";
 import RecommendationsView from "./RecommendationsView";
 import PickerView from "./PickerView";
+import { Icon } from "react-native-elements";
 
 const HabitDefinitionModal = (props) => {
   const [chosenIconName, setChosenIconName] = useState("");
@@ -28,30 +29,8 @@ const HabitDefinitionModal = (props) => {
   const [chosenRecommendation, setChosenRecommendation] = useState("");
   const modalHeight =
     Dimensions.get("window").height * 0.9 > 700
-      ? 700
+      ? 740
       : Dimensions.get("window").height * 0.9;
-
-  // const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-  // useEffect(() => {
-  //   const keyboardDidShowListener = Keyboard.addListener(
-  //     "keyboardDidShow",
-  //     () => {
-  //       setKeyboardVisible(true); // or some other action
-  //     }
-  //   );
-  //   const keyboardDidHideListener = Keyboard.addListener(
-  //     "keyboardDidHide",
-  //     () => {
-  //       setKeyboardVisible(false); // or some other action
-  //     }
-  //   );
-
-  //   return () => {
-  //     keyboardDidHideListener.remove();
-  //     keyboardDidShowListener.remove();
-  //   };
-  // }, []);
 
   const onIconPress = (name) => {
     setChosenIconName(name);
@@ -86,7 +65,7 @@ const HabitDefinitionModal = (props) => {
   return (
     <View>
       <HabitRecommendationModal
-        avoidKeyboard={true}
+        // avoidKeyboard={true}
         chosenRecommendation={chosenRecommendation}
         setRecommendationModalVisible={setRecommendationModalVisible}
         recommendationModalVisible={recommendationModalVisible}
@@ -115,30 +94,41 @@ const HabitDefinitionModal = (props) => {
         >
           <ScrollView
             style={{
-              padding: "1%",
               backgroundColor: "white",
               borderRadius: 10,
               width: "100%",
-              margin: modalHeight * 0.01,
-              padding: modalHeight * 0.015,
+              margin: "4%",
+              padding: "4%",
             }}
           >
             <View
               style={{
-                height: modalHeight * 0.08,
-                justifyContent: "center",
+                height: modalHeight * 0.07,
+                flexDirection: "row",
+                justifyContent: "space-between",
               }}
             >
               <MyText
                 content="Batterie erstellen"
                 semiBold
-                size={modalHeight * 0.034}
+                size={modalHeight * 0.04}
               />
+              <TouchableOpacity
+                onPress={() => {
+                  props.setModalVisible(false);
+                  setChosenColor(""), setChosenIconName("");
+                }}
+              >
+                <Icon name="close" />
+              </TouchableOpacity>
             </View>
             <View
               style={{
-                height: modalHeight * 0.33,
-                justifyContent: "space-evenly",
+                height: modalHeight * 0.3,
+
+                justifyContent: "space-between",
+                // margin: "1%",
+                paddingVertical: "3%",
               }}
             >
               <TextInput
@@ -149,7 +139,7 @@ const HabitDefinitionModal = (props) => {
                   borderBottomColor: Colors.primaryDark,
                 }}
                 onChangeText={(name) => setChosenName(name)}
-                placeholder="Name des Habits"
+                placeholder=" Name des Habits"
                 keyboardType="default"
                 placeholderTextColor="grey"
                 maxLength={25}
@@ -162,7 +152,7 @@ const HabitDefinitionModal = (props) => {
                   borderBottomColor: Colors.primaryDark,
                 }}
                 onChangeText={(amount) => setChosenAmount(amount)}
-                placeholder="Anzahl pro Woche"
+                placeholder=" Anzahl pro Woche"
                 keyboardType="numeric"
                 placeholderTextColor="grey"
               />
@@ -173,7 +163,7 @@ const HabitDefinitionModal = (props) => {
                   borderBottomWidth: 1,
                   borderBottomColor: Colors.primaryDark,
                 }}
-                placeholder="Benachrichtigungen"
+                placeholder=" Benachrichtigungen"
                 keyboardType="numeric"
                 placeholderTextColor="grey"
               />
@@ -189,11 +179,10 @@ const HabitDefinitionModal = (props) => {
               chosenColor={chosenColor}
             />
 
-            {/* {isKeyboardVisible == false || Platform.OS == "ios" ? ( */}
             <View>
               <View
                 style={{
-                  height: modalHeight * 0.1,
+                  height: modalHeight * 0.08,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -253,7 +242,7 @@ const HabitDefinitionModal = (props) => {
                         marginTop: "4%",
                         borderBottomColor: Colors.primaryLight,
                         borderBottomWidth: 1,
-                        width: "34%",
+                        width: "42%",
                       }}
                     />
                     <MaterialIcons
@@ -267,7 +256,7 @@ const HabitDefinitionModal = (props) => {
                         marginTop: "4%",
                         borderBottomColor: Colors.primaryLight,
                         borderBottomWidth: 1,
-                        width: "34%",
+                        width: "45%",
                       }}
                     />
                   </View>
@@ -282,9 +271,6 @@ const HabitDefinitionModal = (props) => {
                 />
               </View>
             </View>
-            {/* ) : (
-              <View />
-            )} */}
           </ScrollView>
         </View>
       </Modal>

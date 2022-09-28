@@ -7,12 +7,12 @@ const HabitsView = (props) => {
   const slots = props.slots;
 
   return (
-    <View>
+    <View style={{ margin: "4%" }}>
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-evenly",
-          marginTop: 25,
+          justifyContent: "space-between",
+          marginVertical: "4%",
         }}
       >
         {slots[0] !== "empty" ? (
@@ -45,8 +45,8 @@ const HabitsView = (props) => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-evenly",
-          marginTop: 25,
+          justifyContent: "space-between",
+          marginVertical: "4%",
         }}
       >
         {slots[2] !== "empty" ? (
@@ -79,8 +79,8 @@ const HabitsView = (props) => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-evenly",
-          marginTop: 25,
+          justifyContent: "space-between",
+          marginVertical: "4%",
         }}
       >
         {slots[4] !== "empty" ? (
@@ -113,8 +113,8 @@ const HabitsView = (props) => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-evenly",
-          marginTop: 25,
+          justifyContent: "space-between",
+          marginVertical: "4%",
           marginBottom: "20%",
         }}
       >

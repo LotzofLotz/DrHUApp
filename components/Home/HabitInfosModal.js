@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Dimensions, Alert } from "react-native";
+import { View, Dimensions, Alert, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
@@ -12,6 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Calendar } from "react-native-calendars";
 import HabitEditModal from "./HabitEditModal";
 import { MyRecommendations } from "../Global/MyRecommendations";
+import MyInfo from "../Global/MyInfo";
+import { Icon } from "react-native-elements";
 
 //Modal mit Möglichkeit Sessions zu entfernen, CalendarView und Streak-Stats
 
@@ -28,7 +30,7 @@ const HabitInfosModal = (props) => {
   const [step, setStep] = useState(
     filterSessions?.length < 0 ? filterSessions?.length : 0
   );
-
+  const [infoVisible, setInfoVisible] = useState(false);
   const markedObject = {};
   const [perfectWeeks, setPerfectWeeks] = useState([]);
   const [sessionDates, setSessionDates] = useState([]);
@@ -41,9 +43,7 @@ const HabitInfosModal = (props) => {
     setStep(filtered?.length);
     return filtered;
   };
-  useEffect(() => {
-    console.log("streak aktive? ", streakActive);
-  }, [streakActive]);
+
   //marks Days, where Sessions have been done
   const markDays = (sessions, perfectWeeks) => {
     let dates = [];
@@ -260,7 +260,7 @@ const HabitInfosModal = (props) => {
         isVisible={props.habitInfosVisible}
         animationIn="slideInDown"
         backdropColor={"#132224"}
-        backdropOpacity={0.6}
+        backdropOpacity={infoVisible ? 0 : 0.6}
         animationOut="slideOutUp"
         useNativeDriver={true}
         onBackdropPress={() => props.setHabitInfosVisible(false)}
@@ -271,8 +271,8 @@ const HabitInfosModal = (props) => {
           //   setHeight(newHeight);
           // }}
           style={{
-            justifyContent: "center",
-            alignItems: "center",
+            // justifyContent: "center",
+            // alignItems: "center",
             maxHeight: height,
           }}
         >
@@ -281,70 +281,90 @@ const HabitInfosModal = (props) => {
               backgroundColor: "white",
               borderRadius: 10,
               width: "100%",
-              justifyContent: "space-between",
+
+              // justifyContent: "space-between",
             }}
           >
-            <View style={{ marginHorizontal: "4%" }}>
+            <View style={{ margin: "4%" }}>
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
                 }}
               >
-                <View style={{ flex: 5 }}>
-                  <MyText
-                    content={
-                      props.habit?.value["Recommended"] == false
-                        ? props.habit?.value["Name"]
-                        : MyRecommendations[props.habit?.value["Name"]]?.name
-                    }
-                    semiBold
-                    size={height * 0.045}
-                  />
-                </View>
-                <View
-                  style={{ flexDirection: "row", marginTop: "3%", flex: 1 }}
+                {/* <View style={{ width: "80%" }}> */}
+                <MyText
+                  content={
+                    props.habit?.value["Recommended"] == false
+                      ? props.habit?.value["Name"]
+                      : MyRecommendations[props.habit?.value["Name"]]?.name
+                  }
+                  semiBold
+                  size={height * 0.04}
+                />
+                {/* </View> */}
+                {/* <View
+                  style={{
+                    flexDirection: "row",
+                    marginTop: "1%",
+                    // justifyContent: "center",
+                  }}
+                > */}
+                <MaterialIcons
+                  name="edit"
+                  size={height * 0.05}
+                  color={Colors.primaryDark}
+                  onPress={() => editHabit(props.habit?.value["Name"])}
+                />
+                <MyInfo
+                  isVisible={infoVisible}
+                  setIsVisible={setInfoVisible}
+                  text={"Bist du sicher? Alle Einträge gehen hiermit verloren"}
+                  onPress={() => deleteHabit(props.habit?.value["Name"])}
+                  buttonName={"löschen"}
+                />
+                <MaterialIcons
+                  // onPress={() =>
+                  //   Alert.alert(
+                  //     "Delete Habit",
+                  //     "Bist du sicher? Alle Einträge gehen hiermit verloren ",
+                  //     [
+                  //       {
+                  //         text: "Cancel",
+                  //         onPress: () => {},
+                  //         style: "cancel",
+                  //       },
+                  //       {
+                  //         text: "OK",
+                  //         onPress: () => {
+                  //           deleteHabit(props.habit?.value["Name"]);
+                  //         },
+                  //       },
+                  //     ]
+                  //   )
+                  // }
+                  onPress={() => {
+                    setInfoVisible(true);
+                  }}
+                  name="delete"
+                  size={height * 0.05}
+                  color={Colors.primaryDark}
+                />
+                {/* </View> */}
+                <TouchableOpacity
+                  onPress={() => props.setHabitInfosVisible(false)}
                 >
-                  <MaterialIcons
-                    style={{ marginHorizontal: "2%" }}
-                    name="edit"
-                    size={height * 0.05}
-                    color={Colors.primaryDark}
-                    onPress={() => editHabit(props.habit?.value["Name"])}
-                  />
-                  <MaterialIcons
-                    onPress={() =>
-                      Alert.alert(
-                        "Delete Habit",
-                        "Bist du sicher? Alle Einträge gehen hiermit verloren ",
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => {},
-                            style: "cancel",
-                          },
-                          {
-                            text: "OK",
-                            onPress: () => {
-                              deleteHabit(props.habit?.value["Name"]);
-                            },
-                          },
-                        ]
-                      )
-                    }
-                    name="delete"
-                    size={height * 0.05}
-                    color={Colors.primaryDark}
-                  />
-                </View>
+                  <Icon name="close" />
+                </TouchableOpacity>
               </View>
 
               <MyText
                 content={props.habit?.value["Amount"] + "x pro Woche"}
-                size={18}
+                size={height * 0.024}
               />
             </View>
             <View>
+              {/* AUSBAUFÄHIG, nicht genauso groß wie im habitsquare etc.  */}
               <View
                 style={{
                   marginTop: "5%",
@@ -385,11 +405,11 @@ const HabitInfosModal = (props) => {
                 </View>
                 <View
                   style={{
-                    height: 40,
-                    width: 20,
+                    height: height * 0.06,
+                    width: height * 0.024,
                     backgroundColor: Colors.primaryDark,
-                    borderTopRightRadius: 4,
-                    borderBottomRightRadius: 4,
+                    borderTopRightRadius: 7,
+                    borderBottomRightRadius: 7,
                   }}
                 />
 
@@ -406,7 +426,7 @@ const HabitInfosModal = (props) => {
                   <MyText content="Loading" />
                 ) : (
                   <Calendar
-                    // style={{ height: height * 0.5 }}
+                    // style={{ marginHorizontal: "4%" }}
                     firstDay={1}
                     theme={{
                       arrowColor: Colors.primaryDark,
@@ -414,6 +434,9 @@ const HabitInfosModal = (props) => {
                       monthTextColor: Colors.primaryDark,
                       textSectionTitleColor: Colors.primaryDark,
                       todayTextColor: Colors.primaryLight, // welche Farbe?
+                      textDayFontSize: height * 0.022,
+                      textMonthFontSize: height * 0.022,
+                      textDayHeaderFontSize: height * 0.022,
                     }}
                     markedDates={calendarObject}
                   />
@@ -440,6 +463,7 @@ const HabitInfosModal = (props) => {
                   margin: "1%",
                   justifyContent: "space-around",
                   width: "100%",
+                  marginBottom: "4%",
                 }}
               >
                 <View
@@ -457,7 +481,11 @@ const HabitInfosModal = (props) => {
                       alignItems: "center",
                     }}
                   >
-                    <MyText content={currStreak} color="white" />
+                    <MyText
+                      content={currStreak}
+                      color="white"
+                      size={height * 0.032}
+                    />
                   </View>
                 </View>
                 <View
@@ -475,7 +503,11 @@ const HabitInfosModal = (props) => {
                       alignItems: "center",
                     }}
                   >
-                    <MyText content={longestStreak} color="white" />
+                    <MyText
+                      content={longestStreak}
+                      color="white"
+                      size={height * 0.032}
+                    />
                   </View>
                 </View>
                 <View
@@ -493,7 +525,11 @@ const HabitInfosModal = (props) => {
                       alignItems: "center",
                     }}
                   >
-                    <MyText content={batteries} color="white" />
+                    <MyText
+                      content={batteries}
+                      color="white"
+                      size={height * 0.032}
+                    />
                   </View>
                 </View>
               </View>

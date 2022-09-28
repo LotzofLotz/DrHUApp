@@ -1,12 +1,22 @@
-import React from "react";
-import { View, Image, StatusBar, Platform } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Image,
+  StatusBar,
+  Platform,
+  PixelRatio,
+  Dimensions,
+} from "react-native";
 import { MyText } from "./MyText";
 import Colors from "../../constants/Colors";
 import Constants from "expo-constants";
 
 const MyHeader = ({ title, energy, scrolled }) => {
+  const height = Dimensions.get("window").height;
+  const width = Dimensions.get("window").width;
+
   return (
-    <View>
+    <View style={{ zIndex: 420 }}>
       <View
         style={{
           width: "100%",
@@ -16,45 +26,46 @@ const MyHeader = ({ title, energy, scrolled }) => {
             width: 0,
             height: scrolled ? 1 : 0,
           },
-          shadowOpacity: scrolled ? 0.27 : 0,
-          shadowRadius: scrolled ? 1 : 0,
-
+          shadowOpacity: scrolled ? 0.2 : 0,
+          shadowRadius: scrolled ? 0.6 : 0,
           elevation: scrolled ? 10 : 0,
         }}
       >
         <View
           style={{
             flexDirection: "row",
-            elevation: 10,
-            marginLeft: 10,
+            // elevation: 10,
+            margin: "4%",
+
             marginTop:
               Platform.OS === "ios"
-                ? StatusBar.currentHeight + 20
-                : StatusBar.currentHeight,
+                ? StatusBar.currentHeight + 25
+                : StatusBar.currentHeight + 5,
             alignItems: "flex-end",
           }}
         >
-          <View style={{ left: "14%", marginBottom: 10 }}>
-            <MyText content={title} size={24} semiBold />
+          <View>
+            <MyText content={title} size={width * 0.06} semiBold />
+            {/* height * 0.035 */}
           </View>
 
           <View
             style={{
               position: "absolute",
-              right: 4,
+              right: 0,
               top: 0,
               flexDirection: "row",
             }}
           >
             <Image
               source={require("../../assets/Batterieicon_Currency_alt.png")}
-              style={{ width: 32, height: 32, top: 5 }}
+              style={{ width: width * 0.08, height: width * 0.08, top: 2 }}
             />
             <MyText
               color={Colors.primaryDark}
               content={" " + energy + "x"}
               bold
-              size={28}
+              size={width * 0.07}
             />
           </View>
         </View>

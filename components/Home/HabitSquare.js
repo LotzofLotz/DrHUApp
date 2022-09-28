@@ -18,16 +18,15 @@ const HabitSquare = ({
 }) => {
   const width = Dimensions.get("window").width;
 
-  // useEffect(() => {
-  //   console.log(":::::", MyRecommendations[habit.value["Name"]]?.name);
-  // }, []);
-
   const filterSessions = () => {
     const filtered = habit.value["Sessions"].filter((session) =>
       isThisWeek(parseISO(session), { weekStartsOn: 1 })
     );
     return filtered;
   };
+  useEffect(() => {
+    console.log("habit in square: ", habit);
+  }, []);
 
   const addSession = async (name) => {
     try {
@@ -64,20 +63,21 @@ const HabitSquare = ({
         height: 0.44 * width,
         width: 0.44 * width,
         borderRadius: 30,
-        // backgroundColor: "#F0F0F0",
-        backgroundColor: "#F6F6F6", //?? imo zu weiß
+        backgroundColor: "#F0F0F0",
+        // backgroundColor: "#F6F6F6", //?? imo zu weiß
         borderWidth: 3,
         // mit Shadow siehts imo besser aus
-        elevation: 10,
-        shadowColor: "#171717",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        // elevation: 10,
+        // shadowColor: "#171717",
+        // shadowOffset: { width: 0, height: 4 },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 3,
 
         borderColor:
           filterSessions().length >= habit.value["Amount"]
             ? Colors.yellow
-            : "#F6F6F6",
+            : "#F0F0F0",
+        // : "#F6F6F6",
       }}
     >
       {habit.value["Recommended"] == true ? (
@@ -89,7 +89,7 @@ const HabitSquare = ({
             width: 40,
             height: 40,
             borderRadius: 20,
-            borderWidth: 1,
+            borderWidth: 3,
             borderColor: Colors.primaryDark,
             backgroundColor:
               MyRecommendations[habit.value["Name"]]?.category == "physisch"
@@ -180,7 +180,7 @@ const HabitSquare = ({
               justifyContent: "center",
             }}
           >
-            {habit?.value["Recommended"] == false ? (
+            {habit?.value["Recommended"] != true ? (
               <MyText content={habit.value["Name"]} semiBold center />
             ) : (
               <MyText

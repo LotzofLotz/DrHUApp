@@ -17,6 +17,7 @@ import isThisWeek from "date-fns/isThisWeek";
 import parseISO from "date-fns/parseISO";
 import getWeek from "date-fns/getWeek";
 import PickerView from "./PickerView";
+import { Icon } from "react-native-elements";
 
 const HabitEditModal = (props) => {
   useEffect(() => {
@@ -90,7 +91,7 @@ const HabitEditModal = (props) => {
         Sessions: props.sessionDates,
         // PerfectWeeks: props.habit?.value["PerfectWeeks"],
         PerfectWeeks: perfectWeeks,
-
+        Recommended: props.habit?.value["Recommended"],
         //Notificiations:"later"
       };
 
@@ -98,7 +99,7 @@ const HabitEditModal = (props) => {
       await AsyncStorage.removeItem("Habit_" + props.habit.value["Name"]);
       await AsyncStorage.setItem("Habit_" + chosenName, jsonHabit);
 
-      Alert.alert("Habit erfolgreich editiert");
+      Alert.alert("Habit erfolgreich editiert"); //nötig?
       props.getHabits();
       props.setModalOpen(false);
       props.setInfoModalVisible(false);
@@ -119,7 +120,6 @@ const HabitEditModal = (props) => {
         backdropColor={"#132224"}
         backdropOpacity={0.6}
         animationOut="slideOutUp"
-        //useNativeDriver={true}
         onBackdropPress={() => {
           props.setEditModalVisible(false);
           props.setModalOpen(false);
@@ -127,51 +127,80 @@ const HabitEditModal = (props) => {
       >
         <View
           style={{
-            // alignItems: "center",
-            // justifyContent: "center",
             justifyContent: "space-between",
-            padding: 10,
-            // width: "100%",
-            // height: "89%",
             backgroundColor: "white",
             borderRadius: 10,
             maxHeight: modalHeight,
           }}
         >
-          <ScrollView>
-            <View style={{ marginHorizontal: "4%", marginTop: "5%" }}>
-              <MyText content="Batterie editieren" semiBold />
+          <ScrollView style={{ margin: "4%" }}>
+            <View style={{ justifyContent: "center" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <MyText
+                  content="Batterie editieren"
+                  semiBold
+                  size={modalHeight * 0.04}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    props.setEditModalVisible(false), props.setModalOpen(false);
+                  }}
+                >
+                  <Icon name="close" />
+                </TouchableOpacity>
+              </View>
             </View>
-            <TextInput
-              editable={
-                props.habit?.value["Recommended"] == true ? false : true
-              }
-              style={styles.input}
-              onChangeText={(name) => setChosenName(name)}
-              defaultValue={chosenName}
-              keyboardType="default"
-              maxLength={25}
-            />
-
-            {/* <TextInput
-                    style={styles.input}
-                    placeholder="Schwierigkeit"
-                    keyboardType="default"
-                  /> */}
-            <TextInput
-              style={styles.input}
-              onChangeText={(amount) => changeAmount(amount)}
-              defaultValue={chosenAmount}
-              keyboardType="numeric"
-            />
-            <TextInput
-              style={styles.input}
-              // onChangeText={onChangeNumber}
-              // value={number}
-              placeholder="Benachrichtigungen"
-              keyboardType="numeric"
-              placeholderTextColor="grey"
-            />
+            <View
+              style={{
+                height: modalHeight * 0.3,
+                justifyContent: "space-evenly",
+              }}
+            >
+              <TextInput
+                editable={
+                  props.habit?.value["Recommended"] == true ? false : true
+                }
+                style={{
+                  fontSize: modalHeight * 0.03,
+                  height: modalHeight * 0.07,
+                  borderBottomWidth: 1,
+                  borderBottomColor: Colors.primaryDark,
+                }}
+                onChangeText={(name) => setChosenName(name)}
+                defaultValue={chosenName} // hier bei recommended noch richtigen namen
+                keyboardType="default"
+                maxLength={25}
+              />
+              <TextInput
+                style={{
+                  fontSize: modalHeight * 0.03,
+                  height: modalHeight * 0.07,
+                  borderBottomWidth: 1,
+                  borderBottomColor: Colors.primaryDark,
+                }}
+                onChangeText={(amount) => changeAmount(amount)}
+                defaultValue={chosenAmount}
+                keyboardType="numeric"
+              />
+              <TextInput
+                style={{
+                  fontSize: modalHeight * 0.03,
+                  height: modalHeight * 0.07,
+                  borderBottomWidth: 1,
+                  borderBottomColor: Colors.primaryDark,
+                }}
+                // onChangeText={onChangeNumber}
+                // value={number}
+                placeholder=" Benachrichtigungen"
+                keyboardType="numeric"
+                placeholderTextColor="grey"
+              />
+            </View>
 
             {props.habit?.value["Recommended"] == true ? (
               <View />
@@ -211,7 +240,11 @@ const HabitEditModal = (props) => {
                   borderRadius: 30,
                 }}
               >
-                <MyText content="Speichern" semiBold size={15} />
+                <MyText
+                  content="Speichern"
+                  semiBold
+                  size={modalHeight * 0.025}
+                />
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -220,27 +253,5 @@ const HabitEditModal = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  modalView: {
-    padding: 8,
-    backgroundColor: "white",
-    margin: 30,
-    borderRadius: 10,
-    width: "100%",
-    // shadowColor: "black", // shadow for ios , elevation for android
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowRadius: 6,
-    // shadowOpacity: 0.25,
-    // elevation: 10,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.primaryDark,
-    padding: 10,
-  },
-});
 
 export default HabitEditModal;

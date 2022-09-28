@@ -50,11 +50,11 @@ const Home = () => {
             [
               "#8C91BF",
               "#BF918C",
-              "#8CBF9B",
-              "#639C90",
-              "#A9D3EB",
-              "#AFAFAF",
-              "#EEBF91",
+              // "#8CBF9B",
+              // "#639C90",
+              // "#A9D3EB",
+              // "#AFAFAF",
+              // "#EEBF91",
             ].toString()
           );
         console.log("Energy und Colors upgesettet");
@@ -70,7 +70,7 @@ const Home = () => {
     let slots = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
-      // console.log("keys:", keys);
+
       const habitKeys = keys.filter((key) => key.startsWith("Habit_"));
       const habits = await AsyncStorage.multiGet(habitKeys);
       const result = habits.map((x) => ({
@@ -85,6 +85,7 @@ const Home = () => {
           slots[i] = "empty";
         }
       }
+
       setSlotz(slots);
       setHabits(result);
       const energy = await AsyncStorage.getItem("Energy");
@@ -132,6 +133,7 @@ const Home = () => {
       />
       <ScrollView
         onScroll={(event) => handleScroll(event.nativeEvent.contentOffset.y)}
+        scrollEventThrottle={42}
       >
         {habits.length > 0 && slotz.length > 0 ? (
           <HabitsView

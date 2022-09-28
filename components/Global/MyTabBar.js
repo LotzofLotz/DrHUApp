@@ -79,9 +79,7 @@ const MyTabBar = ({ navigation }) => {
       <TouchableOpacity
         onPress={() => {
           // funktioniert aufm iphone irgwie nicht richtig
-          console.log("NAVIGAZE HOME"),
-            navigation.navigate("Home"),
-            setFocused("Home");
+          navigation.navigate("Home"), setFocused("Home");
         }}
       >
         <View
@@ -111,7 +109,7 @@ const MyTabBar = ({ navigation }) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={{ flexDirection: "row", bottom: "13%" }}>
+      <View style={{ flexDirection: "row", bottom: "14%" }}>
         <TouchableOpacity
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >

@@ -12,16 +12,19 @@ const RecommendationSquare = (props) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        props.setRecommendationModalVisible(true);
+        console.log("PREESSED!!!");
+
         props.setModalOpen(true);
         props.setChosenRecommendation(props.name);
+        props.setRecommendationModalVisible(true);
         props.setModalVisible(false);
+        console.log("PREESSED2!!!");
       }}
     >
       <View
         style={{
-          height: width * 0.38,
-          width: width * 0.38,
+          height: width * 0.4,
+          width: width * 0.4,
           borderRadius: 27,
           elevation: 3,
           borderColor: "#F6F6F6",
@@ -37,7 +40,7 @@ const RecommendationSquare = (props) => {
         }}
       >
         <View
-          style={{ flex: 2.5, justifyContent: "center", alignItems: "center" }}
+          style={{ flex: 3, justifyContent: "center", alignItems: "center" }}
         >
           <Icon
             size={width * 0.18}

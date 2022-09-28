@@ -7,26 +7,26 @@ const HabitSlot = (props) => {
   const width = Dimensions.get("window").width;
 
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        height: 0.44 * width,
-        width: 0.44 * width,
-        borderRadius: 30,
-        borderWidth: 2,
-        borderStyle: "dashed",
-        borderColor: "lightgrey",
+    <TouchableOpacity
+      onPress={() => {
+        props.setModalVisible(true);
       }}
     >
-      <TouchableOpacity
-        onPress={() => {
-          props.setModalVisible(true);
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: 0.44 * width,
+          width: 0.44 * width,
+          borderRadius: 30,
+          borderWidth: 2,
+          borderStyle: "dashed",
+          borderColor: "lightgrey",
         }}
       >
         <FontAwesome5 name="plus" size={50} color={Colors.primaryDark} />
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 

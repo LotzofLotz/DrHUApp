@@ -25,9 +25,9 @@ const HabitRecommendationModal = (props) => {
       ? 700
       : Dimensions.get("window").height * 0.9;
 
-  // useEffect(() => {
-  //   console.log("recom:", recommendation.name);
-  // }, [recommendation]);
+  useEffect(() => {
+    console.log("HIER: ", props.recommendationModalVisible);
+  }, [props.recommendationModalVisible]);
 
   const saveRecommendation = async () => {
     try {
@@ -339,7 +339,10 @@ const HabitRecommendationModal = (props) => {
                 />
               </View>
             </View>
-            <TouchableOpacity onPress={() => saveRecommendation()}>
+            <TouchableOpacity
+              style={{ width: "100%" }}
+              onPress={() => saveRecommendation()}
+            >
               <View
                 style={{
                   borderRadius: 20,
@@ -348,9 +351,11 @@ const HabitRecommendationModal = (props) => {
                   paddingHorizontal: modalHeight * 0.03,
                   justifyContent: "center",
                   alignItems: "center",
+                  paddingVertical: 10,
                 }}
               >
-                <MyText content={recommendation?.name + " hinzufügen"} center />
+                {/* <MyText content={recommendation?.name + " hinzufügen"} center /> */}
+                <MyText content={"Habit hinzufügen"} center />
               </View>
             </TouchableOpacity>
           </View>

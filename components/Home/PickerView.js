@@ -10,7 +10,6 @@ const PickerView = (props) => {
 
   useEffect(() => {
     getColors();
-    console.log("hier:", typeof unlockedColors);
   }, [unlockedColors]);
 
   const getColors = async () => {
@@ -26,7 +25,6 @@ const PickerView = (props) => {
       <View
         style={{
           height: modalHeight * 0.33,
-
           justifyContent: "space-around",
         }}
       >

@@ -4,12 +4,12 @@ import RecommendationSquare from "./RecommendationSquare";
 
 const RecommendationsView = (props) => {
   return (
-    <View style={{ margin: 10 }}>
+    <View style={{ marginVertical: "7%" }}>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "4%",
         }}
       >
         <RecommendationSquare
@@ -33,7 +33,7 @@ const RecommendationsView = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "2%",
         }}
       >
         <RecommendationSquare
@@ -58,7 +58,7 @@ const RecommendationsView = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "2%",
         }}
       >
         <RecommendationSquare
@@ -83,7 +83,7 @@ const RecommendationsView = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "2%",
         }}
       >
         <RecommendationSquare
@@ -107,7 +107,7 @@ const RecommendationsView = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "2%",
         }}
       >
         <RecommendationSquare
@@ -131,7 +131,7 @@ const RecommendationsView = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "2%",
         }}
       >
         <RecommendationSquare
@@ -155,7 +155,7 @@ const RecommendationsView = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: 4,
+          marginVertical: "2%",
         }}
       >
         <RecommendationSquare
