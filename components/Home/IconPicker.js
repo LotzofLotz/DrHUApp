@@ -10,7 +10,7 @@ const IconPicker = (props) => {
     <View
       style={{
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
       }}
     >
       {props.icons.map((icon) => {

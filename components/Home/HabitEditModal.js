@@ -4,6 +4,7 @@ import { MyText } from "../Global/MyText";
 import Colors from "../../constants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MyInfo from "../Global/MyInfo";
 import {
   View,
   StyleSheet,
@@ -45,6 +46,7 @@ const HabitEditModal = (props) => {
   const changeAmount = (amount) => {
     setChosenAmount(amount);
   };
+  const [infoVisible, setInfoVisible] = useState(false);
 
   const onIconPress = (name) => {
     setChosenIconName(name);
@@ -55,6 +57,7 @@ const HabitEditModal = (props) => {
   };
 
   const saveHabit = async () => {
+    setInfoVisible(true);
     let perfectWeeks = props.perfectWeeks;
 
     let energy = await AsyncStorage.getItem("Energy");
@@ -98,14 +101,12 @@ const HabitEditModal = (props) => {
       const jsonHabit = JSON.stringify(habit);
       await AsyncStorage.removeItem("Habit_" + props.habit.value["Name"]);
       await AsyncStorage.setItem("Habit_" + chosenName, jsonHabit);
-
-      Alert.alert("Habit erfolgreich editiert"); //nötig?
+      console.log("setting this new habit:", jsonHabit);
       props.getHabits();
-      props.setModalOpen(false);
-      props.setInfoModalVisible(false);
-      props.setEditModalVisible(false);
-      // props.getHabits();
-      //props.navigation.pop();
+      // props.setEditModalVisible(false);
+      // setInfoVisible(false);
+      // props.setModalOpen(false);
+      // console.log("trying to trigger getHabits in edit");
     } catch (e) {
       console.log("error:", e);
     }
@@ -118,7 +119,7 @@ const HabitEditModal = (props) => {
         animationIn="slideInUp"
         useNativeDriver={true}
         backdropColor={"#132224"}
-        backdropOpacity={0.6}
+        backdropOpacity={infoVisible ? 0 : 0.6}
         animationOut="slideOutUp"
         onBackdropPress={() => {
           props.setEditModalVisible(false);
@@ -138,6 +139,7 @@ const HabitEditModal = (props) => {
               <View
                 style={{
                   flexDirection: "row",
+                  bottom: "2%",
                   justifyContent: "space-between",
                 }}
               >
@@ -147,11 +149,15 @@ const HabitEditModal = (props) => {
                   size={modalHeight * 0.04}
                 />
                 <TouchableOpacity
+                  style={{ top: "2%" }}
                   onPress={() => {
-                    props.setEditModalVisible(false), props.setModalOpen(false);
+                    props.setEditModalVisible(false),
+                      // props.setModalOpen(false),
+                      // saveHabit(),
+                      props.setInfoModalVisible(true);
                   }}
                 >
-                  <Icon name="close" />
+                  <Icon name="close" color={Colors.primaryDark} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -196,7 +202,7 @@ const HabitEditModal = (props) => {
                 }}
                 // onChangeText={onChangeNumber}
                 // value={number}
-                placeholder=" Benachrichtigungen"
+                placeholder="Benachrichtigungen"
                 keyboardType="numeric"
                 placeholderTextColor="grey"
               />
@@ -228,12 +234,12 @@ const HabitEditModal = (props) => {
                   chosenAmount != 0 &&
                   chosenColor != "" &&
                   chosenIconName != ""
-                    ? saveHabit()
+                    ? saveHabit() //setInfoVisible(true)
                     : Alert.alert("Fülle erst alle Felder aus");
                 }}
                 style={{
-                  height: 45,
-                  width: "80%",
+                  height: 50,
+                  width: "100%",
                   backgroundColor: Colors.yellow,
                   justifyContent: "center",
                   alignItems: "center",
@@ -243,11 +249,28 @@ const HabitEditModal = (props) => {
                 <MyText
                   content="Speichern"
                   semiBold
-                  size={modalHeight * 0.025}
+                  size={modalHeight * 0.028}
                 />
               </TouchableOpacity>
             </View>
           </ScrollView>
+          <MyInfo
+            color={Colors.primaryLight}
+            isVisible={infoVisible}
+            setIsVisible={setInfoVisible}
+            text={"Batterie erfolgreich editiert!"}
+            onPress={() => {
+              setInfoVisible(false),
+                props.setModalOpen(false),
+                props.setEditModalVisible(false);
+            }}
+            onXPress={() => {
+              setInfoVisible(false),
+                props.setModalOpen(false),
+                props.setEditModalVisible(false);
+            }}
+            buttonName={"Ok cool "}
+          />
         </View>
       </Modal>
     </View>

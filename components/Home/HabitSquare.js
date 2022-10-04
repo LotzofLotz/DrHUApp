@@ -117,9 +117,11 @@ const HabitSquare = ({
         <View style={{ flex: 3 }}>
           <View
             style={{
-              marginTop: 10,
+              // marginTop: 10,
               flexDirection: "row",
-              flex: 1,
+              // flex: 1,
+              width: "100%",
+              height: "100%",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -127,8 +129,10 @@ const HabitSquare = ({
             <View
               style={{
                 left: "6%",
-                height: "65%",
-                width: "84%",
+                // height: "65%",
+                // width: "84%",
+                height: "60%",
+                width: "80%",
                 borderRadius: 12,
                 borderWidth: 7,
                 borderColor: Colors.primaryDark,
@@ -155,7 +159,7 @@ const HabitSquare = ({
             </View>
             <View
               style={{
-                left: "6%",
+                left: "5%",
                 height: "30%",
                 width: "6%",
                 backgroundColor: Colors.primaryDark,

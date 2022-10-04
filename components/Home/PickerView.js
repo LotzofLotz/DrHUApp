@@ -24,7 +24,7 @@ const PickerView = (props) => {
     <View>
       <View
         style={{
-          height: modalHeight * 0.33,
+          height: modalHeight * 0.34,
           justifyContent: "space-around",
         }}
       >

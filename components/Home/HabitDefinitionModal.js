@@ -18,12 +18,16 @@ import HabitRecommendationModal from "./HabitRecommendationModal";
 import RecommendationsView from "./RecommendationsView";
 import PickerView from "./PickerView";
 import { Icon } from "react-native-elements";
+import MyInfo from "../Global/MyInfo";
 
 const HabitDefinitionModal = (props) => {
   const [chosenIconName, setChosenIconName] = useState("");
   const [chosenColor, setChosenColor] = useState("");
   const [chosenName, setChosenName] = useState("");
   const [chosenAmount, setChosenAmount] = useState(0);
+  const [infoVisible, setInfoVisible] = useState(false);
+  const [existingInfoVisible, setExistingInfoVisible] = useState(false);
+
   const [recommendationModalVisible, setRecommendationModalVisible] =
     useState(false);
   const [chosenRecommendation, setChosenRecommendation] = useState("");
@@ -38,6 +42,21 @@ const HabitDefinitionModal = (props) => {
 
   const onColorPress = (name) => {
     setChosenColor(name);
+  };
+
+  const checkHabit = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const habitKeys = keys.filter((key) => key.startsWith("Habit_"));
+      console.log("keys:", habitKeys);
+      if (habitKeys.includes("Habit_" + chosenName)) {
+        setExistingInfoVisible(true);
+      } else {
+        saveHabit();
+      }
+    } catch (e) {
+      console.log("error", e);
+    }
   };
 
   const saveHabit = async () => {
@@ -76,7 +95,7 @@ const HabitDefinitionModal = (props) => {
         isVisible={props.modalVisible}
         animationIn="slideInDown"
         backdropColor={"#132224"}
-        backdropOpacity={0.6}
+        backdropOpacity={infoVisible || existingInfoVisible ? 0 : 0.6}
         animationOut="slideOutUp"
         useNativeDriver={true}
         onBackdropPress={() => {
@@ -99,13 +118,15 @@ const HabitDefinitionModal = (props) => {
               width: "100%",
               margin: "4%",
               padding: "4%",
+              // marginVertical: "2%",
             }}
           >
             <View
               style={{
-                height: modalHeight * 0.07,
+                height: modalHeight * 0.06,
                 flexDirection: "row",
                 justifyContent: "space-between",
+                bottom: "2%",
               }}
             >
               <MyText
@@ -114,6 +135,7 @@ const HabitDefinitionModal = (props) => {
                 size={modalHeight * 0.04}
               />
               <TouchableOpacity
+                style={{ top: "2%" }}
                 onPress={() => {
                   props.setModalVisible(false);
                   setChosenColor(""), setChosenIconName("");
@@ -124,7 +146,7 @@ const HabitDefinitionModal = (props) => {
             </View>
             <View
               style={{
-                height: modalHeight * 0.3,
+                height: modalHeight * 0.32,
 
                 justifyContent: "space-between",
                 // margin: "1%",
@@ -139,7 +161,7 @@ const HabitDefinitionModal = (props) => {
                   borderBottomColor: Colors.primaryDark,
                 }}
                 onChangeText={(name) => setChosenName(name)}
-                placeholder=" Name des Habits"
+                placeholder="Name des Habits"
                 keyboardType="default"
                 placeholderTextColor="grey"
                 maxLength={25}
@@ -152,7 +174,7 @@ const HabitDefinitionModal = (props) => {
                   borderBottomColor: Colors.primaryDark,
                 }}
                 onChangeText={(amount) => setChosenAmount(amount)}
-                placeholder=" Anzahl pro Woche"
+                placeholder="Anzahl pro Woche"
                 keyboardType="numeric"
                 placeholderTextColor="grey"
               />
@@ -163,7 +185,7 @@ const HabitDefinitionModal = (props) => {
                   borderBottomWidth: 1,
                   borderBottomColor: Colors.primaryDark,
                 }}
-                placeholder=" Benachrichtigungen"
+                placeholder="Benachrichtigungen"
                 keyboardType="numeric"
                 placeholderTextColor="grey"
               />
@@ -187,28 +209,53 @@ const HabitDefinitionModal = (props) => {
                   alignItems: "center",
                 }}
               >
+                <MyInfo
+                  color={Colors.primaryLight}
+                  isVisible={infoVisible}
+                  setIsVisible={setInfoVisible}
+                  text={"Fülle erst alle Felder aus!"}
+                  onPress={() => setInfoVisible(false)}
+                  onXPress={() => setInfoVisible(false)}
+                  buttonName={"Okay"}
+                  icon={"questionmark"}
+                />
+                <MyInfo
+                  color={Colors.primaryLight}
+                  isVisible={existingInfoVisible}
+                  setIsVisible={setExistingInfoVisible}
+                  text={
+                    "Es existiert bereits ein Habit mit diesem Namen, wähle einen anderen Namen!"
+                  }
+                  onPress={() => setExistingInfoVisible(false)}
+                  onXPress={() => setExistingInfoVisible(false)}
+                  buttonName={"Okay"}
+                  icon={"questionmark"}
+                />
                 <TouchableOpacity
                   onPress={() => {
                     chosenName != "" &&
                     chosenAmount != 0 &&
                     chosenColor != "" &&
                     chosenIconName != ""
-                      ? saveHabit()
-                      : Alert.alert("Fülle erst alle Felder aus");
+                      ? checkHabit()
+                      : setInfoVisible(true);
                   }}
                   style={{
-                    height: modalHeight * 0.06,
-                    width: "80%",
+                    // height: modalHeight * 0.06,
+                    // padding: "5%",
+                    height: 50,
+                    width: "100%",
                     backgroundColor: Colors.yellow,
                     justifyContent: "center",
-                    alignItems: "center",
+
                     borderRadius: 30,
                   }}
                 >
                   <MyText
                     content="Speichern"
                     semiBold
-                    size={modalHeight * 0.025}
+                    size={modalHeight * 0.028}
+                    center
                   />
                 </TouchableOpacity>
               </View>

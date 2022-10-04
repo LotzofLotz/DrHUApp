@@ -266,13 +266,7 @@ const HabitInfosModal = (props) => {
         onBackdropPress={() => props.setHabitInfosVisible(false)}
       >
         <View
-          // onLayout={(e) => {
-          //   const newHeight = e.nativeEvent.layout.height;
-          //   setHeight(newHeight);
-          // }}
           style={{
-            // justifyContent: "center",
-            // alignItems: "center",
             maxHeight: height,
           }}
         >
@@ -281,8 +275,6 @@ const HabitInfosModal = (props) => {
               backgroundColor: "white",
               borderRadius: 10,
               width: "100%",
-
-              // justifyContent: "space-between",
             }}
           >
             <View style={{ margin: "4%" }}>
@@ -292,70 +284,60 @@ const HabitInfosModal = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                {/* <View style={{ width: "80%" }}> */}
-                <MyText
-                  content={
-                    props.habit?.value["Recommended"] == false
-                      ? props.habit?.value["Name"]
-                      : MyRecommendations[props.habit?.value["Name"]]?.name
-                  }
-                  semiBold
-                  size={height * 0.04}
-                />
-                {/* </View> */}
-                {/* <View
+                <View style={{ width: "80%" }}>
+                  <MyText
+                    content={
+                      props.habit?.value["Recommended"] == false
+                        ? props.habit?.value["Name"]
+                        : MyRecommendations[props.habit?.value["Name"]]?.name
+                    }
+                    semiBold
+                    size={height * 0.04}
+                  />
+                </View>
+                <View
                   style={{
                     flexDirection: "row",
-                    marginTop: "1%",
-                    // justifyContent: "center",
+                    width: "20%",
+                    justifyContent: "space-evenly",
                   }}
-                > */}
-                <MaterialIcons
-                  name="edit"
-                  size={height * 0.05}
-                  color={Colors.primaryDark}
-                  onPress={() => editHabit(props.habit?.value["Name"])}
-                />
-                <MyInfo
-                  isVisible={infoVisible}
-                  setIsVisible={setInfoVisible}
-                  text={"Bist du sicher? Alle Einträge gehen hiermit verloren"}
-                  onPress={() => deleteHabit(props.habit?.value["Name"])}
-                  buttonName={"löschen"}
-                />
-                <MaterialIcons
-                  // onPress={() =>
-                  //   Alert.alert(
-                  //     "Delete Habit",
-                  //     "Bist du sicher? Alle Einträge gehen hiermit verloren ",
-                  //     [
-                  //       {
-                  //         text: "Cancel",
-                  //         onPress: () => {},
-                  //         style: "cancel",
-                  //       },
-                  //       {
-                  //         text: "OK",
-                  //         onPress: () => {
-                  //           deleteHabit(props.habit?.value["Name"]);
-                  //         },
-                  //       },
-                  //     ]
-                  //   )
-                  // }
-                  onPress={() => {
-                    setInfoVisible(true);
-                  }}
-                  name="delete"
-                  size={height * 0.05}
-                  color={Colors.primaryDark}
-                />
-                {/* </View> */}
-                <TouchableOpacity
-                  onPress={() => props.setHabitInfosVisible(false)}
                 >
-                  <Icon name="close" />
-                </TouchableOpacity>
+                  <MaterialIcons
+                    name="edit"
+                    size={height * 0.05}
+                    color={Colors.primaryDark}
+                    onPress={() => editHabit(props.habit?.value["Name"])}
+                  />
+                  <MyInfo
+                    color={Colors.pink}
+                    isVisible={infoVisible}
+                    setIsVisible={setInfoVisible}
+                    text={
+                      "Bist du sicher? Alle Einträge gehen hiermit verloren"
+                    }
+                    onPress={() => deleteHabit(props.habit?.value["Name"])}
+                    onXPress={() => setInfoVisible(false)}
+                    buttonName={"löschen"}
+                    icon={"questionmark"}
+                  />
+                  <MaterialIcons
+                    onPress={() => {
+                      setInfoVisible(true);
+                    }}
+                    name="delete"
+                    size={height * 0.05}
+                    color={Colors.primaryDark}
+                  />
+
+                  <TouchableOpacity
+                    onPress={() => (
+                      props.setHabitInfosVisible(false),
+                      props.setModalOpen(false)
+                    )}
+                  >
+                    <Icon name="close" />
+                  </TouchableOpacity>
+                </View>
               </View>
 
               <MyText
@@ -492,7 +474,7 @@ const HabitInfosModal = (props) => {
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
                   <MyText content="längste " size={height * 0.024} />
-                  <MyText content=" Streak" size={height * 0.024} />
+                  <MyText content="Streak" size={height * 0.024} />
                   <View
                     style={{
                       height: height * 0.075,
@@ -513,8 +495,8 @@ const HabitInfosModal = (props) => {
                 <View
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
-                  <MyText content="Batterien " size={height * 0.024} />
-                  <MyText content=" verdient" size={height * 0.024} />
+                  <MyText content="Batterien" size={height * 0.024} />
+                  <MyText content="verdient" size={height * 0.024} />
                   <View
                     style={{
                       height: height * 0.075,

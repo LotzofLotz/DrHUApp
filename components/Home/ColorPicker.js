@@ -17,9 +17,9 @@ const ColorPicker = (props) => {
       style={{
         marginTop: props.modalHeight * 0.025,
         marginBottom: props.modalHeight * 0.025,
-        marginHorizontal: props.modalHeight * 0.02,
+        // marginHorizontal: props.modalHeight * 0.02,
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
       }}
     >
       {colors.map((color) => (

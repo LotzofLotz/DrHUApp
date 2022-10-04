@@ -55,6 +55,7 @@ const MyHeader = ({ title, energy, scrolled }) => {
               right: 0,
               top: 0,
               flexDirection: "row",
+              width: "20%",
             }}
           >
             <Image
