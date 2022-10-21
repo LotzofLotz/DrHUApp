@@ -3,11 +3,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   ScrollView,
   Dimensions,
-  Keyboard,
-  Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
@@ -97,7 +94,7 @@ const HabitDefinitionModal = (props) => {
         backdropColor={"#132224"}
         backdropOpacity={infoVisible || existingInfoVisible ? 0 : 0.6}
         animationOut="slideOutUp"
-        useNativeDriver={true}
+        // useNativeDriver={true}
         onBackdropPress={() => {
           props.setModalVisible(false),
             setChosenColor(""),
@@ -264,6 +261,7 @@ const HabitDefinitionModal = (props) => {
                 <View
                   style={{
                     height: modalHeight * 0.1,
+                    top: "1%",
                   }}
                 >
                   <View

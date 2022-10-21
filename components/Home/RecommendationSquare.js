@@ -13,7 +13,6 @@ const RecommendationSquare = (props) => {
     <TouchableWithoutFeedback
       onPress={() => {
         console.log("PREESSED!!!");
-
         props.setModalOpen(true);
         props.setChosenRecommendation(props.name);
         props.setRecommendationModalVisible(true);
@@ -36,6 +35,7 @@ const RecommendationSquare = (props) => {
           borderWidth: 3,
           justifyContent: "center",
           alignItems: "center",
+          padding: 4,
           // flex: 1,
         }}
       >

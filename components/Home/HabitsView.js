@@ -21,6 +21,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
@@ -34,11 +35,13 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
             getHabits={props.getHabits}
             setModalVisible={props.setModalVisible}
+            design={props.design}
           />
         )}
       </View>
@@ -55,6 +58,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
@@ -68,6 +72,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
@@ -89,6 +94,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
@@ -102,6 +108,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
@@ -124,6 +131,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot
@@ -137,6 +145,7 @@ const HabitsView = (props) => {
             getHabits={props.getHabits}
             setHabitInfosVisible={props.setHabitInfosVisible}
             setCurrentHabit={props.setCurrentHabit}
+            design={props.design}
           />
         ) : (
           <HabitSlot

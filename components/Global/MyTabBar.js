@@ -14,6 +14,8 @@ const MyTabBar = ({ navigation }) => {
   const width = Dimensions.get("window").width;
   const [focused, setFocused] = useState("Home");
 
+  const design = 1;
+
   return (
     <View
       style={{
@@ -78,36 +80,35 @@ const MyTabBar = ({ navigation }) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          // funktioniert aufm iphone irgwie nicht richtig
           navigation.navigate("Home"), setFocused("Home");
         }}
+        style={{
+          position: "absolute",
+          borderColor: Colors.yellow,
+          borderWidth: focused == "Home" && design != 1 ? 3 : 0,
+          width: focused == "Home" ? middleIconSize : 84,
+          height: focused == "Home" ? middleIconSize : 84,
+          borderRadius: midRadius,
+          backgroundColor:
+            design == 1 && focused == "Home"
+              ? Colors.primaryLight
+              : Colors.primaryDark,
+          left:
+            focused == "Home"
+              ? width / 2 - midRadius
+              : width / 2 - midRadius + 3,
+          bottom:
+            focused == "Home"
+              ? tabBarHeight - midRadius
+              : tabBarHeight - midRadius + 3,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <View
-          style={{
-            position: "absolute",
-            borderColor: Colors.yellow,
-            borderWidth: focused == "Home" ? 3 : 0,
-            width: focused == "Home" ? middleIconSize : 84,
-            height: focused == "Home" ? middleIconSize : 84,
-            borderRadius: midRadius,
-            backgroundColor: Colors.primaryDark,
-            left:
-              focused == "Home"
-                ? width / 2 - midRadius
-                : width / 2 - midRadius + 3,
-            bottom:
-              focused == "Home"
-                ? tabBarHeight - midRadius
-                : tabBarHeight - midRadius + 3,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Image
-            source={require("../../assets/BatterieiconNAV.png")}
-            style={{ width: "60%", height: "60%", resizeMode: "contain" }}
-          />
-        </View>
+        <Image
+          source={require("../../assets/BatterieiconNAV.png")}
+          style={{ width: "60%", height: "60%", resizeMode: "contain" }}
+        />
       </TouchableOpacity>
       <View style={{ flexDirection: "row", bottom: "14%" }}>
         <TouchableOpacity
@@ -129,14 +130,26 @@ const MyTabBar = ({ navigation }) => {
 
         <View style={{ width: "45%" }} />
 
-        <View style={{ right: 20 }}>
+        <View
+          style={{
+            right: 20,
+            height: 50,
+            width: 50,
+            backgroundColor:
+              focused == "Focus" && design == 1
+                ? Colors.primaryLight
+                : Colors.primaryDark,
+            borderRadius: 420,
+            justifyContent: "center",
+          }}
+        >
           <Icon
             name={"center-focus-weak"}
             onPress={() => {
               navigation.navigate("Focus"), setFocused("Focus");
             }}
             size={40}
-            color={focused == "Focus" ? Colors.yellow : "white"}
+            color={focused == "Focus" && design != 1 ? Colors.yellow : "white"}
           />
         </View>
         <TouchableOpacity

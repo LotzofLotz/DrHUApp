@@ -8,8 +8,9 @@ import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
 import HabitInfosModal from "../components/Home/HabitInfosModal";
 import { StatusBar } from "expo-status-bar";
+import HabitInfosModal2 from "../components/Home/HabitInfosModal2";
 
-const Home = () => {
+const Home = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [habitInfosVisible, setHabitInfosVisible] = useState(false);
   const [habits, setHabits] = useState("");
@@ -18,6 +19,8 @@ const Home = () => {
   const [energy, setEnergy] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const design = 1;
 
   useEffect(() => {
     // clearAllData();
@@ -34,9 +37,28 @@ const Home = () => {
   useFocusEffect(
     useCallback(() => {
       getHabits();
+
       return () => {};
     }, [])
   );
+
+  // useEffect(() => {
+  //   console.log(
+  //     "modalvisible:",
+  //     modalVisible,
+  //     "modalOpen: ",
+  //     modalOpen,
+  //     " habitInfosVisible: ",
+  //     habitInfosVisible
+  //   );
+  //   console.log(modalVisible || habitInfosVisible || modalOpen);
+  //   console.log(
+  //     "HOME STATUS COLOR: ",
+  //     modalVisible || habitInfosVisible || modalOpen
+  //       ? "#13222499"
+  //       : "transparent"
+  //   );
+  // }, [modalVisible, habitInfosVisible, modalOpen]);
 
   const onFirstOpen = async () => {
     try {
@@ -115,7 +137,12 @@ const Home = () => {
         }
       />
 
-      <MyHeader title="Energiesammlung" energy={energy} scrolled={scrolled} />
+      <MyHeader
+        title="Energiesammlung"
+        energy={energy}
+        scrolled={scrolled}
+        design={design}
+      />
 
       <HabitDefinitionModal
         modalVisible={modalVisible}
@@ -124,7 +151,7 @@ const Home = () => {
         setModalOpen={setModalOpen}
       />
 
-      <HabitInfosModal
+      <HabitInfosModal2
         habitInfosVisible={habitInfosVisible}
         setHabitInfosVisible={setHabitInfosVisible}
         habit={currentHabit}
@@ -142,6 +169,7 @@ const Home = () => {
             getHabits={getHabits}
             slots={slotz}
             setCurrentHabit={setCurrentHabit}
+            design={design}
           />
         ) : (
           <EmptyHabitsView setModalVisible={setModalVisible} />

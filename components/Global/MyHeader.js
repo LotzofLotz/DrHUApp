@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { MyText } from "./MyText";
 import Colors from "../../constants/Colors";
-import Constants from "expo-constants";
+import { Icon } from "react-native-elements";
 
-const MyHeader = ({ title, energy, scrolled }) => {
+const MyHeader = ({ title, energy, scrolled, design }) => {
   const height = Dimensions.get("window").height;
   const width = Dimensions.get("window").width;
 
@@ -35,7 +35,7 @@ const MyHeader = ({ title, energy, scrolled }) => {
           style={{
             flexDirection: "row",
             // elevation: 10,
-            margin: "4%",
+            marginHorizontal: "4%",
 
             marginTop:
               Platform.OS === "ios"
@@ -44,7 +44,31 @@ const MyHeader = ({ title, energy, scrolled }) => {
             alignItems: "flex-end",
           }}
         >
-          <View>
+          {design == 1 ? (
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 420,
+                backgroundColor: Colors.primaryLight,
+                justifyContent: "center",
+                alignItems: "center",
+                bottom: 5,
+              }}
+            >
+              {title == "Fokus" ? (
+                <Icon name={"center-focus-weak"} size={32} color={"white"} />
+              ) : (
+                <Image
+                  source={require("../../assets/BatterieiconNAVweiss.png")}
+                  style={{ width: "60%", height: "60%", resizeMode: "contain" }}
+                />
+              )}
+            </View>
+          ) : (
+            <View />
+          )}
+          <View style={{ bottom: design == 1 ? 10 : 0, left: 7 }}>
             <MyText content={title} size={width * 0.06} semiBold />
             {/* height * 0.035 */}
           </View>

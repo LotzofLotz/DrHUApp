@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { View, Dimensions, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Dimensions,
+  TouchableOpacity,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import { MyText } from "../Global/MyText";
 import Colors from "../../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,12 +15,14 @@ import getWeek from "date-fns/getWeek";
 import ProgressBar from "./ProgressBar";
 import { AntDesign } from "@expo/vector-icons";
 import { MyRecommendations } from "../Global/MyRecommendations";
+import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
 const HabitSquare = ({
   habit,
   getHabits,
   setHabitInfosVisible,
   setCurrentHabit,
+  design,
 }) => {
   const width = Dimensions.get("window").width;
 
@@ -24,9 +32,6 @@ const HabitSquare = ({
     );
     return filtered;
   };
-  useEffect(() => {
-    console.log("habit in square: ", habit);
-  }, []);
 
   const addSession = async (name) => {
     try {
@@ -67,11 +72,11 @@ const HabitSquare = ({
         // backgroundColor: "#F6F6F6", //?? imo zu weiß
         borderWidth: 3,
         // mit Shadow siehts imo besser aus
-        // elevation: 10,
-        // shadowColor: "#171717",
-        // shadowOffset: { width: 0, height: 4 },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 3,
+        elevation: design != 1 ? 10 : 0,
+        shadowColor: "#171717",
+        shadowOffset: { width: 0, height: design != 1 ? 4 : 0 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
 
         borderColor:
           filterSessions().length >= habit.value["Amount"]
@@ -201,7 +206,7 @@ const HabitSquare = ({
                 filterSessions().length +
                 "/" +
                 habit.value["Amount"] +
-                " x pro Woche"
+                "x pro Woche"
               }
               size={15}
             />

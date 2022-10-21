@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Dimensions,
-  Alert,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 import Colors from "../../constants/Colors";
@@ -21,14 +21,24 @@ import { MyRecommendations } from "../Global/MyRecommendations";
 import MyInfo from "../Global/MyInfo";
 import { Icon } from "react-native-elements";
 import { LocaleConfig } from "react-native-calendars";
+import ContentDivider from "./ContentDivider";
+import StreakView from "./StreakView";
+import { StatusBar } from "react-native";
+import { setStatusBarHidden } from "expo-status-bar";
 
 //Modal mit Möglichkeit Sessions zu entfernen, CalendarView und Streak-Stats
 
-const HabitInfosModal = (props) => {
-  const height =
-    Dimensions.get("window").height * 0.9 > 700
-      ? 700
-      : Dimensions.get("window").height * 0.9;
+const HabitInfosModal2 = (props) => {
+  const height = Dimensions.get("window").height;
+  const width = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("screen").height;
+  const statusHeight = StatusBar.currentHeight;
+  const ratio = height / width;
+  const [modalHeight, setModalHeight] = useState(0);
+  const [calendarHeight, setCalendarHeight] = useState(0);
+  // Dimensions.get("window").height * 0.9 > 700
+  //   ? 700
+  //   : Dimensions.get("window").height * 0.9;
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [batteries, setBatteries] = useState(0);
   const [currStreak, setCurrStreak] = useState(0);
@@ -41,6 +51,21 @@ const HabitInfosModal = (props) => {
   const markedObject = {};
   const [perfectWeeks, setPerfectWeeks] = useState([]);
   const [sessionDates, setSessionDates] = useState([]);
+  const modalPercentage = Platform.OS == "android" ? 0.9 : 0.94;
+  // const freeSpace = height * modalPercentage - calendarHeight;
+  const freeSpace =
+    (screenHeight - statusHeight) * modalPercentage - calendarHeight;
+  const availableSpace = freeSpace;
+
+  useEffect(() => {
+    console.log("Height total:", height);
+    console.log("screen height:", screenHeight);
+    // console.log("modal Height: ", modalHeight);
+    // console.log("calendar height: ", calendarHeight);
+    console.log("available space: ", availableSpace);
+
+    console.log("statusBarHeight:", statusHeight);
+  }, [modalHeight, calendarHeight]);
 
   LocaleConfig.locales["de"] = {
     monthNames: [
@@ -214,17 +239,16 @@ const HabitInfosModal = (props) => {
   const deleteHabit = async (name) => {
     try {
       await AsyncStorage.removeItem("Habit_" + name);
-      // Alert.alert("Habit " + name + " erfolgreich gelöscht");
       props.getHabits();
-      props.setHabitInfosVisible(false);
+      setInfoVisible(false);
     } catch (e) {
       console.log(e);
     }
   };
 
   const editHabit = () => {
-    props.setHabitInfosVisible(false);
-    props.getHabits();
+    // props.setHabitInfosVisible(false);
+    // props.getHabits();
     setEditModalVisible(true);
   };
 
@@ -306,322 +330,258 @@ const HabitInfosModal = (props) => {
         perfectWeeks={perfectWeeks}
         sessionDates={sessionDates}
       />
-      <MyInfo
-        color={Colors.pink}
-        isVisible={infoVisible}
-        setIsVisible={setInfoVisible}
-        text={"Bist du sicher? Alle Einträge gehen hiermit verloren"}
-        onPress={() => deleteHabit(props.habit?.value["Name"])}
-        onXPress={() => setInfoVisible(false)}
-        buttonName={"löschen"}
-        icon={"questionmark"}
-      />
       <Modal
         isVisible={props.habitInfosVisible}
         animationIn="slideInDown"
         backdropColor={"#132224"}
         backdropOpacity={infoVisible ? 0 : 0.6}
         animationOut="slideOutUp"
-        style={{ marginVertical: 0, top: "4%" }}
-        // useNativeDriver={true}
         onBackdropPress={() => props.setHabitInfosVisible(false)}
-      >
-        <View
-          style={
-            {
-              // height: height,
-              // maxHeight: height,
-            }
+        // style={{ height: height * modalPercentage }}
+        style={
+          {
+            // marginHorizontal: "5%",
+            // marginVertical: availableSpace * 0.05,
+            // marginBottom: 0,
           }
-        >
+        }
+      >
+        <MyInfo
+          color={Colors.primaryLight}
+          isVisible={infoVisible}
+          setIsVisible={setInfoVisible}
+          text={"Bist du sicher? Alle Einträge gehen hiermit verloren!"}
+          onPress={() => {
+            deleteHabit(props.habit?.value["Name"]);
+            setInfoVisible(false);
+            props.setHabitInfosVisible(false);
+          }}
+          onXPress={() => {
+            setInfoVisible(false);
+          }}
+          buttonName={"Löschen"}
+        />
+        <View>
           <ScrollView
+            scrollEventThrottle={1000}
             style={{
+              // top: "2%",
               backgroundColor: "white",
               borderRadius: 10,
-              width: "100%",
+              padding: "4%",
+              // paddingHorizontal: "4%",
+              // paddingVertical: "2%",
             }}
           >
-            <View style={{ marginHorizontal: "4%", marginVertical: "2%" }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View style={{ width: "90%" }}>
-                  <MyText
-                    content={
-                      props.habit?.value["Recommended"] == false
-                        ? props.habit?.value["Name"]
-                        : MyRecommendations[props.habit?.value["Name"]]?.name
-                    }
-                    semiBold
-                    size={height * 0.04}
-                  />
-                </View>
-                {/* <View
-                  style={{
-                    flexDirection: "row",
-                    width: "20%",
-                    justifyContent: "space-evenly",
-                  }}
-                > */}
-                {/* <MaterialIcons
-                    name="edit"
-                    size={height * 0.05}
-                    color={Colors.primaryDark}
-                    onPress={() => editHabit(props.habit?.value["Name"])}
-                  />
-                  <MyInfo
-                    color={Colors.pink}
-                    isVisible={infoVisible}
-                    setIsVisible={setInfoVisible}
-                    text={
-                      "Bist du sicher? Alle Einträge gehen hiermit verloren"
-                    }
-                    onPress={() => deleteHabit(props.habit?.value["Name"])}
-                    onXPress={() => setInfoVisible(false)}
-                    buttonName={"löschen"}
-                    icon={"questionmark"}
-                  />
-                  <MaterialIcons
-                    onPress={() => {
-                      setInfoVisible(true);
-                    }}
-                    name="delete"
-                    size={height * 0.05}
-                    color={Colors.primaryDark}
-                  /> */}
-
-                <TouchableOpacity
-                  style={{ top: "2%" }}
-                  onPress={() => (
-                    props.setHabitInfosVisible(false), props.setModalOpen(false)
-                  )}
-                >
-                  <Icon name="close" />
-                </TouchableOpacity>
-                {/* </View> */}
-              </View>
-
-              <MyText
-                content={props.habit?.value["Amount"] + "x pro Woche"}
-                size={height * 0.024}
-              />
-            </View>
-            <View>
-              {/* AUSBAUFÄHIG, nicht genauso groß wie im habitsquare etc.  */}
-              <View
-                style={{
-                  marginTop: "3%",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <MaterialIcons
-                  onPress={() => {
-                    step > 0
-                      ? removeSession(props.habit?.value["Name"])
-                      : console.log("nix zum abziehen");
-                  }}
-                  name="do-not-disturb-on"
-                  size={height * 0.07}
-                  color={Colors.primaryDark}
-                  style={{ right: "24%" }}
-                />
-                <View
-                  style={{
-                    left: "6%",
-                    height: height * 0.125,
-                    width: "50%",
-                    borderRadius: 12,
-                    borderWidth: 7,
-                    borderColor: Colors.primaryDark,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ProgressBar
-                    color={props.habit?.value["Color"]}
-                    steps={props.habit?.value["Amount"]}
-                    step={step}
-                    name={props.habit?.value["Icon"]}
-                  />
-                </View>
-                <View
-                  style={{
-                    height: height * 0.06,
-                    width: height * 0.024,
-                    backgroundColor: Colors.primaryDark,
-                    borderTopRightRadius: 7,
-                    borderBottomRightRadius: 7,
-                  }}
-                />
-
-                <MaterialIcons
-                  onPress={() => addSession(props.habit?.value["Name"])}
-                  name="add-circle"
-                  size={height * 0.07}
-                  color={Colors.primaryDark}
-                  style={{ left: "24%" }}
-                />
-              </View>
-              <View>
-                {markedObject.length == 0 ? (
-                  <MyText content="Loading" />
-                ) : (
-                  <Calendar
-                    // style={{ marginHorizontal: "4%" }}
-                    firstDay={1}
-                    // showWeekNumbers={true}
-                    hideDayNames={true}
-                    theme={{
-                      arrowColor: Colors.primaryDark,
-                      dayTextColor: Colors.primaryDark,
-                      monthTextColor: Colors.primaryDark,
-                      textSectionTitleColor: Colors.primaryDark,
-                      todayTextColor: Colors.primaryLight, // welche Farbe?
-                      textDayFontSize: height * 0.022,
-                      textMonthFontSize: height * 0.022,
-                      textDayHeaderFontSize: height * 0.022,
-                    }}
-                    markedDates={calendarObject}
-                  />
-                )}
-              </View>
-            </View>
             <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
+              onLayout={(event) => {
+                setModalHeight(event.nativeEvent.layout.height);
               }}
             >
               <View
                 style={{
-                  marginTop: "2%",
-                  borderBottomColor: "lightgrey",
-                  borderBottomWidth: 2,
-                  width: "92%",
+                  height: availableSpace * 0.18,
+                  // backgroundColor: "lightgreen",
                 }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: "90%",
+
+                      bottom: "2%",
+                    }}
+                  >
+                    <MyText
+                      content={
+                        props.habit?.value["Recommended"] == false
+                          ? props.habit?.value["Name"]
+                          : MyRecommendations[props.habit?.value["Name"]]?.name
+                      }
+                      semiBold
+                      size={height * 0.036}
+                    />
+                  </View>
+
+                  <TouchableOpacity
+                    // style={{ top: "2%" }}
+                    onPress={() => (
+                      props.setHabitInfosVisible(false),
+                      props.setModalOpen(false)
+                    )}
+                  >
+                    <Icon name="close" />
+                  </TouchableOpacity>
+                </View>
+                <View style={{ bottom: "14%" }}>
+                  <MyText
+                    content={props.habit?.value["Amount"] + "x pro Woche"}
+                    size={height * 0.02}
+                  />
+                </View>
+              </View>
+
+              <View>
+                {/* AUSBAUFÄHIG, nicht genauso groß wie im habitsquare etc.  */}
+                <View
+                  style={{
+                    height: availableSpace * 0.35,
+                    // backgroundColor: "pink",
+                    zIndex: 420,
+                    // marginTop: "3%",
+                    marginBottom: "-2%",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <MaterialIcons
+                    onPress={() => {
+                      step > 0
+                        ? removeSession(props.habit?.value["Name"])
+                        : console.log("nix zum abziehen");
+                    }}
+                    name="do-not-disturb-on"
+                    size={ratio * 30}
+                    color={Colors.primaryDark}
+                    // style={{ right: "20%" }}
+                  />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        height: ratio * 45,
+                        width: ratio * 90,
+                        borderRadius: 12,
+                        borderWidth: 7,
+                        borderColor: Colors.primaryDark,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ProgressBar
+                        color={props.habit?.value["Color"]}
+                        steps={props.habit?.value["Amount"]}
+                        step={step}
+                        name={props.habit?.value["Icon"]}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        height: ratio * 24,
+                        width: ratio * 7,
+                        backgroundColor: Colors.primaryDark,
+                        borderTopRightRadius: 7,
+                        borderBottomRightRadius: 7,
+                      }}
+                    />
+                  </View>
+
+                  <MaterialIcons
+                    onPress={() => addSession(props.habit?.value["Name"])}
+                    name="add-circle"
+                    size={ratio * 30}
+                    color={Colors.primaryDark}
+                  />
+                </View>
+                <View>
+                  {markedObject.length == 0 ? (
+                    <MyText content="Loading" />
+                  ) : (
+                    <View
+                      onLayout={(event) => {
+                        setCalendarHeight(event.nativeEvent.layout.height);
+                      }}
+                    >
+                      <Calendar
+                        firstDay={1}
+                        theme={{
+                          "stylesheet.calendar.header": {
+                            // monthText: { margin: 0 },
+                            week: {
+                              marginHorizontal: "2%",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                            },
+                          },
+                          arrowColor: Colors.primaryDark,
+                          dayTextColor: Colors.primaryDark,
+                          monthTextColor: Colors.primaryDark,
+                          textSectionTitleColor: Colors.primaryDark,
+                          todayTextColor: Colors.primaryLight, // welche Farbe?
+                          textDayFontSize: height * 0.022,
+                          textMonthFontSize: height * 0.022,
+                          textDayHeaderFontSize: height * 0.022,
+                        }}
+                        markedDates={calendarObject}
+                      />
+                    </View>
+                  )}
+                </View>
+              </View>
+
+              <View
+                style={{
+                  // backgroundColor: "lightblue",
+                  height: availableSpace * 0.3,
+                }}
+              >
+                <View
+                  style={{
+                    borderBottomColor: Colors.primaryLight,
+                    borderBottomWidth: 1,
+                    width: "100%",
+                  }}
+                />
+
+                <StreakView
+                  ratio={ratio}
+                  color={props.habit?.value["Color"]}
+                  currentStreak={currStreak}
+                  longestStreak={longestStreak}
+                  batteries={batteries}
+                  height={height}
+                />
+              </View>
+
+              <ContentDivider
+                content="Edit&Delete"
+                size={height * 0.018}
+                height={availableSpace * 0.1}
               />
+
               <View
                 style={{
-                  flexDirection: "row",
-                  margin: "1%",
-                  justifyContent: "space-around",
                   width: "100%",
-                  marginBottom: "2%",
-                }}
-              >
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <MyText content="aktuelle" size={height * 0.024} />
-                  <MyText content="Streak" size={height * 0.024} />
-                  <View
-                    style={{
-                      height: height * 0.075,
-                      width: height * 0.075,
-                      borderRadius: 420,
-                      backgroundColor: props.habit?.value["Color"],
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <MyText
-                      content={currStreak}
-                      color="white"
-                      size={height * 0.032}
-                    />
-                  </View>
-                </View>
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <MyText content="längste " size={height * 0.024} />
-                  <MyText content="Streak" size={height * 0.024} />
-                  <View
-                    style={{
-                      height: height * 0.075,
-                      width: height * 0.075,
-                      borderRadius: 420,
-                      backgroundColor: Colors.primaryDark,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <MyText
-                      content={longestStreak}
-                      color="white"
-                      size={height * 0.032}
-                    />
-                  </View>
-                </View>
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <MyText content="Batterien" size={height * 0.024} />
-                  <MyText content="verdient" size={height * 0.024} />
-                  <View
-                    style={{
-                      height: height * 0.075,
-                      width: height * 0.075,
-                      borderRadius: 420,
-                      backgroundColor: Colors.yellow,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <MyText
-                      content={batteries}
-                      color="white"
-                      size={height * 0.032}
-                    />
-                  </View>
-                </View>
-              </View>
-              <MyText content="Editieren und Löschen" size={height * 0.022} />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                  marginBottom: "2%",
-                }}
-              >
-                <View
-                  style={{
-                    borderBottomColor: Colors.primaryLight,
-                    borderBottomWidth: 1,
-                    width: "42%",
-                    bottom: "3%",
-                  }}
-                />
-                <MaterialIcons
-                  style={{}}
-                  name="keyboard-arrow-down"
-                  size={24}
-                  color={Colors.primaryDark}
-                />
-                <View
-                  style={{
-                    borderBottomColor: Colors.primaryLight,
-                    borderBottomWidth: 1,
-                    width: "42%",
-                    bottom: "3%",
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  // flexDirection: "row",
-                  width: "100%",
-                  height: "15%",
+                  height: height * 0.13,
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "10%",
+                  justifyContent: "space-around",
+                  marginVertical: "5%",
                 }}
               >
+                <TouchableOpacity
+                  onPress={() => editHabit(props.habit?.value["Name"])}
+                  style={{
+                    width: "80%",
+                    height: height * 0.05,
+                    borderWidth: 1,
+                    borderColor: Colors.primaryDark,
+                    borderRadius: 30,
+                    justifyContent: "center",
+                  }}
+                >
+                  <MyText content="Batterie bearbeiten" center />
+                </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     setInfoVisible(true);
@@ -631,22 +591,10 @@ const HabitInfosModal = (props) => {
                     height: height * 0.05,
                     backgroundColor: Colors.pink,
                     borderRadius: 30,
+                    justifyContent: "center",
                   }}
                 >
                   <MyText content="Batterie löschen" center color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => editHabit(props.habit?.value["Name"])}
-                  style={{
-                    width: "80%",
-                    height: height * 0.05,
-                    borderWidth: 1,
-                    borderColor: Colors.primaryDark,
-
-                    borderRadius: 30,
-                  }}
-                >
-                  <MyText content="Batterie bearbeiten" center />
                 </TouchableOpacity>
               </View>
             </View>
@@ -657,4 +605,4 @@ const HabitInfosModal = (props) => {
   );
 };
 
-export default HabitInfosModal;
+export default HabitInfosModal2;

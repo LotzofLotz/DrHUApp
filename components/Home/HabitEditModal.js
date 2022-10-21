@@ -117,7 +117,7 @@ const HabitEditModal = (props) => {
       <Modal
         isVisible={props.editModalVisible}
         animationIn="slideInUp"
-        useNativeDriver={true}
+        // useNativeDriver={true}
         backdropColor={"#132224"}
         backdropOpacity={infoVisible ? 0 : 0.6}
         animationOut="slideOutUp"
@@ -263,11 +263,13 @@ const HabitEditModal = (props) => {
               setInfoVisible(false),
                 props.setModalOpen(false),
                 props.setEditModalVisible(false);
+              props.setInfoModalVisible(false);
             }}
             onXPress={() => {
               setInfoVisible(false),
                 props.setModalOpen(false),
                 props.setEditModalVisible(false);
+              props.setInfoModalVisible(false);
             }}
             buttonName={"Ok cool "}
           />

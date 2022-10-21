@@ -79,7 +79,7 @@ const HabitRecommendationModal = (props) => {
         backdropColor={"#132224"}
         backdropOpacity={existingInfoVisible ? 0 : 0.6}
         animationOut="slideOutDown"
-        useNativeDriver={true}
+        // useNativeDriver={true}
         onBackdropPress={() => {
           console.log("backdroppress triggered");
           props.setRecommendationModalVisible(false);
@@ -112,7 +112,7 @@ const HabitRecommendationModal = (props) => {
           <View
             style={{
               width: "100%",
-              margin: "4%",
+              // margin: "4%",
               padding: "4%",
               // marginVertical: "2%",
             }}
@@ -407,13 +407,10 @@ const HabitRecommendationModal = (props) => {
                     backgroundColor: Colors.yellow,
                     marginTop: modalHeight * 0.02,
                     paddingHorizontal: modalHeight * 0.03,
-                    justifyContent: "center",
-                    alignItems: "center",
                     paddingVertical: 10,
                   }}
                 >
-                  {/* <MyText content={recommendation?.name + " hinzufügen"} center /> */}
-                  <MyText content={"Habit hinzufügen"} center />
+                  <MyText content={"Batterie hinzufügen"} center />
                 </View>
               </TouchableOpacity>
             </View>
