@@ -86,19 +86,19 @@ const MyTabBar = ({ navigation }) => {
           position: "absolute",
           borderColor: Colors.yellow,
           borderWidth: focused == "Home" && design != 1 ? 3 : 0,
-          width: focused == "Home" ? middleIconSize : 84,
-          height: focused == "Home" ? middleIconSize : 84,
+          width: focused == "Home" && design != 1 ? middleIconSize : 84,
+          height: focused == "Home" && design != 1 ? middleIconSize : 84,
           borderRadius: midRadius,
           backgroundColor:
             design == 1 && focused == "Home"
               ? Colors.primaryLight
               : Colors.primaryDark,
           left:
-            focused == "Home"
+            focused == "Home" && design != 1
               ? width / 2 - midRadius
               : width / 2 - midRadius + 3,
           bottom:
-            focused == "Home"
+            focused == "Home" && design != 1
               ? tabBarHeight - midRadius
               : tabBarHeight - midRadius + 3,
           alignItems: "center",

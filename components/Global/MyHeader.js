@@ -22,6 +22,7 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
           width: "100%",
           backgroundColor: "white",
           shadowColor: "#000",
+
           shadowOffset: {
             width: 0,
             height: scrolled ? 1 : 0,
@@ -36,6 +37,7 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
             flexDirection: "row",
             // elevation: 10,
             marginHorizontal: "4%",
+            justifyContent: "space-between",
 
             marginTop:
               Platform.OS === "ios"
@@ -44,7 +46,8 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
             alignItems: "flex-end",
           }}
         >
-          {design == 1 ? (
+          {/* {design == 1 ? ( */}
+          <View style={{ flexDirection: "row" }}>
             <View
               style={{
                 width: 50,
@@ -61,25 +64,30 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
               ) : (
                 <Image
                   source={require("../../assets/BatterieiconNAVweiss.png")}
-                  style={{ width: "60%", height: "60%", resizeMode: "contain" }}
+                  style={{
+                    width: "60%",
+                    height: "60%",
+                    resizeMode: "contain",
+                  }}
                 />
               )}
             </View>
-          ) : (
-            <View />
-          )}
-          <View style={{ bottom: design == 1 ? 10 : 0, left: 7 }}>
-            <MyText content={title} size={width * 0.06} semiBold />
-            {/* height * 0.035 */}
+            <View style={{ top: 2, left: 5 }}>
+              <MyText content={title} size={width * 0.06} semiBold />
+              {/* height * 0.035 */}
+            </View>
           </View>
+          {/* ) : (
+            <View />
+          )} */}
 
           <View
             style={{
-              position: "absolute",
-              right: 0,
-              top: 0,
+              // position: "absolute",
+              // right: 0,
+              bottom: 6,
               flexDirection: "row",
-              width: "20%",
+              // width: "18%",
             }}
           >
             <Image
@@ -88,7 +96,7 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
             />
             <MyText
               color={Colors.primaryDark}
-              content={" " + energy + "x"}
+              content={energy + "x"}
               bold
               size={width * 0.07}
             />

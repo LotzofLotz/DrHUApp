@@ -9,6 +9,9 @@ import Energy from "./Energy";
 import Breath from "./Breath";
 import Mind from "./Mind";
 import FullFocusModal from "./FullFocusModal";
+import AudiosView from "./AudiosView";
+import MyInfo from "../Global/MyInfo";
+import { Slider } from "react-native-elements";
 
 const FocusModal = ({
   focusModalVisible,
@@ -18,19 +21,54 @@ const FocusModal = ({
   ratio,
   setDarkModalVisible,
   setCompleted,
+  energy,
+  getEnergy,
 }) => {
   const height =
     Dimensions.get("window").height * 0.9 > 700
       ? 700
       : Dimensions.get("window").height * 0.9;
 
+  const bodyAudios = ["BodyScan1", "BodyScan2", "BodyScan3"];
+  const soulAudios = [
+    "Meditation1",
+    "Meditation2",
+    "Meditation3",
+    "Meditation4",
+    "Meditation5",
+    "Meditation6",
+    "Meditation7",
+  ];
+  const breathAudios = ["Breath1", "Breath2", "Breath3"];
+  const [chosenAudio, setChosenAudio] = useState("");
+  const [chosenTime, setChosenTime] = useState(40);
+
   const [fullModalVisible, setFullModalVisible] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
+
   return (
     <View>
       <FullFocusModal
+        chosenAudio={chosenAudio}
+        chosenTime={chosenTime}
         fullModalVisible={fullModalVisible}
         setFullModalVisible={setFullModalVisible}
         setDarkModalVisible={setDarkModalVisible}
+        setFocusModalVisible={setFocusModalVisible}
+        machine={machine}
+        setCompleted={setCompleted}
+        energy={energy}
+        getEnergy={getEnergy}
+      />
+      <MyInfo
+        color={Colors.primaryLight}
+        isVisible={infoVisible}
+        setIsVisible={setInfoVisible}
+        text={"Wähle zuerst einen Track aus!"}
+        onPress={() => setInfoVisible(false)}
+        onXPress={() => setInfoVisible(false)}
+        buttonName={"Okay"}
+        icon={"questionmark"}
       />
       <Modal
         isVisible={focusModalVisible}
@@ -40,6 +78,7 @@ const FocusModal = ({
         animationOut="slideOutUp"
         onBackdropPress={() => {
           setFocusModalVisible(false);
+          setChosenAudio("");
         }}
       >
         <View
@@ -48,8 +87,6 @@ const FocusModal = ({
             backgroundColor: "white",
             borderRadius: 10,
             padding: "4%",
-            // margin: "4%",
-
             justifyContent: "space-between",
           }}
         >
@@ -76,6 +113,7 @@ const FocusModal = ({
             <TouchableOpacity
               onPress={() => {
                 setFocusModalVisible(false);
+                setChosenAudio("");
               }}
             >
               <Icon name="close" color={Colors.primaryDark} />
@@ -98,12 +136,9 @@ const FocusModal = ({
           </View>
           <View
             style={{
-              // height: "30%",
-              // backgroundColor: "lightgrey",
               marginVertical: "5%",
               flexDirection: "row",
               justifyContent: "space-between",
-              // flex: 1,
             }}
           >
             <View style={{ width: "70%" }}>
@@ -131,19 +166,61 @@ const FocusModal = ({
               )}
             </View>
           </View>
-          <View
-            style={{
-              height: "34%",
-              borderRadius: 20,
-              borderWidth: 0.7,
-              borderColor: Colors.primaryDark,
-            }}
-          ></View>
+
+          {machine != "Energy" ? (
+            <AudiosView
+              audios={
+                machine == "Cryo"
+                  ? bodyAudios
+                  : machine == "Breath"
+                  ? breathAudios
+                  : soulAudios
+              }
+              setChosenAudio={setChosenAudio}
+              chosenAudio={chosenAudio}
+              machine={machine}
+            />
+          ) : (
+            // Fokus-Timer-View
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <MyText content="Wie lange willst du deine Energie fokussieren? " />
+              <Slider
+                style={{ width: "70%", height: 20 }}
+                value={40}
+                minimumValue={25}
+                maximumValue={60}
+                thumbTintColor={Colors.primaryDark}
+                maximumTrackTintColor={Colors.primaryLight}
+                minimumTrackTintColor={Colors.primaryDark}
+                thumbStyle={{ width: 20, height: 20 }}
+                onValueChange={(value) =>
+                  setChosenTime(Math.ceil(value / 5) * 5)
+                }
+              />
+              <View
+                style={{
+                  marginTop: 20,
+                  width: "40%",
+                  height: 40,
+                  backgroundColor: Colors.primaryLight,
+                  borderRadius: 20,
+                  justifyContent: "center",
+                }}
+              >
+                <MyText
+                  content={chosenTime + " Minuten"}
+                  center
+                  color="white"
+                />
+              </View>
+            </View>
+          )}
+
           <TouchableOpacity
             onPress={() => {
-              setDarkModalVisible(true),
-                setFullModalVisible(true),
-                setCompleted(!completed);
+              chosenAudio == "" && machine != "Energy"
+                ? setInfoVisible(true)
+                : (setDarkModalVisible(true), setFullModalVisible(true));
             }}
           >
             <View

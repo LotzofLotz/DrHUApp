@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Dimensions, TouchableOpacity } from "react-native";
 import MyHeader from "../components/Global/MyHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,6 +10,7 @@ import SockelContent from "../components/Focus/SockelContent";
 import FocusModal from "../components/Focus/FocusModal";
 import { StatusBar } from "expo-status-bar";
 import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Focus = ({}) => {
   const [energy, setEnergy] = useState(0);
@@ -29,6 +30,14 @@ const Focus = ({}) => {
     getEnergy();
   }, []);
 
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     console.log("focus effect triggered"), getEnergy();
+
+  //     return () => {};
+  //   }, [])
+  // );
+
   useEffect(() => {
     console.log("fokus visible?: ", focusModalVisible);
     console.log("darkmode: ", darkModalVisible);
@@ -43,6 +52,7 @@ const Focus = ({}) => {
   }, [focusModalVisible, darkModalVisible]);
 
   const getEnergy = async () => {
+    console.log("get energy triggered");
     try {
       const energy = await AsyncStorage.getItem("Energy");
       setEnergy(energy);
@@ -57,7 +67,7 @@ const Focus = ({}) => {
         translucent={true}
         backgroundColor={
           focusModalVisible && darkModalVisible && focused
-            ? "black"
+            ? "#132224"
             : focusModalVisible && focused
             ? "#13222499"
             : "transparent"
@@ -94,6 +104,7 @@ const Focus = ({}) => {
         setFocusModalVisible={setFocusModalVisible}
       />
       <FocusModal
+        energy={energy}
         setDarkModalVisible={setDarkModalVisible}
         focusModalVisible={focusModalVisible}
         setFocusModalVisible={setFocusModalVisible}
@@ -101,6 +112,7 @@ const Focus = ({}) => {
         completed={completed}
         setCompleted={setCompleted}
         ratio={ratio}
+        getEnergy={getEnergy}
       />
     </View>
   );

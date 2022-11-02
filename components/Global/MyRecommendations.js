@@ -58,7 +58,7 @@ export const MyRecommendations = {
     icon: "pool",
     color: Colors.primaryLight,
     category: "physisch",
-    quote: "suiiiii",
+    quote: "Geheimtipp: Du kannst stattdessen auch 2-3 Kilo Schnee essen",
     link: "https://www.tk.de/resource/blob/2068046/bd46027dfa77051c1ffa5c66df7612c2/trink-was-ser--deutschland---tk-trinkstudie-2019-data.pdf",
   },
   Pause: {

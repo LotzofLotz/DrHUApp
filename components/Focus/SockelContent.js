@@ -96,8 +96,7 @@ const SockelContent = ({
           top: (height / width) * 52,
           zIndex: 420,
         }}
-        onPress={() => (setFocusModalVisible(true), setCompleted(true))}
-        // setCompleted(!completed)
+        onPress={() => setFocusModalVisible(true)}
       >
         <Triangle
           width={height * 0.02}
