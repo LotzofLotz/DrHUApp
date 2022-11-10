@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
-import { View, TouchableOpacity, Touchable } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import Colors from "../../constants/Colors";
-import { Slider, Icon } from "react-native-elements";
-import { Audio, AVPlaybackStatus } from "expo-av";
+import { Audio } from "expo-av";
 import { useEffect } from "react";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import MyInfo from "../Global/MyInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AudioList from "./AudioList";
+import FullFocusContent from "./FullFocusContent";
 
 const FullFocusModal = ({
   fullModalVisible,
@@ -19,36 +18,72 @@ const FullFocusModal = ({
   chosenAudio,
   machine,
   chosenTime,
-  setCompleted,
   energy,
   getEnergy,
+  setMindComplete,
+  setFocusComplete,
+  setCryoComplete,
+  setBreathComplete,
 }) => {
-  const status = {
+  const initialStatus = {
     shouldPlay: false,
-    volume: 0.5,
+    volume: 1,
     positionMillis: 0,
   };
-  const [sound, setSound] = useState();
-  const [newSound, setNewSound] = useState(new Audio.Sound());
-  const [duration, setDuration] = useState(0);
 
+  Audio.setAudioModeAsync({ staysActiveInBackground: true });
+
+  const [sound, setSound] = useState();
+  const [duration, setDuration] = useState(1);
+  const [position, setPosition] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(0);
   const [infoVisible, setInfoVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
-  // useEffect(() => {
-  //   if (fullModalVisible == true) {
-  //     // loadSound();
-  //     playSound2();
-  //   }
-  // }, [fullModalVisible]);
+  useEffect(() => {
+    console.log("isPlaying:", isPlaying);
+  }, [isPlaying]);
+
+  async function loadSound() {
+    console.log(" loading sound");
+    const { sound: playbackInstance } = await Audio.Sound.createAsync(
+      require("../../assets/Audios/Achtsamkeit1.mp3"),
+      initialStatus,
+      onPlayBackStatusUpdate
+      // (progressUpdateInteralMillis = 1000)
+    );
+    setSound(playbackInstance);
+    console.log("sound loaded!");
+    playbackInstance.getStatusAsync().then(function (result) {
+      console.log("duration in seconds:", result.durationMillis / 1000);
+      setDuration(result.durationMillis);
+    });
+  }
+
+  onPlayBackStatusUpdate = (playbackStatus) => {
+    if (playbackStatus.isPlaying) {
+      setPosition(playbackStatus.positionMillis);
+    }
+    if (playbackStatus.didJustFinish) {
+      console.log("ERFOLGREICH AUDIO ANGEHÖRT!!!!!");
+      addBattery();
+      setInfoVisible(true);
+      unloadSound();
+    }
+    if (playbackStatus.isLoaded) {
+      console.log("isLoaded!");
+    }
+    if (!playbackStatus.isLoaded) {
+      console.log("SOUND IS NOT LOADED AMK");
+    }
+  };
 
   useEffect(() => {
-    console.log("::", newSound.positionMillis);
-  }, [newSound]);
-
-  useEffect(() => {
-    console.log("duration:", duration);
-  }, [duration]);
+    if (fullModalVisible) {
+      loadSound(); // sollte nicht beim öffnen des Fokus-Tabs getriggert werden
+    }
+  }, [fullModalVisible]);
 
   const addBattery = async () => {
     try {
@@ -59,99 +94,114 @@ const FullFocusModal = ({
     getEnergy();
   };
 
-  async function loadSound() {
-    console.log("load sound triggered");
-    // const { sound } = await Audio.Sound.createAsync(
-    //   require("../../assets/Audios/SUI.mp3")
-    // );
-    // await Audio.setSound(sound);
-    switch (chosenAudio) {
-      case "Meditation1":
-        await newSound.loadAsync(
-          AudioList.Meditation1,
-          // status,
-          // false,
-          (status) => console.log(":::::", status.positionMilis)
-        );
-        break;
+  const handlePlayPausePress = () => {
+    console.log("HANDLEPLAYPAUSE IS PLAYING?", isPlaying);
+    isPlaying ? pauseSound() : playSound();
+  };
 
-      default:
-        await newSound.loadAsync(AudioList.Meditation1, status, false);
+  const playSound = () => {
+    console.log("play sound triggered ");
+    sound
+      .playAsync()
+
+      // .then(async (playbackStatus) => {
+      //   console.log("JAJAJJAJAA", playbackStatus); /////EYYYYYYYYY
+
+      //   console.log("POSITION Seconds:", playbackStatus.positionMillis / 1000);
+      // })
+
+      .catch((error) => {
+        console.log(error);
+      });
+    setIsPlaying(true);
+  };
+
+  const pauseSound = async () => {
+    try {
+      console.log("pause sound triggered ");
+      sound.pauseAsync();
+    } catch (e) {
+      console.log(e);
     }
+    setIsPlaying(false);
+  };
 
-    newSound.setOnPlaybackStatusUpdate(() =>
-      setDuration(status.positionMillis)
-    ),
-      newSound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+  const onForward = async () => {
+    try {
+      sound.playFromPositionAsync(position + 10000);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    // await newSound.loadAsync(
-    //   // require("../../assets/Audios/SUI.mp3"),
+  const onBackward = async () => {
+    try {
+      sound.playFromPositionAsync(position - 10000);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    //   // AudioList.Meditation1,
-    //   pfad,
-    //   status,
-    //   false
-    // );
-    // sound.getStatusAsync().then(function (result) {
-    //   console.log("duration in seconds: ", result.durationMillis / 1000);
-    //   console.log("position:", result.positionMillis);
-    //   console.log(result.isPlaying);
-    //   setDuration(result.durationMillis);
-    // });
-  }
+  const setCompleted = () => {
+    machine == "Cryo"
+      ? setCryoComplete(true)
+      : machine == "Breath"
+      ? setBreathComplete(true)
+      : machine == "Focus"
+      ? setFocusComplete(true)
+      : setMindComplete(true);
+  };
 
-  async function playSound() {
-    // console.log("Loading Sound");
-    // console.log(soundPfad);
-    // const { sound } = await Audio.Sound.createAsync(
-    //   require("../../assets/Audios/SUI.mp3")
-    //   // require(soundPfad)
-    // );
-    // setSound(sound);
+  const onStartSlide = () => {
+    console.log("HIER NOXHMAL IS PLAYING:", isPlaying);
+    !isPlaying
+      ? console.log("STOP FUCKING WITH ME")
+      : console.log("heheh züü ");
+  };
 
-    console.log("Playing Sound");
+  const onSlide = async (value) => {
+    // console.log("SLIDE SLIDE SLIDE");
+    // console.log("trying to play from position ", value);
+    try {
+      // await sound.setPositionAsync(value);
+      // console.log("trying to play from position ");
+      // await sound.playFromPositionAsync(value);
+      {
+        isPlaying
+          ? await sound.playFromPositionAsync(value)
+          : await sound.setPositionAsync(value);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    // await sound.playAsync();
-    // sound.getStatusAsync().then(function (result) {
-    //   console.log(":::", result.positionMillis);
-    // });
-    await newSound.playAsync();
-  }
-
-  async function playSound2() {
-    const { sound, status } = await Audio.Sound.createAsync(
-      require("../../assets/Audios/SUI.mp3"),
-      (status) => console.log("HIER:", status.positionMilis)
-    );
-    setSound(sound);
-    await sound.playAsync();
-    sound.setOnPlaybackStatusUpdate(() => setDuration(status.positionMilis));
-  }
-
-  // React.useEffect(() => {
-  //   return sound
-  //     ? () => {
-  //         console.log("Unloading Sound");
-  //         sound.unloadAsync();
-  //       }
-  //     : undefined;
-  // }, [sound]);
+  const unloadSound = async () => {
+    setPosition(0);
+    try {
+      sound.unloadAsync(), console.log("unloading sound");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   React.useEffect(() => {
-    return newSound
+    return sound
       ? () => {
-          console.log("Unloading Sound");
-          newSound.unloadAsync();
+          console.log("Unloading Sound in useEffect");
+          sound.unloadAsync();
+          setPosition(0);
+          setIsPlaying(false);
         }
       : undefined;
-  }, [newSound]);
+  }, [sound]);
 
   return (
     <Modal
       visible={fullModalVisible}
       style={{ margin: 0, backgroundColor: "#132224" }}
     >
-      <MyInfo
+      <MyInfo //Success-Info-Box
         color={Colors.primaryLight}
         isVisible={infoVisible}
         setIsVisible={setInfoVisible}
@@ -161,19 +211,19 @@ const FullFocusModal = ({
           setFullModalVisible(false),
           setDarkModalVisible(false),
           setFocusModalVisible(false),
-          setCompleted(true)
+          setCompleted()
         )}
         onXPress={() => (
           setInfoVisible(false),
           setFullModalVisible(false),
-          setCompleted(true),
+          setCompleted(),
           setFocusModalVisible(false),
           setDarkModalVisible(false)
         )}
         buttonName={"Lets go!"}
         icon={"questionmark"}
       />
-      <MyInfo
+      <MyInfo // Failure-Info-Box
         color={Colors.pink}
         isVisible={alertVisible}
         setIsVisible={setAlertVisible}
@@ -189,113 +239,47 @@ const FullFocusModal = ({
         buttonName={"Trotzdem abbrechen"}
       />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <View
+        <View // header TODO: make size responsive
           style={{
-            marginVertical: "5%",
-            width: "80%",
-            height: "50%",
-            backgroundColor: Colors.primaryDark,
-            borderRadius: 20,
-            // justifyContent: "center",
-            alignItems: "center",
+            position: "absolute",
+            right: 10,
+            top: 10,
+            flexDirection: "row",
+            zIndex: 420,
           }}
         >
-          <View
-            style={{
-              height: "50%",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                height: "50%",
-                width: "60%",
-                borderRadius: 18,
-                borderWidth: 7,
-                borderColor: "white",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* <ProgressBar
-                        color={props.habit?.value["Color"]}
-                        steps={props.habit?.value["Amount"]}
-                        step={step}
-                        name={props.habit?.value["Icon"]}
-                      /> */}
-            </View>
-            <View
-              style={{
-                height: "25%",
-                width: "3%",
-                backgroundColor: "white",
-                borderTopRightRadius: 7,
-                borderBottomRightRadius: 7,
-              }}
-            />
-          </View>
-
-          {machine != "Energy" ? (
-            <View style={{ width: "90%" }}>
-              <Slider
-                style={{ width: "100%", height: 20 }}
-                value={0}
-                minimumValue={0}
-                maximumValue={100}
-                thumbTintColor={"white"}
-                maximumTrackTintColor={Colors.primaryLight}
-                minimumTrackTintColor={"white"}
-                thumbStyle={{ width: 20, height: 20 }}
-              />
-
-              <View
-                style={{
-                  top: "10%",
-                  width: "100%",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <MyText content="-10s" color="white" />
-                <TouchableOpacity
-                  onPress={() => playSound2()}
-                  style={{
-                    height: 60,
-                    width: 60,
-                    borderRadius: 420,
-                    backgroundColor: "white",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Icon
-                    name="play-arrow"
-                    color={Colors.primaryDark}
-                    size={50}
-                  />
-                </TouchableOpacity>
-                <MyText content="+10s" color="white" />
-              </View>
-            </View>
-          ) : (
-            <CountdownCircleTimer
-              isPlaying
-              duration={chosenTime}
-              trailColor={"#132224"}
-              colors={"#eebf91"}
-              onComplete={() => (addBattery(), setInfoVisible(true))}
-            >
-              {({ remainingTime }) => (
-                <MyText content={remainingTime} color="#eebf91" size={42} />
-              )}
-            </CountdownCircleTimer>
-          )}
+          <Image
+            source={require("../../assets/Batterieicon_Currency.png")}
+            style={{ width: 36, height: 36, top: 2 }}
+          />
+          <MyText color={"white"} content={energy + "x"} bold size={30} />
         </View>
+
+        <FullFocusContent
+          machine={machine}
+          chosenTime={chosenTime}
+          setRemainingTime={setRemainingTime}
+          remainingTime={remainingTime}
+          duration={duration}
+          position={position}
+          isPlaying={isPlaying}
+          // setIsPlaying={setIsPlaying}
+          setInfoVisible={setInfoVisible}
+          addBattery={addBattery}
+          pauseSound={pauseSound}
+          playSound={playSound}
+          onSlide={onSlide}
+          setPosition={setPosition}
+          onStartSlide={onStartSlide}
+          handlePlayPausePress={handlePlayPausePress}
+          onForward={onForward}
+          onBackward={onBackward}
+        />
 
         <TouchableOpacity
           style={{
+            position: "absolute",
+            bottom: "5%",
             width: "80%",
             height: "6%",
             borderWidth: 1,
@@ -306,14 +290,13 @@ const FullFocusModal = ({
           onPress={() => {
             machine == "Energy"
               ? setAlertVisible(true)
-              : (newSound.unloadAsync(),
-                setFullModalVisible(false),
-                setDarkModalVisible(false));
+              : (setFullModalVisible(false),
+                setDarkModalVisible(false),
+                unloadSound());
           }}
         >
           <MyText content="Fokus stoppen" color="white" center />
         </TouchableOpacity>
-        <MyText content={energy} color="white" />
       </View>
     </Modal>
   );

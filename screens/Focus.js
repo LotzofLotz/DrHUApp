@@ -10,7 +10,6 @@ import SockelContent from "../components/Focus/SockelContent";
 import FocusModal from "../components/Focus/FocusModal";
 import { StatusBar } from "expo-status-bar";
 import { useIsFocused } from "@react-navigation/native";
-import { useFocusEffect } from "@react-navigation/native";
 
 const Focus = ({}) => {
   const [energy, setEnergy] = useState(0);
@@ -23,6 +22,10 @@ const Focus = ({}) => {
 
   const [machine, setMachine] = useState("Cryo");
   const [completed, setCompleted] = useState(false);
+  const [cryoComplete, setCryoComplete] = useState(false);
+  const [focusComplete, setFocusComplete] = useState(false);
+  const [breathComplete, setBreathComplete] = useState(false);
+  const [mindComplete, setMindComplete] = useState(false);
   const [focusModalVisible, setFocusModalVisible] = useState(false);
   const [darkModalVisible, setDarkModalVisible] = useState(false);
 
@@ -30,29 +33,20 @@ const Focus = ({}) => {
     getEnergy();
   }, []);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     console.log("focus effect triggered"), getEnergy();
-
-  //     return () => {};
-  //   }, [])
-  // );
-
-  useEffect(() => {
-    console.log("fokus visible?: ", focusModalVisible);
-    console.log("darkmode: ", darkModalVisible);
-    console.log(
-      "focus - Status- Color: ",
-      focusModalVisible && darkModalVisible
-        ? "#132224"
-        : focusModalVisible
-        ? "#13222499"
-        : "transparent"
-    );
-  }, [focusModalVisible, darkModalVisible]);
+  // useEffect(() => {
+  //   console.log("fokus visible?: ", focusModalVisible);
+  //   console.log("darkmode: ", darkModalVisible);
+  //   console.log(
+  //     "focus - Status- Color: ",
+  //     focusModalVisible && darkModalVisible
+  //       ? "#132224"
+  //       : focusModalVisible
+  //       ? "#13222499"
+  //       : "transparent"
+  //   );
+  // }, [focusModalVisible, darkModalVisible]);
 
   const getEnergy = async () => {
-    console.log("get energy triggered");
     try {
       const energy = await AsyncStorage.getItem("Energy");
       setEnergy(energy);
@@ -84,13 +78,13 @@ const Focus = ({}) => {
         }}
       >
         {machine == "Cryo" ? (
-          <Cryo completed={completed} ratio={ratio} />
+          <Cryo completed={cryoComplete} ratio={ratio} />
         ) : machine == "Energy" ? (
-          <Energy completed={completed} ratio={ratio} />
+          <Energy completed={focusComplete} ratio={ratio} />
         ) : machine == "Breath" ? (
-          <Breath completed={completed} ratio={ratio} />
+          <Breath completed={breathComplete} ratio={ratio} />
         ) : (
-          <Mind completed={completed} ratio={ratio} />
+          <Mind completed={mindComplete} ratio={ratio} />
         )}
       </View>
       <SockelContent
@@ -109,8 +103,10 @@ const Focus = ({}) => {
         focusModalVisible={focusModalVisible}
         setFocusModalVisible={setFocusModalVisible}
         machine={machine}
-        completed={completed}
-        setCompleted={setCompleted}
+        setCryoComplete={setCryoComplete}
+        setBreathComplete={setBreathComplete}
+        setMindComplete={setMindComplete}
+        setFocusComplete={setFocusComplete}
         ratio={ratio}
         getEnergy={getEnergy}
       />

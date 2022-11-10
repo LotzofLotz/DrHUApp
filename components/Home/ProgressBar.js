@@ -55,7 +55,11 @@ const ProgressBar = ({ step, steps, color, name }) => {
         }}
       >
         <View style={{ zIndex: 420 }}>
-          <Icon size={height * 0.9} color={Colors.primaryDark} name={name} />
+          {name ? (
+            <Icon size={height * 0.9} color={Colors.primaryDark} name={name} />
+          ) : (
+            <View />
+          )}
         </View>
 
         <Animated.View

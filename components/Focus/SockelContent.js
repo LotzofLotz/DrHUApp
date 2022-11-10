@@ -4,6 +4,8 @@ import Triangle from "react-native-triangle";
 import Sockel from "./Sockel";
 import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
+import { Icon } from "react-native-elements";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 const SockelContent = ({
   setCompleted,
@@ -42,8 +44,12 @@ const SockelContent = ({
               height: height * 0.06,
               width: height * 0.06,
               borderRadius: 420,
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <FontAwesome name="snowflake-o" size={24} color="white" />
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setMachine("Energy")}>
           <View
@@ -52,8 +58,12 @@ const SockelContent = ({
               height: height * 0.06,
               width: height * 0.06,
               borderRadius: 420,
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <FontAwesome name="plug" size={22} color="white" />
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setMachine("Breath")}>
           <View
@@ -62,8 +72,12 @@ const SockelContent = ({
               height: height * 0.06,
               width: height * 0.06,
               borderRadius: 420,
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <FontAwesome5 name="lungs" size={22} color="white" />
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setMachine("Mind")}>
           <View
@@ -72,8 +86,12 @@ const SockelContent = ({
               height: height * 0.06,
               width: height * 0.06,
               borderRadius: 420,
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <FontAwesome5 name="brain" size={22} color="white" />
+          </View>
         </TouchableOpacity>
       </View>
 
