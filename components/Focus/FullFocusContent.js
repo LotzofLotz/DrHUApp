@@ -97,9 +97,7 @@ const FullFocusContent = ({
             }
             steps={machine == "Energy" ? chosenTime : duration}
             step={
-              machine == "Energy"
-                ? chosenTime - remainingTime + 1
-                : position + 5000
+              machine == "Energy" ? chosenTime - remainingTime + 1 : position
             }
           />
         </View>

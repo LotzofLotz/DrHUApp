@@ -48,7 +48,7 @@ const FullFocusModal = ({
   async function loadSound() {
     console.log(" loading sound");
     const { sound: playbackInstance } = await Audio.Sound.createAsync(
-      require("../../assets/Audios/Achtsamkeit1.mp3"),
+      AudioList(chosenAudio),
       initialStatus,
       onPlayBackStatusUpdate
       // (progressUpdateInteralMillis = 1000)
@@ -80,7 +80,7 @@ const FullFocusModal = ({
   };
 
   useEffect(() => {
-    if (fullModalVisible) {
+    if (fullModalVisible && chosenAudio != "") {
       loadSound(); // sollte nicht beim öffnen des Fokus-Tabs getriggert werden
     }
   }, [fullModalVisible]);

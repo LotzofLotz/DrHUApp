@@ -8,6 +8,7 @@ import AudiosView from "./AudiosView";
 import MyInfo from "../Global/MyInfo";
 import FocusModalHeader from "./FocusModalHeader";
 import TimePickerView from "./TimePickerView";
+import MySpeechBubble from "../Global/MySpeechBubble";
 
 const FocusModal = ({
   focusModalVisible,
@@ -106,11 +107,19 @@ const FocusModal = ({
             }}
           >
             {/* üBERARBEITEN, SOBALD STEFAN MIR SPRECHBLASE SCHICKT  */}
-            <View style={{ width: "70%" }}>
-              <MyText
-                content="Filler bicg v viel längerdis shiaf asdf sd f sdf dasdfa amk lelelmaoodfer sd djfi sdfj er fdjf aspdfje rfawpfj dsfj aijd fej fafidsjfa psjfd sdfj aie fjewapf jpf jejf eap fe"
-                size={height * 0.028}
-              />
+            <View style={{ width: "100%" }}>
+              <View>
+                <MyText
+                  content="Filler bicg v viel längerdis shiaf as dfasdjfs f dsfa  dsfief asdfsfe"
+                  size={height * 0.028}
+                />
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <View>
+                  <MyText content="lustiger Spruch lelmao" />
+                </View>
+                <MySpeechBubble />
+              </View>
             </View>
 
             {/* <View // machines-View
