@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Dimensions, TouchableOpacity } from "react-native";
 import MyHeader from "../components/Global/MyHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,6 +10,7 @@ import SockelContent from "../components/Focus/SockelContent";
 import FocusModal from "../components/Focus/FocusModal";
 import { StatusBar } from "expo-status-bar";
 import { useIsFocused } from "@react-navigation/native";
+import getWeek from "date-fns/getWeek";
 
 const Focus = ({}) => {
   const [energy, setEnergy] = useState(0);
@@ -23,15 +24,64 @@ const Focus = ({}) => {
   const [machine, setMachine] = useState("Cryo");
   const [completed, setCompleted] = useState(false);
   const [cryoComplete, setCryoComplete] = useState(false);
-  const [focusComplete, setFocusComplete] = useState(false);
+  const [cryoCount, setCryoCount] = useState(0);
+  const [energyComplete, setEnergyComplete] = useState(false);
+  const [energyCount, setEnergyCount] = useState(0);
   const [breathComplete, setBreathComplete] = useState(false);
+  const [breathCount, setBreathCount] = useState(0);
   const [mindComplete, setMindComplete] = useState(false);
+  const [mindCount, setMindCount] = useState(0);
   const [focusModalVisible, setFocusModalVisible] = useState(false);
   const [darkModalVisible, setDarkModalVisible] = useState(false);
 
   useEffect(() => {
+    setMachineCounts();
     getEnergy();
   }, []);
+
+  useEffect(() => {
+    setMachineCounts();
+  }, [machine]);
+
+  const setMachineCounts = async () => {
+    try {
+      const machineSessions = await AsyncStorage.getItem("FocusMachines");
+      const jsonMachines = JSON.parse(machineSessions);
+      let lastTwo = jsonMachines[machine].slice(-2);
+      let count = 0;
+      for (const x in lastTwo) {
+        if (getWeek(new Date(), { weekStartsOn: 1 }) == parseInt(lastTwo[x])) {
+          count += 1;
+        }
+        if (machine == "Cryo") {
+          setCryoCount(count);
+          if (count >= 2) {
+            setCryoComplete(true);
+          }
+        }
+        if (machine == "Breath") {
+          setBreathCount(count);
+          if (count >= 2) {
+            setBreathComplete(true);
+          }
+        }
+        if (machine == "Energy") {
+          setEnergyCount(count);
+          if (count >= 2) {
+            setEnergyComplete(true);
+          }
+        }
+        if (machine == "Mind") {
+          setMindCount(count);
+          if (count >= 2) {
+            setMindComplete(true);
+          }
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   // useEffect(() => {
   //   console.log("fokus visible?: ", focusModalVisible);
@@ -49,7 +99,7 @@ const Focus = ({}) => {
   const getEnergy = async () => {
     try {
       const energy = await AsyncStorage.getItem("Energy");
-      setEnergy(energy);
+      setEnergy(parseInt(energy));
     } catch (e) {
       console.log(e);
     }
@@ -80,7 +130,7 @@ const Focus = ({}) => {
         {machine == "Cryo" ? (
           <Cryo completed={cryoComplete} ratio={ratio} />
         ) : machine == "Energy" ? (
-          <Energy completed={focusComplete} ratio={ratio} />
+          <Energy completed={energyComplete} ratio={ratio} />
         ) : machine == "Breath" ? (
           <Breath completed={breathComplete} ratio={ratio} />
         ) : (
@@ -88,8 +138,6 @@ const Focus = ({}) => {
         )}
       </View>
       <SockelContent
-        setCompleted={setCompleted}
-        completed={completed}
         machine={machine}
         setMachine={setMachine}
         height={height}
@@ -103,12 +151,13 @@ const Focus = ({}) => {
         focusModalVisible={focusModalVisible}
         setFocusModalVisible={setFocusModalVisible}
         machine={machine}
-        setCryoComplete={setCryoComplete}
-        setBreathComplete={setBreathComplete}
-        setMindComplete={setMindComplete}
-        setFocusComplete={setFocusComplete}
         ratio={ratio}
         getEnergy={getEnergy}
+        cryoCount={cryoCount}
+        mindCount={mindCount}
+        breathCount={breathCount}
+        energyCount={energyCount}
+        setMachineCounts={setMachineCounts}
       />
     </View>
   );

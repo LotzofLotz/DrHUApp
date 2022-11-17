@@ -9,6 +9,7 @@ import MyInfo from "../Global/MyInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AudioList from "./AudioList";
 import FullFocusContent from "./FullFocusContent";
+import getWeek from "date-fns/getWeek";
 
 const FullFocusModal = ({
   fullModalVisible,
@@ -20,10 +21,11 @@ const FullFocusModal = ({
   chosenTime,
   energy,
   getEnergy,
-  setMindComplete,
-  setFocusComplete,
-  setCryoComplete,
-  setBreathComplete,
+  setMachineCounts,
+  energyCount,
+  breathCount,
+  mindCount,
+  cryoCount,
 }) => {
   const initialStatus = {
     shouldPlay: false,
@@ -31,7 +33,7 @@ const FullFocusModal = ({
     positionMillis: 0,
   };
 
-  Audio.setAudioModeAsync({ staysActiveInBackground: true });
+  // Audio.setAudioModeAsync({ staysActiveInBackground: true });
 
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(1);
@@ -41,12 +43,20 @@ const FullFocusModal = ({
   const [infoVisible, setInfoVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
-  useEffect(() => {
-    console.log("isPlaying:", isPlaying);
-  }, [isPlaying]);
+  // useEffect(() => {
+  //   //is not getting triggered?
+  //   return sound
+  //     ? () => {
+  //         console.log("Unloading Sound in useEffect");
+  //         sound.unloadAsync();
+  //         console.log("unloaded succesfully ! ");
+  //         setPosition(0);
+  //         setIsPlaying(false);
+  //       }
+  //     : undefined;
+  // }, [sound]);
 
   async function loadSound() {
-    console.log(" loading sound");
     const { sound: playbackInstance } = await Audio.Sound.createAsync(
       AudioList(chosenAudio),
       initialStatus,
@@ -54,9 +64,7 @@ const FullFocusModal = ({
       // (progressUpdateInteralMillis = 1000)
     );
     setSound(playbackInstance);
-    console.log("sound loaded!");
     playbackInstance.getStatusAsync().then(function (result) {
-      console.log("duration in seconds:", result.durationMillis / 1000);
       setDuration(result.durationMillis);
     });
   }
@@ -64,18 +72,21 @@ const FullFocusModal = ({
   onPlayBackStatusUpdate = (playbackStatus) => {
     if (playbackStatus.isPlaying) {
       setPosition(playbackStatus.positionMillis);
+      setIsPlaying(true);
     }
     if (playbackStatus.didJustFinish) {
-      console.log("ERFOLGREICH AUDIO ANGEHÖRT!!!!!");
-      addBattery();
       setInfoVisible(true);
-      unloadSound();
-    }
-    if (playbackStatus.isLoaded) {
-      console.log("isLoaded!");
-    }
-    if (!playbackStatus.isLoaded) {
-      console.log("SOUND IS NOT LOADED AMK");
+      {
+        machine == "Cryo" && cryoCount > 1
+          ? {}
+          : machine == "Mind" && mindCount > 1
+          ? {}
+          : machine == "Breath" && breathCount > 1
+          ? {}
+          : machine == "Energy" && energyCount > 1
+          ? {}
+          : addBattery();
+      }
     }
   };
 
@@ -88,38 +99,40 @@ const FullFocusModal = ({
   const addBattery = async () => {
     try {
       await AsyncStorage.setItem("Energy", (parseInt(energy) + 1).toString());
+      const focusMachines = await AsyncStorage.getItem("FocusMachines");
+      const jsonMachines = JSON.parse(focusMachines);
+      jsonMachines[machine].push(
+        getWeek(new Date(), {
+          weekStartsOn: 1,
+        })
+      );
+      await AsyncStorage.mergeItem(
+        "FocusMachines",
+        JSON.stringify(jsonMachines)
+      );
     } catch (e) {
       console.log(e);
     }
     getEnergy();
+    setMachineCounts();
   };
 
   const handlePlayPausePress = () => {
-    console.log("HANDLEPLAYPAUSE IS PLAYING?", isPlaying);
     isPlaying ? pauseSound() : playSound();
   };
 
-  const playSound = () => {
-    console.log("play sound triggered ");
-    sound
-      .playAsync()
-
-      // .then(async (playbackStatus) => {
-      //   console.log("JAJAJJAJAA", playbackStatus); /////EYYYYYYYYY
-
-      //   console.log("POSITION Seconds:", playbackStatus.positionMillis / 1000);
-      // })
-
-      .catch((error) => {
-        console.log(error);
-      });
+  const playSound = async () => {
+    try {
+      sound.playAsync();
+    } catch (e) {
+      console.log(e);
+    }
     setIsPlaying(true);
   };
 
   const pauseSound = async () => {
     try {
-      console.log("pause sound triggered ");
-      sound.pauseAsync();
+      await sound.pauseAsync();
     } catch (e) {
       console.log(e);
     }
@@ -128,7 +141,7 @@ const FullFocusModal = ({
 
   const onForward = async () => {
     try {
-      sound.playFromPositionAsync(position + 10000);
+      await sound.playFromPositionAsync(position + 10000);
     } catch (e) {
       console.log(e);
     }
@@ -136,40 +149,23 @@ const FullFocusModal = ({
 
   const onBackward = async () => {
     try {
-      sound.playFromPositionAsync(position - 10000);
+      await sound.playFromPositionAsync(position - 10000);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const setCompleted = () => {
-    machine == "Cryo"
-      ? setCryoComplete(true)
-      : machine == "Breath"
-      ? setBreathComplete(true)
-      : machine == "Focus"
-      ? setFocusComplete(true)
-      : setMindComplete(true);
-  };
-
   const onStartSlide = () => {
-    console.log("HIER NOXHMAL IS PLAYING:", isPlaying);
-    !isPlaying
-      ? console.log("STOP FUCKING WITH ME")
-      : console.log("heheh züü ");
+    pauseSound();
   };
 
   const onSlide = async (value) => {
-    // console.log("SLIDE SLIDE SLIDE");
-    // console.log("trying to play from position ", value);
     try {
-      // await sound.setPositionAsync(value);
-      // console.log("trying to play from position ");
-      // await sound.playFromPositionAsync(value);
       {
-        isPlaying
-          ? await sound.playFromPositionAsync(value)
-          : await sound.setPositionAsync(value);
+        // isPlaying
+        // ?
+        await sound.playFromPositionAsync(value);
+        // : await sound.setPositionAsync(value);
       }
     } catch (e) {
       console.log(e);
@@ -177,24 +173,15 @@ const FullFocusModal = ({
   };
 
   const unloadSound = async () => {
-    setPosition(0);
     try {
-      sound.unloadAsync(), console.log("unloading sound");
+      await sound.unloadAsync();
     } catch (e) {
       console.log(e);
     }
+    setPosition(0);
+    //setchosenaudio???
+    setIsPlaying(false);
   };
-
-  React.useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound in useEffect");
-          sound.unloadAsync();
-          setPosition(0);
-          setIsPlaying(false);
-        }
-      : undefined;
-  }, [sound]);
 
   return (
     <Modal
@@ -210,18 +197,16 @@ const FullFocusModal = ({
           setInfoVisible(false),
           setFullModalVisible(false),
           setDarkModalVisible(false),
-          setFocusModalVisible(false),
-          setCompleted()
+          setFocusModalVisible(false)
         )}
         onXPress={() => (
           setInfoVisible(false),
           setFullModalVisible(false),
-          setCompleted(),
           setFocusModalVisible(false),
           setDarkModalVisible(false)
         )}
         buttonName={"Lets go!"}
-        icon={"questionmark"}
+        icon={"done"}
       />
       <MyInfo // Failure-Info-Box
         color={Colors.pink}
@@ -233,9 +218,10 @@ const FullFocusModal = ({
         onPress={() => (
           setAlertVisible(false),
           setFullModalVisible(false),
-          setDarkModalVisible(false)
+          setDarkModalVisible(false),
+          unloadSound()
         )}
-        onXPress={() => setAlertVisible(false)}
+        onXPress={() => (setAlertVisible(false), unloadSound())}
         buttonName={"Trotzdem abbrechen"}
       />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -292,7 +278,8 @@ const FullFocusModal = ({
               ? setAlertVisible(true)
               : (setFullModalVisible(false),
                 setDarkModalVisible(false),
-                unloadSound());
+                unloadSound(),
+                setFocusModalVisible(false));
           }}
         >
           <MyText content="Fokus stoppen" color="white" center />

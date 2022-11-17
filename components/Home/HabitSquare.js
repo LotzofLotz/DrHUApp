@@ -15,7 +15,6 @@ import getWeek from "date-fns/getWeek";
 import ProgressBar from "./ProgressBar";
 import { AntDesign } from "@expo/vector-icons";
 import { MyRecommendations } from "../Global/MyRecommendations";
-import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
 const HabitSquare = ({
   habit,
@@ -81,8 +80,8 @@ const HabitSquare = ({
         borderColor:
           filterSessions().length >= habit.value["Amount"]
             ? Colors.yellow
-            : "#F0F0F0",
-        // : "#F6F6F6",
+            : // : "#F0F0F0",
+              "#F6F6F6",
       }}
     >
       {habit.value["Recommended"] == true ? (

@@ -18,10 +18,11 @@ const FocusModal = ({
   setDarkModalVisible,
   energy,
   getEnergy,
-  setCryoComplete,
-  setMindComplete,
-  setFocusComplete,
-  setBreathComplete,
+  mindCount,
+  energyCount,
+  cryoCount,
+  breathCount,
+  setMachineCounts,
 }) => {
   const height =
     Dimensions.get("window").height * 0.9 > 700
@@ -46,21 +47,6 @@ const FocusModal = ({
 
   return (
     <View>
-      <FullFocusModal
-        chosenAudio={chosenAudio}
-        chosenTime={chosenTime}
-        fullModalVisible={fullModalVisible}
-        setFullModalVisible={setFullModalVisible}
-        setDarkModalVisible={setDarkModalVisible}
-        setFocusModalVisible={setFocusModalVisible}
-        machine={machine}
-        setMindComplete={setMindComplete}
-        setFocusComplete={setFocusComplete}
-        setBreathComplete={setBreathComplete}
-        setCryoComplete={setCryoComplete}
-        energy={energy}
-        getEnergy={getEnergy}
-      />
       <Modal
         isVisible={focusModalVisible}
         backdropColor={"#132224"}
@@ -73,6 +59,22 @@ const FocusModal = ({
           //setChosenTime(40)???
         }}
       >
+        <FullFocusModal
+          chosenAudio={chosenAudio}
+          chosenTime={chosenTime}
+          fullModalVisible={fullModalVisible}
+          setFullModalVisible={setFullModalVisible}
+          setDarkModalVisible={setDarkModalVisible}
+          setFocusModalVisible={setFocusModalVisible}
+          machine={machine}
+          energy={energy}
+          getEnergy={getEnergy}
+          setMachineCounts={setMachineCounts}
+          mindCount={mindCount}
+          breathCount={breathCount}
+          energyCount={energyCount}
+          cryoCount={cryoCount}
+        />
         <MyInfo
           color={Colors.primaryLight}
           isVisible={infoVisible}
@@ -81,7 +83,7 @@ const FocusModal = ({
           onPress={() => setInfoVisible(false)}
           onXPress={() => setInfoVisible(false)}
           buttonName={"Okay"}
-          icon={"questionmark"}
+          icon={"done"}
         />
 
         <View
@@ -121,24 +123,6 @@ const FocusModal = ({
                 <MySpeechBubble />
               </View>
             </View>
-
-            {/* <View // machines-View
-              style={{
-                alignItems: "center",
-                justifyContent: "flex-end",
-                right: "4%",
-              }}
-            >
-              {machine == "Cryo" ? (
-                <Cryo completed={completed} ratio={ratio} small />
-              ) : machine == "Energy" ? (
-                <Energy completed={completed} ratio={ratio} small />
-              ) : machine == "Breath" ? (
-                <Breath completed={completed} ratio={ratio} small />
-              ) : (
-                <Mind completed={completed} ratio={ratio} small />
-              )}
-            </View> */}
           </View>
 
           {machine != "Energy" ? (
@@ -160,7 +144,31 @@ const FocusModal = ({
               setChosenTime={setChosenTime}
             />
           )}
-
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View
+              style={{
+                height: 50,
+                width: 100,
+                backgroundColor: Colors.primaryDark,
+                borderRadius: 10,
+                justifyContent: "center",
+              }}
+            >
+              <MyText
+                content={
+                  machine == "Cryo"
+                    ? cryoCount
+                    : machine == "Breath"
+                    ? breathCount
+                    : machine == "Mind"
+                    ? mindCount
+                    : energyCount
+                }
+                color="white"
+                center
+              />
+            </View>
+          </View>
           <TouchableOpacity
             onPress={() => {
               chosenAudio == "" && machine != "Energy"

@@ -15,7 +15,7 @@ const AudiosView = ({ audios, setChosenAudio, chosenAudio, machine }) => {
   return (
     <View
       style={{
-        backgroundColor: "#F5F2F2",
+        backgroundColor: "#F6F6F6",
         borderRadius: 20,
         maxHeight: 240,
         width: "100%",

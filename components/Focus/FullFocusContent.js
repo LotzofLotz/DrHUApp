@@ -125,15 +125,14 @@ const FullFocusContent = ({
               minimumTrackTintColor={"white"}
               thumbStyle={{ width: 20, height: 20 }}
               onSlidingComplete={(value) => onSlide(value)}
-              onSlidingStart={
-                () => onStartSlide()
-                //() => {
-                // isPlaying
-                //   ? console.log("ICH SPIELE GRADE AMK")
-                //   : console.log("ICH BIN GRAD PAUSIERT");
-                //console.log("START SLIDE SLIDE SLIDE");
-                //  }
-              }
+              onSlidingStart={() => onStartSlide()}
+              //() => {
+              // isPlaying
+              //   ? console.log("ICH SPIELE GRADE AMK")
+              //   : console.log("ICH BIN GRAD PAUSIERT");
+              //console.log("START SLIDE SLIDE SLIDE");
+              //  }
+              // }
               // onValueChange={(value) => setPosition(value)}
             />
           ) : (
@@ -188,9 +187,11 @@ const FullFocusContent = ({
         <CountdownCircleTimer
           isPlaying
           duration={chosenTime * 60}
-          trailColor={Colors.primaryLight}
-          colors={"#eebf91"}
-          trailStrokeWidth={4}
+          trailColor={"#eebf91"}
+          colors={Colors.primaryLight}
+          strokeWidth={12}
+          strokeLinecap={"butt"}
+          // trailStrokeWidth={12}
           onComplete={() => (addBattery(), setInfoVisible(true))}
         >
           {({ remainingTime }) => {

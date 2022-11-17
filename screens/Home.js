@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import EmptyHabitsView from "../components/Home/EmptyHabitsView";
 import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
-import HabitInfosModal from "../components/Home/HabitInfosModal";
 import { StatusBar } from "expo-status-bar";
 import HabitInfosModal2 from "../components/Home/HabitInfosModal2";
 
@@ -66,6 +65,14 @@ const Home = ({}) => {
       const colors = await AsyncStorage.getItem("Colors");
 
       if (!energy && !colors) {
+        const focusMachines = {
+          Cryo: [],
+          Mind: [],
+          Energy: [],
+          Breath: [],
+        };
+        const jsonMachines = JSON.stringify(focusMachines);
+        await AsyncStorage.setItem("FocusMachines", jsonMachines);
         await AsyncStorage.setItem("Energy", "0"),
           await AsyncStorage.setItem(
             "Colors",
@@ -78,8 +85,8 @@ const Home = ({}) => {
               // "#AFAFAF",
               // "#EEBF91",
             ].toString()
-          );
-        console.log("Energy und Colors upgesettet");
+          ),
+          console.log("Energy und Colors und Maschinen upgesettet");
       } else {
         setEnergy(energy);
       }
@@ -92,7 +99,7 @@ const Home = ({}) => {
     let slots = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
-
+      console.log("KEYS:", keys);
       const habitKeys = keys.filter((key) => key.startsWith("Habit_"));
       const habits = await AsyncStorage.multiGet(habitKeys);
       const result = habits.map((x) => ({

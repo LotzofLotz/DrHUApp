@@ -80,7 +80,7 @@ const HabitDefinitionModal = (props) => {
 
   return (
     <View>
-      <HabitRecommendationModal
+      <HabitRecommendationModal // bugs out on ios
         // avoidKeyboard={true}
         chosenRecommendation={chosenRecommendation}
         setRecommendationModalVisible={setRecommendationModalVisible}

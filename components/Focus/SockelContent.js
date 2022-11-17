@@ -4,12 +4,9 @@ import Triangle from "react-native-triangle";
 import Sockel from "./Sockel";
 import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
-import { Icon } from "react-native-elements";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 const SockelContent = ({
-  setCompleted,
-  completed,
   machine,
   setMachine,
   height,
