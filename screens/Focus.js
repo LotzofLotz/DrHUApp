@@ -11,6 +11,7 @@ import FocusModal from "../components/Focus/FocusModal";
 import { StatusBar } from "expo-status-bar";
 import { useIsFocused } from "@react-navigation/native";
 import getWeek from "date-fns/getWeek";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Focus = ({}) => {
   const [energy, setEnergy] = useState(0);
@@ -38,6 +39,13 @@ const Focus = ({}) => {
     setMachineCounts();
     getEnergy();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getEnergy();
+      return;
+    }, [])
+  );
 
   useEffect(() => {
     setMachineCounts();

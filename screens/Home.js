@@ -65,14 +65,40 @@ const Home = ({}) => {
       const colors = await AsyncStorage.getItem("Colors");
 
       if (!energy && !colors) {
+        const machines = {
+          machine1: {
+            name: "Schlaf-o-mat",
+            level: 1,
+            slots: 2,
+            color: "yellow",
+            state: [],
+          },
+          machine2: {
+            name: "Autochef 6000",
+            level: 0,
+            slots: 4,
+            color: "red",
+            state: [],
+          },
+          machine3: {
+            name: "Awesome-O",
+            level: 0,
+            slots: 14,
+            color: "blue",
+            state: [],
+          },
+        };
+
         const focusMachines = {
           Cryo: [],
           Mind: [],
           Energy: [],
           Breath: [],
         };
-        const jsonMachines = JSON.stringify(focusMachines);
-        await AsyncStorage.setItem("FocusMachines", jsonMachines);
+        const jsonMachines = JSON.stringify(machines);
+        const jsonFocusMachines = JSON.stringify(focusMachines);
+        await AsyncStorage.setItem("Machines", jsonMachines);
+        await AsyncStorage.setItem("FocusMachines", jsonFocusMachines);
         await AsyncStorage.setItem("Energy", "0"),
           await AsyncStorage.setItem(
             "Colors",
@@ -125,7 +151,6 @@ const Home = ({}) => {
   };
 
   const handleScroll = (offset) => {
-    // console.log("offset:", offset);
     if (offset > 20) {
       setScrolled(true);
     } else {

@@ -14,7 +14,7 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import isThisWeek from "date-fns/isThisWeek";
+
 import parseISO from "date-fns/parseISO";
 import getWeek from "date-fns/getWeek";
 import PickerView from "./PickerView";

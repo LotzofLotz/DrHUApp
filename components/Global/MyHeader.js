@@ -61,6 +61,15 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
             >
               {title == "Fokus" ? (
                 <Icon name={"center-focus-weak"} size={32} color={"white"} />
+              ) : title == "Labor" ? (
+                <Image
+                  source={require("../../assets/NAVBarLaborIcon.png")}
+                  style={{
+                    width: "60%",
+                    height: "60%",
+                    resizeMode: "contain",
+                  }}
+                />
               ) : (
                 <Image
                   source={require("../../assets/BatterieiconNAVweiss.png")}
