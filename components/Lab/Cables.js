@@ -1,12 +1,14 @@
 import React from "react";
 import Svg, { Path, G } from "react-native-svg";
 
-const Cables = ({ level }) => {
+const Cables = ({ level, height }) => {
+  let heightx = (height / 10).toString();
+  let width = (height / 3.4).toString();
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="220.321"
-      height="90.669"
+      width={width} //"220.321"
+      height={heightx} //"90.669"
       viewBox="0 0 220.321 90.669"
     >
       <G

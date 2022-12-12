@@ -301,7 +301,7 @@ const FullBatteryBox = ({
             transform="translate(-72.368 98.762)"
             fill="#f5ce52"
           />
-          <Text
+          {/* <Text
             x="20"
             y="40"
             text-anchor="middle"
@@ -309,7 +309,7 @@ const FullBatteryBox = ({
             fill="black"
           >
             New
-          </Text>
+          </Text> */}
         </G>
         <G id="Centerpiece">
           <Path //center background
@@ -478,6 +478,7 @@ const FullBatteryBox = ({
                   stroke-miterlimit="10"
                   stroke-width="3" // this should be it
                 />
+
                 <Path
                   id="Path_227"
                   data-name="Path 227"

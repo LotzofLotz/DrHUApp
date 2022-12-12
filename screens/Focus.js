@@ -15,7 +15,6 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const Focus = ({}) => {
   const [energy, setEnergy] = useState(0);
-
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
   const ratio = height / width;
@@ -23,7 +22,6 @@ const Focus = ({}) => {
   const design = 1;
 
   const [machine, setMachine] = useState("Cryo");
-  const [completed, setCompleted] = useState(false);
   const [cryoComplete, setCryoComplete] = useState(false);
   const [cryoCount, setCryoCount] = useState(0);
   const [energyComplete, setEnergyComplete] = useState(false);
@@ -136,9 +134,9 @@ const Focus = ({}) => {
         }}
       >
         {machine == "Cryo" ? (
-          <Cryo completed={cryoComplete} ratio={ratio} />
+          <Cryo completed={cryoComplete} height={height} />
         ) : machine == "Energy" ? (
-          <Energy completed={energyComplete} ratio={ratio} />
+          <Energy completed={energyComplete} height={height} />
         ) : machine == "Breath" ? (
           <Breath completed={breathComplete} ratio={ratio} />
         ) : (

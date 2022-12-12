@@ -6,9 +6,9 @@ const Breath = (props) => {
   return (
     <Svg
       //  width="132.156" height="372.206"
-      width={props.small ? props.ratio * 50 : props.ratio * 70}
-      height={props.small ? props.ratio * 90 : props.ratio * 180}
-      viewBox={props.small ? "0 0 132.156 372.206" : "0 0 132.156 372.206"}
+      width={props.ratio * 70}
+      height={props.ratio * 180}
+      viewBox={"0 0 132.156 372.206"}
     >
       <G
         id="Group_192"

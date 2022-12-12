@@ -5,14 +5,14 @@ import {
   View,
   TouchableOpacity,
   StatusBar,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Colors from "../../constants/Colors";
 import MyHeader from "../Global/MyHeader";
 import PowerBoxSVG from "./PowerBoxSVG";
 import FullBatteryBox from "./FullBatteryBox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TouchableWithoutFeedback } from "react-native-web";
+import MyLevelUp from "../Global/MyLevelUp";
 
 const PowerBox = ({
   powerBoxVisible,
@@ -25,55 +25,20 @@ const PowerBox = ({
   setCurrentState,
   currentLevel,
   setCurrentLevel,
+  currentMachineName,
+  currentColor,
+  nextColor,
 }) => {
   const [filled, setFilled] = useState(0);
+  const [infoVisible, setInfoVisible] = useState(false);
 
   useEffect(() => {
-    // console.log("STATES IN POWERBOX", currentState);
     const filled = currentState.filter((x) => x == "filled").length;
     setFilled(filled);
   }, [currentState]);
 
-  useEffect(() => {
-    console.log("CURRRENTELVEL:", currentLevel);
-  }, [currentLevel]);
-
-  useEffect(() => {
-    console.log("filled:", filled);
-    console.log("slots:", slots);
-  }, [filled]);
-
-  // const fillStates = (slots, states) => {
-  //   let i = 0;
-  //   let newArray = [...states];
-  //   while (i < 8) {
-  //     if (i < slots) {
-  //       newArray[i] = "init";
-  //     } else {
-  //     }
-  //     setStates(newArray);
-  //     i++;
-  //   }
-  // };
-
-  // const fillStates = (slots, states) => {
-  //   console.log("FILLSTATE STATE: ", currentState);
-  //   let i = 0;
-  //   let newArray = [...states];
-  //   while (i < 8) {
-  //     // 8 slots in inner circle
-  //     if (i < slots) {
-  //       newArray[i] = "init";
-  //     } else {
-  //       newArray[i] = "empty";
-  //     }
-  //     setStates(newArray);
-  //     i++;
-  //   }
-  // };
-
   const resetState = () => {
-    console.log("reset state triggered");
+    console.log("resetting state!!!");
     let i = 0;
     let newArray = [];
     while (i < 20) {
@@ -84,8 +49,6 @@ const PowerBox = ({
       }
       i++;
     }
-
-    console.log("RESET STATE ARRAY : ", newArray);
     return newArray;
   };
 
@@ -100,28 +63,41 @@ const PowerBox = ({
         try {
           const machines = await AsyncStorage.getItem("Machines");
           const parsed = JSON.parse(machines);
-          console.log("PARSED:", parsed);
           parsed["machine" + currentMachine].state = newArray;
 
           if (filled == slots - 1) {
             console.log("LAST BATTERY ADDED !!! ");
+            setInfoVisible(true);
             parsed["machine" + currentMachine].level = currentLevel + 1;
             setCurrentLevel(currentLevel + 1);
             if (currentLevel == 1) {
-              parsed["machine" + (currentMachine + 1)].level = 1;
-            }
-            if (currentLevel != 2) {
               const newState = resetState();
               parsed["machine" + currentMachine].state = newState;
-              setTimeout(function () {
-                setCurrentState(newState);
-              }, 5000);
+              setCurrentState(newState);
+              console.log("NEW STATE:", newState);
+              try {
+                let colors = await AsyncStorage.getItem("Colors");
+                let colorsArray = colors.split(",");
+                colorsArray.push(parsed["machine" + currentMachine].color);
+                await AsyncStorage.setItem("Colors", colorsArray.toString());
+              } catch (e) {
+                console.log(e);
+              }
             }
-            // console.log("newSTATE::::", resetState());
+            if (
+              currentLevel == 1 &&
+              parsed["machine" + (currentMachine + 1)] !== undefined
+            ) {
+              parsed["machine" + (currentMachine + 1)].level = 1;
+            }
+            // if (currentLevel == 1) {
+            //   const newState = resetState();
+            //   parsed["machine" + currentMachine].state = newState;
+            //   setCurrentState(newState);
+            //   console.log("NEW STATE:", newState);
+            // }
           }
-          // console.log("NEW PARSED MACHINE:", parsed);
           await AsyncStorage.mergeItem("Machines", JSON.stringify(parsed));
-          // console.log("machines in storage updated!!!!!");
         } catch (e) {
           console.log(e);
         }
@@ -137,6 +113,23 @@ const PowerBox = ({
         visible={powerBoxVisible}
         style={{ margin: 0, backgroundColor: "white" }}
       >
+        <MyLevelUp
+          isVisible={infoVisible}
+          setIsVisible={setInfoVisible}
+          color={currentColor}
+          text={
+            "Gratulation, " +
+            currentMachineName +
+            " ist jetzt Level " +
+            currentLevel
+          }
+          buttonName="ok cool"
+          onPress={() => (setInfoVisible(false), setPowerBoxVisible(false))}
+          onXPress={() => (setInfoVisible(false), setPowerBoxVisible(false))}
+          icon="check"
+          level={currentLevel}
+          nextColor={nextColor}
+        />
         <View
           style={{
             position: "absolute",
@@ -165,13 +158,15 @@ const PowerBox = ({
             slots={slots}
             filled={filled}
           /> */}
-          <FullBatteryBox
-            states={currentState}
-            addBattery={addBattery}
-            slots={slots}
-            filled={filled}
-            currentLevel={currentLevel}
-          />
+          <TouchableWithoutFeedback onPress={() => console.log("LELMAO")}>
+            <FullBatteryBox
+              states={currentState}
+              addBattery={addBattery}
+              slots={slots}
+              filled={filled}
+              currentLevel={currentLevel}
+            />
+          </TouchableWithoutFeedback>
           {/* <TouchableWithoutFeedback
             style={{ height: "50%", width: "50%", position: "absolute" }}
             onPress={() => console.log("BIG PRESS")}

@@ -4,8 +4,8 @@ import Colors from "../../constants/Colors";
 
 const ColorPicker = (props) => {
   const colors = [
-    "#8C91BF",
     "#BF918C",
+    "#8C91BF",
     "#8CBF9B",
     "#639C90",
     "#A9D3EB",

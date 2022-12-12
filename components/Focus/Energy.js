@@ -3,14 +3,14 @@ import Svg, { Path, Rect, G, Circle } from "react-native-svg";
 import Colors from "../../constants/Colors";
 
 const Energy = (props) => {
+  let width = (props.height / 3.5).toString();
+  let heightx = (props.height / 2.41).toString();
   return (
     <Svg
       xmlns="http://www.w3.org/2000/Svg"
-      //   width="206.741"
-      //   height="319.137"
-      width={props.small ? props.ratio * 50 : props.ratio * 100}
-      height={props.small ? props.ratio * 100 : props.ratio * 150}
-      viewBox={props.small ? "0 -46 206.741 340" : "0 0 206.741 319.137"}
+      width={width} //"206.741"
+      height={heightx} //"319.137"
+      viewBox={"0 0 206.741 319.137"}
     >
       <G
         id="Group_198"

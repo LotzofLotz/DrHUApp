@@ -8,7 +8,8 @@ import AudiosView from "./AudiosView";
 import MyInfo from "../Global/MyInfo";
 import FocusModalHeader from "./FocusModalHeader";
 import TimePickerView from "./TimePickerView";
-import MySpeechBubble from "../Global/MySpeechBubble";
+import FocusCounter from "./FocusCounter";
+import PinguBubble from "../Global/PinguBubble";
 
 const FocusModal = ({
   focusModalVisible,
@@ -28,6 +29,9 @@ const FocusModal = ({
     Dimensions.get("window").height * 0.9 > 700
       ? 700
       : Dimensions.get("window").height * 0.9;
+
+  const width = Dimensions.get("window").width;
+  console.log("WWW:", width);
 
   const bodyAudios = ["BodyScan1", "BodyScan2", "BodyScan3"];
   const soulAudios = [
@@ -92,7 +96,7 @@ const FocusModal = ({
             backgroundColor: "white",
             borderRadius: 10,
             padding: "4%",
-            justifyContent: "space-between",
+            // justifyContent: "space-between",??
           }}
         >
           <FocusModalHeader
@@ -106,6 +110,8 @@ const FocusModal = ({
               marginVertical: "5%",
               flexDirection: "row",
               justifyContent: "space-between",
+              // backgroundColor: "green",
+              height: "20%",
             }}
           >
             {/* üBERARBEITEN, SOBALD STEFAN MIR SPRECHBLASE SCHICKT  */}
@@ -116,11 +122,22 @@ const FocusModal = ({
                   size={height * 0.028}
                 />
               </View>
-              <View style={{ flexDirection: "row" }}>
-                <View>
-                  <MyText content="lustiger Spruch lelmao" />
+              <View
+                style={{
+                  width: "100%",
+                  flexDirection: "row",
+                  height: "60%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ justifyContent: "space-evenly" }}>
+                  <MyText
+                    content="lustiger Spruch lelmao"
+                    italic
+                    size={height * 0.025}
+                  />
                 </View>
-                <MySpeechBubble />
+                <PinguBubble height={height} />
               </View>
             </View>
           </View>
@@ -144,30 +161,20 @@ const FocusModal = ({
               setChosenTime={setChosenTime}
             />
           )}
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <View
-              style={{
-                height: 50,
-                width: 100,
-                backgroundColor: Colors.primaryDark,
-                borderRadius: 10,
-                justifyContent: "center",
-              }}
-            >
-              <MyText
-                content={
-                  machine == "Cryo"
-                    ? cryoCount
-                    : machine == "Breath"
-                    ? breathCount
-                    : machine == "Mind"
-                    ? mindCount
-                    : energyCount
-                }
-                color="white"
-                center
-              />
-            </View>
+          <View style={{ right: "5%" }}>
+            <FocusCounter
+              machine={machine}
+              width={width}
+              count={
+                machine == "Cryo"
+                  ? cryoCount
+                  : machine == "Breath"
+                  ? breathCount
+                  : machine == "Mind"
+                  ? mindCount
+                  : energyCount
+              }
+            />
           </View>
           <TouchableOpacity
             onPress={() => {

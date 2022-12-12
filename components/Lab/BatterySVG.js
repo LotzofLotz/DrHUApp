@@ -36,7 +36,6 @@ const BatterySVG = ({
           width="27"
           height="43"
           transform="translate(127.5 436.271)"
-          fill={state == "empty" ? "#447681" : "#63929c"}
           opacity={visible !== undefined ? 0 : 1}
         />
         <G
@@ -60,7 +59,7 @@ const BatterySVG = ({
                 : "#2a4a4f"
             }
           />
-          <Path
+          <Path //BORDER
             id="Rectangle_220"
             data-name="Rectangle 220"
             d="M7,5A2,2,0,0,0,5,7V42a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V7a2,2,0,0,0-2-2H7M7,0H26a7,7,0,0,1,7,7V42a7,7,0,0,1-7,7H7a7,7,0,0,1-7-7V7A7,7,0,0,1,7,0Z"
@@ -72,10 +71,9 @@ const BatterySVG = ({
                 ? "#C8D6DA"
                 : "#2a4a4f"
             }
-            // opacity={visible !== undefined ? 0.3 : 1}
           />
         </G>
-        <Rect
+        <Rect //FILL
           id="Rectangle_230"
           data-name="Rectangle 230"
           width="17"
@@ -89,7 +87,6 @@ const BatterySVG = ({
               ? Colors.yellow
               : "#447681"
           }
-          // opacity={0.2}
           opacity={visible !== undefined && visible == false ? 0 : 1}
         />
       </G>

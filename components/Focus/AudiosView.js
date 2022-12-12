@@ -17,10 +17,11 @@ const AudiosView = ({ audios, setChosenAudio, chosenAudio, machine }) => {
       style={{
         backgroundColor: "#F6F6F6",
         borderRadius: 20,
-        maxHeight: 240,
+        maxHeight: 200,
         width: "100%",
-        paddingTop: "4%",
-        paddingHorizontal: "4%",
+        padding: "4%",
+        marginBottom: "4%",
+        // paddingHorizontal: "4%",
 
         // padding: "4%",
         paddingBottom: machine != "Mind" ? "4%" : 0,

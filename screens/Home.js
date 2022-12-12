@@ -70,21 +70,21 @@ const Home = ({}) => {
             name: "Schlaf-o-mat",
             level: 1,
             slots: 2,
-            color: "yellow",
+            color: "#8C91BF",
             state: [],
           },
           machine2: {
             name: "Autochef 6000",
             level: 0,
             slots: 4,
-            color: "red",
+            color: "#8CBF9B",
             state: [],
           },
           machine3: {
             name: "Awesome-O",
             level: 0,
             slots: 14,
-            color: "blue",
+            color: "#EEBF91",
             state: [],
           },
         };
@@ -103,7 +103,7 @@ const Home = ({}) => {
           await AsyncStorage.setItem(
             "Colors",
             [
-              "#8C91BF",
+              // "#8C91BF",
               "#BF918C",
               // "#8CBF9B",
               // "#639C90",

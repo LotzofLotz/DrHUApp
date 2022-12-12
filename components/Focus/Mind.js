@@ -8,10 +8,10 @@ const Mind = (props) => {
     <Svg
       // width="188.833"
       // height="330.474"
-      width={props.small ? props.ratio * 50 : props.ratio * 90}
-      height={props.small ? props.ratio * 100 : props.ratio * 170}
+      width={props.ratio * 90}
+      height={props.ratio * 169}
       //   viewBox="0 0 188.833 330.474"
-      viewBox={props.small ? "0 -4 188.833 275.474" : "0 0 188.833 275.474"}
+      viewBox={"0 0 188.833 275.474"}
     >
       {/* 300  */}
       <Defs>

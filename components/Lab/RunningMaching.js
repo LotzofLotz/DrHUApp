@@ -1,21 +1,18 @@
 import React from "react";
 import Svg, { Path, G } from "react-native-svg";
 
-const RunningMachine = () => {
+const RunningMachine = ({ level, height }) => {
+  let width = (height / 2.3).toString();
+  let heightx = (height / 3.9).toString();
   return (
     <Svg
       id="Group_593"
       data-name="Group 593"
       xmlns="http://www.w3.org/2000/svg"
-      width="340.826"
-      height="196.556"
+      width={width} //"340.826"
+      height={heightx} // "196.556"
       viewBox="0 0 340.826 196.556"
     >
-      {/* <defs>
-    <clipPath id="clip-Path">
-      <rect id="Rectangle_382" data-name="Rectangle 382" width="340.826" height="196.556" fill="none"/>
-    </clipPath>
-  </defs> */}
       <G id="Group_592" data-name="Group 592" clip-Path="url(#clip-Path)">
         <Path
           id="Path_859"

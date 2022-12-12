@@ -5,16 +5,18 @@ import Colors from "../../constants/Colors";
 const Cryo = (props) => {
   // const width = Dimensions.get("window").width * 0.5;
   // const height = Dimensions.get("window").height * 0.5;
+  let width = (props.height / 4).toString();
+  let heightx = (props.height / 2.11).toString();
 
   return (
     <Svg
       id="Component_29_1"
-      // width="190.352"
-      // height="362.898"
-      width={props.small ? props.ratio * 50 : props.ratio * 90}
-      height={props.small ? props.ratio * 100 : props.ratio * 200}
-      // viewBox="0 0 190.352 362.898"
-      viewBox={props.small ? "0 0 200 320" : "0 0 190.352 288"}
+      width={width} //"190.352"
+      height={heightx} //"362.898"
+      // width={props.small ? props.ratio * 50 : props.ratio * 90}
+      // height={props.small ? props.ratio * 100 : props.ratio * 200}
+      viewBox="0 0 190.352 345.898"
+      // viewBox={props.small ? "0 0 200 320" : "0 0 190.352 288"}
     >
       <Defs>
         <ClipPath id="clip-Path">
