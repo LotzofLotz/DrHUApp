@@ -4,7 +4,13 @@ import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
 import { Icon } from "react-native-elements";
 
-const AudiosView = ({ audios, setChosenAudio, chosenAudio, machine }) => {
+const AudiosView = ({
+  audios,
+  setChosenAudio,
+  chosenAudio,
+  machine,
+  height,
+}) => {
   //   useEffect(() => {
   //     {
   //       audios.map((audio) => {
@@ -21,12 +27,8 @@ const AudiosView = ({ audios, setChosenAudio, chosenAudio, machine }) => {
         width: "100%",
         padding: "4%",
         marginBottom: "4%",
-        // paddingHorizontal: "4%",
 
-        // padding: "4%",
         paddingBottom: machine != "Mind" ? "4%" : 0,
-        // padding: "4%",
-        // justifyContent: "space-between",
       }}
     >
       <ScrollView contentContainerStyle={{ justifyContent: "space-between" }}>
@@ -36,7 +38,7 @@ const AudiosView = ({ audios, setChosenAudio, chosenAudio, machine }) => {
             onPress={() => setChosenAudio(audio)}
             style={{
               paddingLeft: 20,
-              height: 40,
+              height: height * 0.06, //40,
               width: "100%",
               borderWidth: 1,
               borderColor:
@@ -53,7 +55,7 @@ const AudiosView = ({ audios, setChosenAudio, chosenAudio, machine }) => {
             <MyText
               content={audio}
               color={audio == chosenAudio ? "white" : Colors.primaryDark}
-              size={18}
+              size={height * 0.034}
             />
 
             <Icon

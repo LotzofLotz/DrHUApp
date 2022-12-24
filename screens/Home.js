@@ -8,15 +8,17 @@ import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import HabitInfosModal2 from "../components/Home/HabitInfosModal2";
+import MyStatusBar from "../components/Global/MyStatusBar";
 
 const Home = ({}) => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [definitionModalVisible, setDefinitionModalVisible] = useState(false);
   const [habitInfosVisible, setHabitInfosVisible] = useState(false);
   const [habits, setHabits] = useState("");
   const [slotz, setSlotz] = useState([]);
   const [currentHabit, setCurrentHabit] = useState();
   const [energy, setEnergy] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [recommendationModalOpen, setRecommendationModalOpen] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const design = 1;
@@ -125,7 +127,6 @@ const Home = ({}) => {
     let slots = [];
     try {
       const keys = await AsyncStorage.getAllKeys();
-      console.log("KEYS:", keys);
       const habitKeys = keys.filter((key) => key.startsWith("Habit_"));
       const habits = await AsyncStorage.multiGet(habitKeys);
       const result = habits.map((x) => ({
@@ -160,10 +161,14 @@ const Home = ({}) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar
+      <MyStatusBar
         translucent={true}
+        // barStyle={"dark-content"}
         backgroundColor={
-          modalVisible || habitInfosVisible || modalOpen
+          definitionModalVisible ||
+          habitInfosVisible ||
+          recommendationModalOpen ||
+          editModalVisible
             ? "#13222499"
             : "transparent"
         }
@@ -177,10 +182,10 @@ const Home = ({}) => {
       />
 
       <HabitDefinitionModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
+        modalVisible={definitionModalVisible}
+        setModalVisible={setDefinitionModalVisible}
         getHabits={getHabits}
-        setModalOpen={setModalOpen}
+        setModalOpen={setRecommendationModalOpen}
       />
 
       <HabitInfosModal2
@@ -188,7 +193,9 @@ const Home = ({}) => {
         setHabitInfosVisible={setHabitInfosVisible}
         habit={currentHabit}
         getHabits={getHabits}
-        setModalOpen={setModalOpen}
+        setEditModalVisible={setEditModalVisible}
+        editModalVisible={editModalVisible}
+        // setModalOpen={setRecommendationModalOpen}
       />
       <ScrollView
         onScroll={(event) => handleScroll(event.nativeEvent.contentOffset.y)}
@@ -197,14 +204,14 @@ const Home = ({}) => {
         {habits.length > 0 && slotz.length > 0 ? (
           <HabitsView
             setHabitInfosVisible={setHabitInfosVisible}
-            setModalVisible={setModalVisible}
+            setModalVisible={setDefinitionModalVisible}
             getHabits={getHabits}
             slots={slotz}
             setCurrentHabit={setCurrentHabit}
             design={design}
           />
         ) : (
-          <EmptyHabitsView setModalVisible={setModalVisible} />
+          <EmptyHabitsView setModalVisible={setDefinitionModalVisible} />
         )}
       </ScrollView>
     </View>

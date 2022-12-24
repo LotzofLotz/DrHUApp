@@ -23,7 +23,7 @@ import { Icon } from "react-native-elements";
 const HabitEditModal = (props) => {
   useEffect(() => {
     if (props.editModalVisible) {
-      props.setModalOpen(true);
+      // props.setModalOpen(true);
       setChosenAmount(props.habit?.value["Amount"]),
         setChosenColor(props.habit?.value["Color"]),
         setChosenName(props.habit?.value["Name"]),
@@ -103,7 +103,7 @@ const HabitEditModal = (props) => {
       await AsyncStorage.setItem("Habit_" + chosenName, jsonHabit);
       console.log("setting this new habit:", jsonHabit);
       props.getHabits();
-      // props.setEditModalVisible(false);
+      props.setEditModalVisible(false);
       // setInfoVisible(false);
       // props.setModalOpen(false);
       // console.log("trying to trigger getHabits in edit");
@@ -123,7 +123,7 @@ const HabitEditModal = (props) => {
         animationOut="slideOutUp"
         onBackdropPress={() => {
           props.setEditModalVisible(false);
-          props.setModalOpen(false);
+          // props.setModalOpen(false);
         }}
       >
         <View
@@ -151,10 +151,10 @@ const HabitEditModal = (props) => {
                 <TouchableOpacity
                   style={{ top: "2%" }}
                   onPress={() => {
-                    props.setEditModalVisible(false),
-                      // props.setModalOpen(false),
-                      // saveHabit(),
-                      props.setInfoModalVisible(true);
+                    props.setEditModalVisible(false);
+                    // props.setModalOpen(false),
+                    // saveHabit(),
+                    //props.setInfoModalVisible(true);
                   }}
                 >
                   <Icon name="close" color={Colors.primaryDark} />
@@ -261,13 +261,13 @@ const HabitEditModal = (props) => {
             text={"Batterie erfolgreich editiert!"}
             onPress={() => {
               setInfoVisible(false),
-                props.setModalOpen(false),
+                // props.setModalOpen(false),
                 props.setEditModalVisible(false);
               props.setInfoModalVisible(false);
             }}
             onXPress={() => {
               setInfoVisible(false),
-                props.setModalOpen(false),
+                // props.setModalOpen(false),
                 props.setEditModalVisible(false);
               props.setInfoModalVisible(false);
             }}

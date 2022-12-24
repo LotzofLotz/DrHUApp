@@ -12,6 +12,7 @@ const MyTabBar = ({ navigation }) => {
   const midRadius = 45;
 
   const width = Dimensions.get("window").width;
+  const height = Dimensions.get("window").height;
   const [focused, setFocused] = useState("Home");
 
   const design = 1;
@@ -156,7 +157,18 @@ const MyTabBar = ({ navigation }) => {
           onPress={() => {
             setFocused("Lab"), navigation.navigate("Lab");
           }}
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            height: 50,
+            width: 50,
+            backgroundColor:
+              focused == "Lab" && design == 1
+                ? Colors.primaryLight
+                : Colors.primaryDark,
+            borderRadius: 420,
+          }}
         >
           <Image
             source={require("../../assets/NAVBarLaborIcon.png")}

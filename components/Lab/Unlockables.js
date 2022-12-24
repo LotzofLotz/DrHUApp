@@ -5,7 +5,7 @@ import { MyText } from "../Global/MyText";
 import Colors from "../../constants/Colors";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
-const Unlockables = ({ color, level }) => {
+const Unlockables = ({ color, level, setComicModalVisible }) => {
   const height = Dimensions.get("window").height;
   return (
     <View
@@ -16,7 +16,8 @@ const Unlockables = ({ color, level }) => {
         justifyContent: "space-between",
       }}
     >
-      <View
+      <TouchableOpacity
+        onPress={() => setComicModalVisible(true)}
         style={{
           width: height * 0.08,
           height: height * 0.08,
@@ -49,7 +50,7 @@ const Unlockables = ({ color, level }) => {
             size={height * 0.02}
           />
         </View>
-      </View>
+      </TouchableOpacity>
       <View
         style={{
           width: height * 0.08,

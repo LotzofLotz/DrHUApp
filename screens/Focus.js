@@ -8,7 +8,7 @@ import Breath from "../components/Focus/Breath";
 import Mind from "../components/Focus/Mind";
 import SockelContent from "../components/Focus/SockelContent";
 import FocusModal from "../components/Focus/FocusModal";
-import { StatusBar } from "expo-status-bar";
+import MyStatusBar from "../components/Global/MyStatusBar";
 import { useIsFocused } from "@react-navigation/native";
 import getWeek from "date-fns/getWeek";
 import { useFocusEffect } from "@react-navigation/native";
@@ -113,7 +113,7 @@ const Focus = ({}) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar
+      <MyStatusBar
         translucent={true}
         backgroundColor={
           focusModalVisible && darkModalVisible && focused

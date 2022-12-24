@@ -26,7 +26,7 @@ const FocusModal = ({
   setMachineCounts,
 }) => {
   const height =
-    Dimensions.get("window").height * 0.9 > 700
+    Dimensions.get("window").height * 0.9 > 600
       ? 700
       : Dimensions.get("window").height * 0.9;
 
@@ -92,7 +92,8 @@ const FocusModal = ({
 
         <View
           style={{
-            maxHeight: height,
+            // maxHeight: height,
+            height: height,
             backgroundColor: "white",
             borderRadius: 10,
             padding: "4%",
@@ -111,7 +112,7 @@ const FocusModal = ({
               flexDirection: "row",
               justifyContent: "space-between",
               // backgroundColor: "green",
-              height: "20%",
+              height: "26%",
             }}
           >
             {/* üBERARBEITEN, SOBALD STEFAN MIR SPRECHBLASE SCHICKT  */}
@@ -154,6 +155,7 @@ const FocusModal = ({
               setChosenAudio={setChosenAudio}
               chosenAudio={chosenAudio}
               machine={machine}
+              height={height}
             />
           ) : (
             <TimePickerView
@@ -161,7 +163,7 @@ const FocusModal = ({
               setChosenTime={setChosenTime}
             />
           )}
-          <View style={{ right: "5%" }}>
+          <View style={{ margin: "-5%", marginVertical: "3%" }}>
             <FocusCounter
               machine={machine}
               width={width}
@@ -176,25 +178,35 @@ const FocusModal = ({
               }
             />
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              chosenAudio == "" && machine != "Energy"
-                ? setInfoVisible(true)
-                : (setDarkModalVisible(true), setFullModalVisible(true));
+          <View
+            style={{
+              // marginTop: "5%",
+              position: "absolute",
+              bottom: "4%",
+              left: "4%",
+              width: "100%",
             }}
           >
-            <View
-              style={{
-                borderRadius: 36,
-                backgroundColor: Colors.yellow,
-                marginTop: height * 0.02,
-                paddingHorizontal: height * 0.03,
-                paddingVertical: 10,
+            <TouchableOpacity
+              onPress={() => {
+                chosenAudio == "" && machine != "Energy"
+                  ? setInfoVisible(true)
+                  : (setDarkModalVisible(true), setFullModalVisible(true));
               }}
             >
-              <MyText content="Fokus starten" center semiBold />
-            </View>
-          </TouchableOpacity>
+              <View
+                style={{
+                  borderRadius: 36,
+                  backgroundColor: Colors.yellow,
+                  marginTop: height * 0.02,
+                  paddingHorizontal: height * 0.03,
+                  paddingVertical: 10,
+                }}
+              >
+                <MyText content="Fokus starten" center semiBold />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>

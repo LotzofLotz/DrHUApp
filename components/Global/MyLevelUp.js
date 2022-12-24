@@ -5,7 +5,6 @@ import Colors from "../../constants/Colors";
 import Modal from "react-native-modal";
 import { Icon } from "react-native-elements";
 import UnlockedOnLvlUp from "../Lab/UnlockedOnLvlUp";
-import UnlockabledOnLvlUp from "../Lab/UnlockedOnLvlUp";
 
 const MyLevelUp = (props) => {
   const height = Dimensions.get("window").height;
@@ -61,7 +60,7 @@ const MyLevelUp = (props) => {
         </TouchableOpacity>
         <MyText content={props.text} center size={height * 0.035} />
 
-        <UnlockabledOnLvlUp
+        <UnlockedOnLvlUp
           color={props.color}
           level={props.level}
           nextColor={props.nextColor}

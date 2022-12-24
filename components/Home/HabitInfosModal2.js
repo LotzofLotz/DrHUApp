@@ -36,10 +36,7 @@ const HabitInfosModal2 = (props) => {
   const ratio = height / width;
   const [modalHeight, setModalHeight] = useState(0);
   const [calendarHeight, setCalendarHeight] = useState(0);
-  // Dimensions.get("window").height * 0.9 > 700
-  //   ? 700
-  //   : Dimensions.get("window").height * 0.9;
-  const [editModalVisible, setEditModalVisible] = useState(false);
+  // const [editModalVisible, setEditModalVisible] = useState(false);
   const [batteries, setBatteries] = useState(0);
   const [currStreak, setCurrStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
@@ -57,15 +54,14 @@ const HabitInfosModal2 = (props) => {
     (screenHeight - statusHeight) * modalPercentage - calendarHeight;
   const availableSpace = freeSpace;
 
-  useEffect(() => {
-    console.log("Height total:", height);
-    console.log("screen height:", screenHeight);
-    // console.log("modal Height: ", modalHeight);
-    // console.log("calendar height: ", calendarHeight);
-    console.log("available space: ", availableSpace);
+  // useEffect(() => {
+  //   console.log("Height total:", height);
+  //   console.log("screen height:", screenHeight);
 
-    console.log("statusBarHeight:", statusHeight);
-  }, [modalHeight, calendarHeight]);
+  //   console.log("available space: ", availableSpace);
+
+  //   console.log("statusBarHeight:", statusHeight);
+  // }, [modalHeight, calendarHeight]);
 
   LocaleConfig.locales["de"] = {
     monthNames: [
@@ -247,9 +243,9 @@ const HabitInfosModal2 = (props) => {
   };
 
   const editHabit = () => {
-    // props.setHabitInfosVisible(false);
+    props.setHabitInfosVisible(false);
     // props.getHabits();
-    setEditModalVisible(true);
+    props.setEditModalVisible(true);
   };
 
   //calculates current and longest Streak
@@ -320,12 +316,11 @@ const HabitInfosModal2 = (props) => {
   return (
     <View>
       <HabitEditModal
-        editModalVisible={editModalVisible}
-        setEditModalVisible={setEditModalVisible}
+        editModalVisible={props.editModalVisible}
+        setEditModalVisible={props.setEditModalVisible}
         habit={props.habit}
         getHabits={props.getHabits}
         setInfoModalVisible={props.setHabitInfosVisible}
-        setModalOpen={props.setModalOpen}
         sessions={step}
         perfectWeeks={perfectWeeks}
         sessionDates={sessionDates}
@@ -410,10 +405,10 @@ const HabitInfosModal2 = (props) => {
 
                   <TouchableOpacity
                     // style={{ top: "2%" }}
-                    onPress={() => (
-                      props.setHabitInfosVisible(false),
-                      props.setModalOpen(false)
-                    )}
+                    onPress={
+                      () => props.setHabitInfosVisible(false)
+                      // props.setModalOpen(false)
+                    }
                   >
                     <Icon name="close" />
                   </TouchableOpacity>

@@ -13,12 +13,13 @@ import PowerBoxSVG from "./PowerBoxSVG";
 import FullBatteryBox from "./FullBatteryBox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MyLevelUp from "../Global/MyLevelUp";
+import { FontAwesome } from "@expo/vector-icons";
+import Unlockables from "./Unlockables";
 
 const PowerBox = ({
   powerBoxVisible,
   setPowerBoxVisible,
   energy,
-  setEnergy,
   slots,
   currentState,
   currentMachine,
@@ -28,9 +29,12 @@ const PowerBox = ({
   currentMachineName,
   currentColor,
   nextColor,
+  height,
+  infoVisible,
+  setInfoVisible,
+  setComicModalVisible,
 }) => {
   const [filled, setFilled] = useState(0);
-  const [infoVisible, setInfoVisible] = useState(false);
 
   useEffect(() => {
     const filled = currentState.filter((x) => x == "filled").length;
@@ -107,6 +111,9 @@ const PowerBox = ({
     }
   };
 
+  const congratulationText =
+    "Gratulation, " + currentMachineName + " ist jetzt Level " + currentLevel;
+
   return (
     <View>
       <Modal
@@ -117,12 +124,7 @@ const PowerBox = ({
           isVisible={infoVisible}
           setIsVisible={setInfoVisible}
           color={currentColor}
-          text={
-            "Gratulation, " +
-            currentMachineName +
-            " ist jetzt Level " +
-            currentLevel
-          }
+          text={congratulationText}
           buttonName="ok cool"
           onPress={() => (setInfoVisible(false), setPowerBoxVisible(false))}
           onXPress={() => (setInfoVisible(false), setPowerBoxVisible(false))}
@@ -137,50 +139,75 @@ const PowerBox = ({
             right: 0,
             // height: "20%",
             width: "100%",
-            backgroundColor: "green",
+
             top: -StatusBar.currentHeight,
           }}
         >
-          {/* <View
-          style={{ justifyContent: "flex-start", backgroundColor: "green" }}
-        > */}
           <MyHeader title="Labor" energy={energy} design={1} />
-          {/* <MyText content="lol" /> */}
         </View>
 
-        <MyText content="Stromkasten" size={40} center />
-        <MyText content="Level" center />
-        <MyText content={currentLevel} center />
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          {/* <PowerBoxSVG
-            states={currentState}
-            addBattery={addBattery}
-            slots={slots}
-            filled={filled}
-          /> */}
-          <TouchableWithoutFeedback onPress={() => console.log("LELMAO")}>
-            <FullBatteryBox
-              states={currentState}
-              addBattery={addBattery}
-              slots={slots}
-              filled={filled}
-              currentLevel={currentLevel}
-            />
-          </TouchableWithoutFeedback>
-          {/* <TouchableWithoutFeedback
-            style={{ height: "50%", width: "50%", position: "absolute" }}
-            onPress={() => console.log("BIG PRESS")}
+        <View style={{ justifyContent: "space-around", flex: 1 }}>
+          <View
+            style={{
+              top: StatusBar.currentHeight, //MESSY SHIT HERE
+              flex: 1.2,
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <View />
-          </TouchableWithoutFeedback> */}
+            <MyText content="Batterie-Box" size={height * 0.05} />
+          </View>
+          <View
+            style={{
+              position: "absolute",
+              top: "10%",
+              right: "4%",
+              height: height * 0.06,
+              width: height * 0.06,
+              borderRadius: 420,
+              backgroundColor: Colors.primaryLight,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FontAwesome
+              style={{ right: "3%" }}
+              color={"white"}
+              name={"chevron-left"}
+              size={height * 0.04}
+              onPress={() => setPowerBoxVisible(false)}
+            />
+          </View>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              // height: "60%",
+              flex: 4,
+            }}
+          >
+            <TouchableOpacity style={{}} onPress={() => console.log("LELMAO")}>
+              <FullBatteryBox
+                states={currentState}
+                addBattery={addBattery}
+                slots={slots}
+                filled={filled}
+                currentLevel={currentLevel}
+                currentColor={currentColor}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ alignItems: "center", flex: 1 }}>
+            <View style={{ width: "80%", alignItems: "center" }}>
+              <Unlockables
+                color={currentColor}
+                level={currentLevel}
+                setComicModalVisible={setComicModalVisible}
+              />
+            </View>
+          </View>
         </View>
-
-        <TouchableOpacity
-          onPress={() => setPowerBoxVisible(false)}
-          style={{ backgroundColor: Colors.primaryDark }}
-        >
-          <MyText content="BACK" color="white" center />
-        </TouchableOpacity>
       </Modal>
     </View>
   );

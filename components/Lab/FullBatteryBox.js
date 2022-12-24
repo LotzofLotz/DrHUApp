@@ -8,7 +8,12 @@ import Svg, {
   Text,
   TSpan,
 } from "react-native-svg";
-import { TouchableHighlight, View } from "react-native";
+import {
+  TouchableHighlight,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { MyText } from "../Global/MyText";
 import BatterySVG from "./BatterySVG";
 import TouchableOpacityG from "./TouchableOpacityG";
@@ -20,6 +25,7 @@ const FullBatteryBox = ({
   slots,
   filled,
   currentLevel,
+  currentColor,
 }) => {
   const battery1 = "matrix(0.921, 0.391, -0.391, 0.921, 317.893, -112.018)";
   const battery2 = "matrix(0.719, 0.695, -0.695, 0.719, 532.378, -31.419)";
@@ -68,6 +74,17 @@ const FullBatteryBox = ({
   }, []);
 
   return (
+    // <TouchableOpacity
+    //   style={
+    //     {
+    //       // backgroundColor: "green",
+    //       // position: "absolute",
+    //       // height: 300,
+    //       // width: 300,
+    //     }
+    //   }
+    //   onPress={() => console.log("Y>IPSYIEHSD")}
+    // >
     <Svg
       xmlns="http://www.w3.org/2000/svg"
       width="390.346"
@@ -271,14 +288,14 @@ const FullBatteryBox = ({
             visible={wing4Visible}
           />
         </G>
+
+        {/* LEVEL INDICATOR  */}
         <G
-          id="Level_Indicator"
-          data-name="Level Indicator"
+          id="Level_2"
+          data-name="Level 2"
+          // transform="translate(-257.604 -444.042)"
           transform="translate(-86.64 -157.773)"
         >
-          {/* <View>
-            <MyText content="1" />
-          </View> */}
           <Path
             id="Path_736"
             data-name="Path 736"
@@ -293,24 +310,28 @@ const FullBatteryBox = ({
             transform="translate(-79.323 91.807)"
             fill="#2a4a4f"
           />
-
           <Path
-            id="Indicator_Color"
-            data-name="Indicator Color"
+            id="Colored_Part"
+            data-name="Colored Part"
             d="M384.055,379.315a20.047,20.047,0,1,1-20.047-20.047,20.047,20.047,0,0,1,20.047,20.047"
             transform="translate(-72.368 98.762)"
-            fill="#f5ce52"
+            fill={currentColor}
           />
-          {/* <Text
-            x="20"
-            y="40"
-            text-anchor="middle"
-            fontWeight="bold"
-            fill="black"
+          <Text
+            id="Level_Number_2"
+            data-name="Level Number 2"
+            transform="translate(279.402 459.577)"
+            fill="#2a4a4f"
+            fontSize="30"
+            fontFamily="Work Sans"
+            fontWeight="700"
           >
-            New
-          </Text> */}
+            <TSpan x="5" y="28">
+              {currentLevel}
+            </TSpan>
+          </Text>
         </G>
+
         <G id="Centerpiece">
           <Path //center background
             id="Path_571"
@@ -557,6 +578,7 @@ const FullBatteryBox = ({
         </G>
       </G>
     </Svg>
+    // </TouchableOpacity>
   );
 };
 
