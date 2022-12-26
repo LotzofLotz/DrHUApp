@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import { ScrollView, Image, Dimensions, View, FlatList } from "react-native";
-import Comic_run from "../../assets/Comics/Comic_run";
-import Comic_Try from "../../assets/Comics/Comic_Try";
+
 import { MyText } from "../Global/MyText";
 import Colors from "../../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
@@ -17,16 +16,16 @@ const ComicReader = ({ isVisible, setReaderVisible }) => {
   const [ready, setReady] = useState(false);
   const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      const image = Asset.fromModule(
-        require("../../assets/Comics/runComic3.png")
-      );
-      await image.downloadAsync();
-      setImage(image);
-      setReady(true);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const image = Asset.fromModule(
+  //       require("../../assets/Comics/runComic3.png")
+  //     );
+  //     await image.downloadAsync();
+  //     setImage(image);
+  //     setReady(true);
+  //   })();
+  // }, []);
 
   const _renderImage = () => (
     <Image

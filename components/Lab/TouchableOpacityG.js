@@ -108,6 +108,7 @@ export default class TouchableOpacityG extends Component {
   };
 
   touchableHandleActivePressIn = (e) => {
+    console.log("active pressin triggered");
     if (e.dispatchConfig.registrationName === "onResponderGrant") {
       this._opacityActive(0);
     } else {
@@ -117,11 +118,14 @@ export default class TouchableOpacityG extends Component {
   };
 
   touchableHandleActivePressOut = (e) => {
+    console.log("active pressOUT triggered");
     this._opacityInactive(250);
     this.props.onPressOut && this.props.onPressOut(e);
+    this.props.onPress && this.props.onPress(e);
   };
 
   touchableHandlePress = (e) => {
+    console.log("handle press triggered");
     this.props.onPress && this.props.onPress(e);
   };
 

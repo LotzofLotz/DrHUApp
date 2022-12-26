@@ -13,8 +13,6 @@ const ComicsModal = ({
   colors,
   setReaderVisible,
 }) => {
-  console.log("COCOC", colors);
-
   const fillColors = (colors) => {
     let i = 0;
     let array = [];

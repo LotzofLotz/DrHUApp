@@ -74,17 +74,6 @@ const FullBatteryBox = ({
   }, []);
 
   return (
-    // <TouchableOpacity
-    //   style={
-    //     {
-    //       // backgroundColor: "green",
-    //       // position: "absolute",
-    //       // height: 300,
-    //       // width: 300,
-    //     }
-    //   }
-    //   onPress={() => console.log("Y>IPSYIEHSD")}
-    // >
     <Svg
       xmlns="http://www.w3.org/2000/svg"
       width="390.346"
@@ -578,7 +567,6 @@ const FullBatteryBox = ({
         </G>
       </G>
     </Svg>
-    // </TouchableOpacity>
   );
 };
 

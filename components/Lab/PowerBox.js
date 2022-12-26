@@ -187,16 +187,14 @@ const PowerBox = ({
               flex: 4,
             }}
           >
-            <TouchableOpacity style={{}} onPress={() => console.log("LELMAO")}>
-              <FullBatteryBox
-                states={currentState}
-                addBattery={addBattery}
-                slots={slots}
-                filled={filled}
-                currentLevel={currentLevel}
-                currentColor={currentColor}
-              />
-            </TouchableOpacity>
+            <FullBatteryBox
+              states={currentState}
+              addBattery={addBattery}
+              slots={slots}
+              filled={filled}
+              currentLevel={currentLevel}
+              currentColor={currentColor}
+            />
           </View>
           <View style={{ alignItems: "center", flex: 1 }}>
             <View style={{ width: "80%", alignItems: "center" }}>

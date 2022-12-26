@@ -223,9 +223,9 @@ const HabitInfosModal = (props) => {
   };
 
   const editHabit = () => {
-    props.setHabitInfosVisible(false);
-    props.getHabits();
+    // props.getHabits();
     setEditModalVisible(true);
+    // props.setHabitInfosVisible(false);
   };
 
   //calculates current and longest Streak
@@ -295,27 +295,6 @@ const HabitInfosModal = (props) => {
 
   return (
     <View>
-      <HabitEditModal
-        editModalVisible={editModalVisible}
-        setEditModalVisible={setEditModalVisible}
-        habit={props.habit}
-        getHabits={props.getHabits}
-        setInfoModalVisible={props.setHabitInfosVisible}
-        setModalOpen={props.setModalOpen}
-        sessions={step}
-        perfectWeeks={perfectWeeks}
-        sessionDates={sessionDates}
-      />
-      <MyInfo
-        color={Colors.pink}
-        isVisible={infoVisible}
-        setIsVisible={setInfoVisible}
-        text={"Bist du sicher? Alle Einträge gehen hiermit verloren"}
-        onPress={() => deleteHabit(props.habit?.value["Name"])}
-        onXPress={() => setInfoVisible(false)}
-        buttonName={"löschen"}
-        icon={"questionmark"}
-      />
       <Modal
         isVisible={props.habitInfosVisible}
         animationIn="slideInDown"
@@ -326,6 +305,27 @@ const HabitInfosModal = (props) => {
         // useNativeDriver={true}
         onBackdropPress={() => props.setHabitInfosVisible(false)}
       >
+        <HabitEditModal
+          editModalVisible={editModalVisible}
+          setEditModalVisible={setEditModalVisible}
+          habit={props.habit}
+          getHabits={props.getHabits}
+          setInfoModalVisible={props.setHabitInfosVisible}
+          setModalOpen={props.setModalOpen}
+          sessions={step}
+          perfectWeeks={perfectWeeks}
+          sessionDates={sessionDates}
+        />
+        <MyInfo
+          color={Colors.pink}
+          isVisible={infoVisible}
+          setIsVisible={setInfoVisible}
+          text={"Bist du sicher? Alle Einträge gehen hiermit verloren"}
+          onPress={() => deleteHabit(props.habit?.value["Name"])}
+          onXPress={() => setInfoVisible(false)}
+          buttonName={"löschen"}
+          icon={"questionmark"}
+        />
         <View
           style={
             {
@@ -359,39 +359,6 @@ const HabitInfosModal = (props) => {
                     size={height * 0.04}
                   />
                 </View>
-                {/* <View
-                  style={{
-                    flexDirection: "row",
-                    width: "20%",
-                    justifyContent: "space-evenly",
-                  }}
-                > */}
-                {/* <MaterialIcons
-                    name="edit"
-                    size={height * 0.05}
-                    color={Colors.primaryDark}
-                    onPress={() => editHabit(props.habit?.value["Name"])}
-                  />
-                  <MyInfo
-                    color={Colors.pink}
-                    isVisible={infoVisible}
-                    setIsVisible={setInfoVisible}
-                    text={
-                      "Bist du sicher? Alle Einträge gehen hiermit verloren"
-                    }
-                    onPress={() => deleteHabit(props.habit?.value["Name"])}
-                    onXPress={() => setInfoVisible(false)}
-                    buttonName={"löschen"}
-                    icon={"questionmark"}
-                  />
-                  <MaterialIcons
-                    onPress={() => {
-                      setInfoVisible(true);
-                    }}
-                    name="delete"
-                    size={height * 0.05}
-                    color={Colors.primaryDark}
-                  /> */}
 
                 <TouchableOpacity
                   style={{ top: "2%" }}
@@ -401,7 +368,6 @@ const HabitInfosModal = (props) => {
                 >
                   <Icon name="close" />
                 </TouchableOpacity>
-                {/* </View> */}
               </View>
 
               <MyText
@@ -637,6 +603,7 @@ const HabitInfosModal = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => editHabit(props.habit?.value["Name"])}
+                  // onPress={() => setEditModalVisible(true)}
                   style={{
                     width: "80%",
                     height: height * 0.05,

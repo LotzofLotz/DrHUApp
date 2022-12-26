@@ -1,5 +1,10 @@
 import React from "react";
-import { View, TouchableWithoutFeedback, Dimensions } from "react-native";
+import {
+  View,
+  TouchableWithoutFeedback,
+  Dimensions,
+  Platform,
+} from "react-native";
 import { Icon } from "react-native-elements";
 import Colors from "../../constants/Colors";
 import { MyText } from "../Global/MyText";
@@ -16,7 +21,9 @@ const RecommendationSquare = (props) => {
         props.setModalOpen(true);
         props.setChosenRecommendation(props.name);
         props.setRecommendationModalVisible(true);
-        props.setModalVisible(false);
+        // if (Platform.OS == "android") {
+        //   props.setModalVisible(false);
+        // }
         console.log("PREESSED2!!!");
       }}
     >

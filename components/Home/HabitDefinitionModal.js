@@ -80,14 +80,6 @@ const HabitDefinitionModal = (props) => {
 
   return (
     <View>
-      <HabitRecommendationModal // bugs out on ios
-        // avoidKeyboard={true}
-        chosenRecommendation={chosenRecommendation}
-        setRecommendationModalVisible={setRecommendationModalVisible}
-        recommendationModalVisible={recommendationModalVisible}
-        getHabits={props.getHabits}
-        setModalOpen={props.setModalOpen}
-      />
       <Modal
         isVisible={props.modalVisible}
         animationIn="slideInDown"
@@ -101,6 +93,14 @@ const HabitDefinitionModal = (props) => {
             setChosenIconName("");
         }}
       >
+        <HabitRecommendationModal // bugs out on ios
+          // avoidKeyboard={true}
+          chosenRecommendation={chosenRecommendation}
+          setRecommendationModalVisible={setRecommendationModalVisible}
+          recommendationModalVisible={recommendationModalVisible}
+          getHabits={props.getHabits}
+          setModalOpen={props.setModalOpen}
+        />
         <View
           style={{
             alignItems: "center",

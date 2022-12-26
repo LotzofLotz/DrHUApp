@@ -6,10 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/DRHUFace.png",
     "userInterfaceStyle": "light",
-   
     "splash": {
       "image": "./assets/DRHUFace.png",
-       "resizeMode":"contain", 
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -31,6 +30,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "68fb26b9-c448-46b2-b911-d381ffb60528"
+      }
     }
   }
 }
