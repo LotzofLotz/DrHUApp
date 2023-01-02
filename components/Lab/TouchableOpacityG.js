@@ -117,12 +117,13 @@ export default class TouchableOpacityG extends Component {
   };
 
   touchableHandleActivePressOut = (e) => {
+    this.props.onPress && this.props.onPress(e);
     this._opacityInactive(250);
     this.props.onPressOut && this.props.onPressOut(e);
   };
 
   touchableHandlePress = (e) => {
-    this.props.onPress && this.props.onPress(e);
+    // this.props.onPress && this.props.onPress(e);
   };
 
   touchableHandleLongPress = (e) => {

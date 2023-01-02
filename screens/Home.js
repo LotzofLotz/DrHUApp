@@ -115,9 +115,11 @@ const Home = ({}) => {
             ].toString()
           ),
           console.log("Energy und Colors und Maschinen upgesettet");
-      } else {
-        setEnergy(energy);
+        // setEnergy(energy);
       }
+      // else {
+      //   setEnergy(energy);
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -145,7 +147,9 @@ const Home = ({}) => {
       setSlotz(slots);
       setHabits(result);
       const energy = await AsyncStorage.getItem("Energy");
-      setEnergy(parseInt(energy));
+      if (energy != null) {
+        setEnergy(parseInt(energy));
+      }
     } catch (e) {
       console.log("error", e);
     }

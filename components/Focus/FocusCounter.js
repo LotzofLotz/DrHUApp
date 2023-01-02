@@ -184,9 +184,9 @@ const FocusCounter = ({ count, width, machine }) => {
   ) : count == 1 ? (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="368.387"
-      height="61.929"
-      viewBox="0 0 368.387 61.929"
+      width="505.387"
+      height="65.929"
+      viewBox="0 0 499.387 61.929"
     >
       <G
         id="FokusBatterieStatus_Halb"
@@ -395,9 +395,9 @@ const FocusCounter = ({ count, width, machine }) => {
   ) : (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="368.387"
-      height="61.929"
-      viewBox="0 0 368.387 61.929"
+      width="505.387"
+      height="65.929"
+      viewBox="0 0 499.387 61.929"
     >
       <G
         id="FokusBatterieStatus_Voll"
