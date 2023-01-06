@@ -7,7 +7,7 @@ import EmptyHabitsView from "../components/Home/EmptyHabitsView";
 import HabitsView from "../components/Home/HabitsView";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import HabitInfosModal2 from "../components/Home/HabitInfosModal2";
+import HabitInfosModal from "../components/Home/HabitInfosModal";
 import MyStatusBar from "../components/Global/MyStatusBar";
 
 const Home = ({}) => {
@@ -189,10 +189,11 @@ const Home = ({}) => {
         modalVisible={definitionModalVisible}
         setModalVisible={setDefinitionModalVisible}
         getHabits={getHabits}
-        setModalOpen={setRecommendationModalOpen}
+        setRecommendationModalOpen={setRecommendationModalOpen}
+        recommendationModalOpen={recommendationModalOpen}
       />
 
-      <HabitInfosModal2
+      <HabitInfosModal
         habitInfosVisible={habitInfosVisible}
         setHabitInfosVisible={setHabitInfosVisible}
         habit={currentHabit}

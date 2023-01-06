@@ -15,18 +15,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"Schlafen"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Workout"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
       <View
@@ -39,18 +37,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"Schritte"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Muskelrelaxation"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
 
@@ -64,18 +60,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"Kochen"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Abstinenz"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
 
@@ -89,18 +83,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"Trinken"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Pause"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
       <View
@@ -113,18 +105,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"Trinken"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Atemübungen"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
       <View
@@ -137,18 +127,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"Augengymnastik"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Achtsamkeit"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
       <View
@@ -161,18 +149,16 @@ const RecommendationsView = (props) => {
         <RecommendationSquare
           name={"DigitalDetox"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
         <RecommendationSquare
           name={"Neues"}
           setChosenRecommendation={props.setChosenRecommendation}
-          setRecommendationModalVisible={props.setRecommendationModalVisible}
           setModalVisible={props.setModalVisible}
           getHabits={props.getHabits}
-          setModalOpen={props.setModalOpen}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
         />
       </View>
     </View>

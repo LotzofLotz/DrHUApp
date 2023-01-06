@@ -86,15 +86,14 @@ const FullBatteryBox = ({
     //   onPress={() => console.log("Y>IPSYIEHSD")}
     // >
     <Svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="390.346"
+      width="390" //"390.346"
       height="412.112"
       viewBox="0 0 390.346 412.112"
     >
       <G
         id="Stromkasten_SVG"
         data-name="Stromkasten SVG"
-        transform="translate(-12.515 -286.269)"
+        // transform="translate(-12.515 -286.269)" // this messes things up
       >
         <G id="Flügel_1" data-name="Flügel 1">
           <G id="Flügel_1_Kabel" data-name="Flügel 1 Kabel">

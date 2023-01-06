@@ -2,12 +2,16 @@ import React from "react";
 import Svg, { Path, G, Line } from "react-native-svg";
 
 const PinguBubble = ({ height }) => {
+  let viewbox = "0 0 " + String(height) + " 1695";
+
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
       width={height / 5} //"150.425"
       height={height / 5} //"150.883"
-      viewBox="0 0 260 1600"
+      viewBox={viewbox}
+
+      //"0 0 290 1600" //
     >
       {/* <defs>
     <clipPath id="clip-Path">

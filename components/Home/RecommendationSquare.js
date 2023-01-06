@@ -12,12 +12,10 @@ const RecommendationSquare = (props) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        console.log("PREESSED!!!");
-        props.setModalOpen(true);
+        props.setRecommendationModalOpen(true);
         props.setChosenRecommendation(props.name);
-        props.setRecommendationModalVisible(true);
-        props.setModalVisible(false);
-        console.log("PREESSED2!!!");
+        // props.setRecommendationModalVisible(true);
+        // props.setModalVisible(false);
       }}
     >
       <View

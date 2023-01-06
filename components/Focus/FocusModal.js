@@ -26,9 +26,10 @@ const FocusModal = ({
   setMachineCounts,
 }) => {
   const height =
-    Dimensions.get("window").height * 0.9 > 600
-      ? 700
-      : Dimensions.get("window").height * 0.9;
+    // Dimensions.get("window").height * 0.9 > 600
+    //   ? 700
+    //   :
+    Dimensions.get("window").height * 0.9;
 
   const width = Dimensions.get("window").width;
   console.log("WWW:", width);
@@ -112,7 +113,7 @@ const FocusModal = ({
               flexDirection: "row",
               justifyContent: "space-between",
               // backgroundColor: "green",
-              height: "26%",
+              height: "22%",
             }}
           >
             {/* üBERARBEITEN, SOBALD STEFAN MIR SPRECHBLASE SCHICKT  */}
@@ -128,17 +129,30 @@ const FocusModal = ({
                   width: "100%",
                   flexDirection: "row",
                   height: "60%",
-                  justifyContent: "space-between",
+                  // justifyContent: "space-around",
                 }}
               >
-                <View style={{ justifyContent: "space-evenly" }}>
+                <View
+                  style={{
+                    justifyContent: "center",
+
+                    width: "70%",
+                  }}
+                >
                   <MyText
                     content="lustiger Spruch lelmao"
                     italic
                     size={height * 0.025}
                   />
                 </View>
-                <PinguBubble height={height} />
+                <View
+                  style={{
+                    width: "30%",
+                    alignItems: "center",
+                  }}
+                >
+                  <PinguBubble height={height} />
+                </View>
               </View>
             </View>
           </View>
@@ -163,10 +177,16 @@ const FocusModal = ({
               setChosenTime={setChosenTime}
             />
           )}
-          <View style={{ margin: "-5%", marginVertical: "3%" }}>
+          <View
+            style={{
+              margin: "-5%",
+              marginVertical: "3%",
+            }}
+          >
             <FocusCounter
               machine={machine}
               width={width}
+              height={height}
               count={
                 machine == "Cryo"
                   ? cryoCount

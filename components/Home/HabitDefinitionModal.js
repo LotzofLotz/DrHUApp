@@ -27,6 +27,7 @@ const HabitDefinitionModal = (props) => {
 
   const [recommendationModalVisible, setRecommendationModalVisible] =
     useState(false);
+
   const [chosenRecommendation, setChosenRecommendation] = useState("");
   const modalHeight =
     Dimensions.get("window").height * 0.9 > 700
@@ -80,14 +81,6 @@ const HabitDefinitionModal = (props) => {
 
   return (
     <View>
-      <HabitRecommendationModal // bugs out on ios
-        // avoidKeyboard={true}
-        chosenRecommendation={chosenRecommendation}
-        setRecommendationModalVisible={setRecommendationModalVisible}
-        recommendationModalVisible={recommendationModalVisible}
-        getHabits={props.getHabits}
-        setModalOpen={props.setModalOpen}
-      />
       <Modal
         isVisible={props.modalVisible}
         animationIn="slideInDown"
@@ -101,6 +94,15 @@ const HabitDefinitionModal = (props) => {
             setChosenIconName("");
         }}
       >
+        <HabitRecommendationModal // bugs out on ios
+          // avoidKeyboard={true}
+          chosenRecommendation={chosenRecommendation}
+          getHabits={props.getHabits}
+          setRecommendationModalOpen={props.setRecommendationModalOpen}
+          recommendationModalOpen={props.recommendationModalOpen}
+          setDefinitionModalOpen={props.setModalVisible}
+        />
+
         <View
           style={{
             alignItems: "center",
@@ -309,10 +311,10 @@ const HabitDefinitionModal = (props) => {
 
                 <RecommendationsView
                   setChosenRecommendation={setChosenRecommendation}
-                  setRecommendationModalVisible={setRecommendationModalVisible}
+                  // setRecommendationModalVisible={setRecommendationModalVisible}
                   setModalVisible={props.setModalVisible}
                   getHabits={props.getHabits}
-                  setModalOpen={props.setModalOpen}
+                  setRecommendationModalOpen={props.setRecommendationModalOpen}
                 />
               </View>
             </View>

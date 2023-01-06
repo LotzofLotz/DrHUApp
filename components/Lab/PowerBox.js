@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MyLevelUp from "../Global/MyLevelUp";
 import { FontAwesome } from "@expo/vector-icons";
 import Unlockables from "./Unlockables";
+import { Icon } from "react-native-elements";
 
 const PowerBox = ({
   powerBoxVisible,
@@ -150,10 +151,13 @@ const PowerBox = ({
           <View
             style={{
               top: StatusBar.currentHeight, //MESSY SHIT HERE
-              flex: 1.2,
+              flex: 1,
               width: "100%",
               justifyContent: "center",
               alignItems: "center",
+              // backgroundColor: "green",
+              justifyContent: "flex-end",
+              // marginBottom: "4%",
             }}
           >
             <MyText content="Batterie-Box" size={height * 0.05} />
@@ -161,7 +165,7 @@ const PowerBox = ({
           <View
             style={{
               position: "absolute",
-              top: "10%",
+              top: "11%",
               right: "4%",
               height: height * 0.06,
               width: height * 0.06,
@@ -171,11 +175,17 @@ const PowerBox = ({
               justifyContent: "center",
             }}
           >
-            <FontAwesome
+            {/* <FontAwesome
               style={{ right: "3%" }}
               color={"white"}
-              name={"chevron-left"}
+              name={"circle-xmark"}
               size={height * 0.04}
+              onPress={() => setPowerBoxVisible(false)}
+            /> */}
+            <Icon
+              name="close"
+              size={height * 0.04}
+              color="white"
               onPress={() => setPowerBoxVisible(false)}
             />
           </View>
@@ -185,18 +195,17 @@ const PowerBox = ({
               alignItems: "center",
               // height: "60%",
               flex: 4,
+              // backgroundColor: "green",
             }}
           >
-            <TouchableOpacity style={{}} onPress={() => console.log("LELMAO")}>
-              <FullBatteryBox
-                states={currentState}
-                addBattery={addBattery}
-                slots={slots}
-                filled={filled}
-                currentLevel={currentLevel}
-                currentColor={currentColor}
-              />
-            </TouchableOpacity>
+            <FullBatteryBox
+              states={currentState}
+              addBattery={addBattery}
+              slots={slots}
+              filled={filled}
+              currentLevel={currentLevel}
+              currentColor={currentColor}
+            />
           </View>
           <View style={{ alignItems: "center", flex: 1 }}>
             <View style={{ width: "80%", alignItems: "center" }}>

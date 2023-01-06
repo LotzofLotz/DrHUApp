@@ -104,7 +104,7 @@ const HabitEditModal = (props) => {
       console.log("setting this new habit:", jsonHabit);
       props.getHabits();
       props.setEditModalVisible(false);
-      // setInfoVisible(false);
+      props.setInfoModalVisible(false);
       // props.setModalOpen(false);
       // console.log("trying to trigger getHabits in edit");
     } catch (e) {

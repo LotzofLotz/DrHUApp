@@ -11,14 +11,14 @@ const FocusModalHeader = ({
   setChosenAudio,
 }) => {
   return (
-    <View style={{ height: "14%", justifyContent: "space-between" }}>
+    <View style={{ height: "10%", justifyContent: "space-between" }}>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
         }}
       >
-        <MyText
+        <MyText // could be a little further up
           content={
             machine == "Cryo"
               ? "Körperfokus"

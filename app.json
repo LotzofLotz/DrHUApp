@@ -6,10 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/DRHUFace.png",
     "userInterfaceStyle": "light",
-   
     "splash": {
       "image": "./assets/DRHUFace.png",
-       "resizeMode":"contain", 
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -19,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",

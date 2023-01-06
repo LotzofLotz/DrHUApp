@@ -27,10 +27,6 @@ const HabitRecommendationModal = (props) => {
       ? 700
       : Dimensions.get("window").height * 0.9;
 
-  useEffect(() => {
-    console.log("HIER: ", props.recommendationModalVisible);
-  }, [props.recommendationModalVisible]);
-
   const checkHabit = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -64,8 +60,10 @@ const HabitRecommendationModal = (props) => {
         jsonHabit
       );
       props.getHabits();
-      props.setRecommendationModalVisible(false);
-      props.setModalOpen(false);
+
+      props.setRecommendationModalOpen(false);
+
+      props.setDefinitionModalOpen(false);
     } catch (e) {
       console.log("error:", e);
     }
@@ -74,7 +72,7 @@ const HabitRecommendationModal = (props) => {
   return (
     <View>
       <Modal
-        isVisible={props.recommendationModalVisible}
+        isVisible={props.recommendationModalOpen}
         animationIn="slideInUp"
         backdropColor={"#132224"}
         backdropOpacity={existingInfoVisible ? 0 : 0.6}
@@ -82,8 +80,8 @@ const HabitRecommendationModal = (props) => {
         // useNativeDriver={true}
         onBackdropPress={() => {
           console.log("backdroppress triggered");
-          props.setRecommendationModalVisible(false);
-          props.setModalOpen(false);
+
+          props.setRecommendationModalOpen(false);
           setSelectedDifficulty("Mittel");
           setAmount(3);
         }}
@@ -137,8 +135,7 @@ const HabitRecommendationModal = (props) => {
               />
               <TouchableOpacity
                 onPress={() => (
-                  props.setRecommendationModalVisible(false),
-                  props.setModalOpen(false),
+                  props.setRecommendationModalOpen(false),
                   setSelectedDifficulty("Mittel"),
                   setAmount(3)
                 )}

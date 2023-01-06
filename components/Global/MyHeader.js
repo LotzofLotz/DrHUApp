@@ -56,7 +56,7 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
                 backgroundColor: Colors.primaryLight,
                 justifyContent: "center",
                 alignItems: "center",
-                bottom: 5,
+                // bottom: 5,
               }}
             >
               {title == "Fokus" ? (
@@ -81,7 +81,14 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
                 />
               )}
             </View>
-            <View style={{ top: 2, left: 5 }}>
+            <View
+              style={{
+                top: 2,
+                left: 5,
+
+                justifyContent: "center",
+              }}
+            >
               <MyText content={title} size={width * 0.06} semiBold />
               {/* height * 0.035 */}
             </View>
@@ -92,11 +99,8 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
 
           <View
             style={{
-              // position: "absolute",
-              // right: 0,
-              bottom: 6,
+              bottom: 5,
               flexDirection: "row",
-              // width: "18%",
             }}
           >
             <Image

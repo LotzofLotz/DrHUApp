@@ -23,7 +23,7 @@ const AudiosView = ({
       style={{
         backgroundColor: "#F6F6F6",
         borderRadius: 20,
-        maxHeight: 200,
+        maxHeight: "30%",
         width: "100%",
         padding: "4%",
         marginBottom: "4%",

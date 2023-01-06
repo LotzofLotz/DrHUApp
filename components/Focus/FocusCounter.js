@@ -1,13 +1,17 @@
 import React from "react";
 import Svg, { Path, G, Rect, Circle } from "react-native-svg";
 
-const FocusCounter = ({ count, width, machine }) => {
+const FocusCounter = ({ count, width, machine, height }) => {
+  console.log("width:", width, " height: ", height);
   return count == 0 ? (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="505.387"
-      height="65.929"
-      viewBox="0 0 499.387 61.929"
+      // width="505.387"
+      // height="65.929"
+      // viewBox="0 0 499.387 61.929"
+      width={String(width)}
+      height={String(height / 4)}
+      viewBox="-1 4 406 48.929"
     >
       <G
         id="FokusBatterieStatus_Leer"
@@ -184,9 +188,9 @@ const FocusCounter = ({ count, width, machine }) => {
   ) : count == 1 ? (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="505.387"
-      height="65.929"
-      viewBox="0 0 499.387 61.929"
+      width={String(width)}
+      height={String(height / 4)}
+      viewBox="-1 4 406 48.929"
     >
       <G
         id="FokusBatterieStatus_Halb"
@@ -395,9 +399,10 @@ const FocusCounter = ({ count, width, machine }) => {
   ) : (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="505.387"
-      height="65.929"
-      viewBox="0 0 499.387 61.929"
+      width={String(width)}
+      height={String(height / 4)}
+      // viewBox="-1 5 406 33.929"
+      viewBox="-1 4 406 48.929"
     >
       <G
         id="FokusBatterieStatus_Voll"

@@ -57,7 +57,7 @@ const FullFocusContent = ({
     >
       <View
         style={{
-          height: "50%",
+          height: "40%",
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
@@ -65,7 +65,7 @@ const FullFocusContent = ({
       >
         <View
           style={{
-            height: "50%",
+            height: "66%",
             width: "60%",
             borderRadius: 18,
             borderWidth: 7,
@@ -103,7 +103,7 @@ const FullFocusContent = ({
         </View>
         <View
           style={{
-            height: "25%",
+            height: "30%",
             width: "3%",
             backgroundColor: "white",
             borderTopRightRadius: 7,
