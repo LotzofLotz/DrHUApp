@@ -48,7 +48,7 @@ const RecommendationSquare = (props) => {
         </View>
         <View
           style={{
-            flex: 1.5,
+            flex: 2,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -58,13 +58,6 @@ const RecommendationSquare = (props) => {
             center
             size={width * 0.042}
             semiBold
-          />
-        </View>
-        <View style={{ flex: 0.7 }}>
-          <MyText
-            content={recommendation.category}
-            size={width * 0.03}
-            color={recommendation.color}
           />
         </View>
       </View>

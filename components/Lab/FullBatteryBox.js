@@ -93,7 +93,7 @@ const FullBatteryBox = ({
       <G
         id="Stromkasten_SVG"
         data-name="Stromkasten SVG"
-        // transform="translate(-12.515 -286.269)" // this messes things up
+        transform="translate(-12.515 -286.269)" // this messes things up
       >
         <G id="Flügel_1" data-name="Flügel 1">
           <G id="Flügel_1_Kabel" data-name="Flügel 1 Kabel">
@@ -233,14 +233,11 @@ const FullBatteryBox = ({
           />
         </G>
 
-        <G id="Flügel_4" data-name="Flügel 4">
-          <Path
-            id="Flügel_4_HG"
-            data-name="Flügel 4 HG"
-            d="M.222,56.434,8.553,11.02A13.45,13.45,0,0,1,25.126.425c66.3,16.981,121.123,71.293,138.736,137.427a13.451,13.451,0,0,1-10.437,16.673l-45.33,8.761a13.438,13.438,0,0,1-15.417-9.346A122.2,122.2,0,0,0,9.714,71.762,13.438,13.438,0,0,1,.222,56.434Z"
-            transform="translate(15.383 486.249) rotate(-91)"
-            fill={wing4Visible ? "#447681" : "#D1DFE1"}
-          />
+        <G
+          id="Flügel_4"
+          data-name="Flügel 4"
+          // transform="translate(-12.515 -286.269)"
+        >
           <G id="Flügel_4_Kabel" data-name="Flügel 4 Kabel">
             <Path
               id="Path_729"
@@ -271,6 +268,13 @@ const FullBatteryBox = ({
               fill={wing4Visible ? "#447681" : "#D1DFE1"}
             />
           </G>
+          <Path
+            id="Flügel_4_HG"
+            data-name="Flügel 4 HG"
+            d="M.222,56.434,8.553,11.02A13.45,13.45,0,0,1,25.126.425c66.3,16.981,121.123,71.293,138.736,137.427a13.451,13.451,0,0,1-10.437,16.673l-45.33,8.761a13.438,13.438,0,0,1-15.417-9.346A122.2,122.2,0,0,0,9.714,71.762,13.438,13.438,0,0,1,.222,56.434Z"
+            transform="translate(15.383 486.249) rotate(-91)"
+            fill={wing4Visible ? "#447681" : "#D1DFE1"}
+          />
           <BatterySVG
             matrix={battery10}
             state={states[17]}

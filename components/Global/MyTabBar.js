@@ -25,16 +25,11 @@ const MyTabBar = ({ navigation }) => {
         right: 0,
         bottom: 0,
         height: tabBarHeight,
-        // backgroundColor: "white",
-        // opacity: 0.5,
       }}
     >
       <View
         style={{
           flexDirection: "row",
-          // backgroundColor: "white",
-          // opacity: 0.5,
-          //backgroundColor: "green",
         }}
       >
         <View
@@ -49,9 +44,6 @@ const MyTabBar = ({ navigation }) => {
             position: "absolute",
             right: (width - 147) / 2,
             left: (width - 147) / 2,
-            // backgroundColor: "white",
-            // opacity: 0.5,
-            // alignItems: "center"
           }}
         >
           <Svg
@@ -153,29 +145,29 @@ const MyTabBar = ({ navigation }) => {
             color={focused == "Focus" && design != 1 ? Colors.yellow : "white"}
           />
         </View>
+
         <TouchableOpacity
-          onPress={() => {
-            setFocused("Lab"), navigation.navigate("Lab");
-          }}
           style={{
-            flex: 1,
             justifyContent: "center",
-            alignItems: "center",
+            // alignItems: "center",
             height: 50,
-            width: 50,
+            width: 50, //? why not round?
             backgroundColor:
               focused == "Lab" && design == 1
                 ? Colors.primaryLight
                 : Colors.primaryDark,
             borderRadius: 420,
           }}
+          onPress={() => {
+            setFocused("Lab"), navigation.navigate("Lab");
+          }}
         >
           <Image
             source={require("../../assets/NAVBarLaborIcon.png")}
             style={{
+              left: 10,
               width: 32,
               height: 32,
-              // color: focused == "Lab" ? Colors.yellow : "white",
             }}
           />
         </TouchableOpacity>

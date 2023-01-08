@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  Image,
-  StatusBar,
-  Platform,
-  PixelRatio,
-  Dimensions,
-} from "react-native";
+import { View, Image, StatusBar, Platform, Dimensions } from "react-native";
 import { MyText } from "./MyText";
 import Colors from "../../constants/Colors";
 import { Icon } from "react-native-elements";
@@ -90,12 +83,8 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
               }}
             >
               <MyText content={title} size={width * 0.06} semiBold />
-              {/* height * 0.035 */}
             </View>
           </View>
-          {/* ) : (
-            <View />
-          )} */}
 
           <View
             style={{

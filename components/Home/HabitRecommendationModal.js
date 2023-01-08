@@ -115,38 +115,20 @@ const HabitRecommendationModal = (props) => {
               // marginVertical: "2%",
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                width: "100%",
-                bottom: "2%",
-                justifyContent: "space-between",
-                // marginTop: modalHeight * 0.02,
-              }}
+            <TouchableOpacity
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => (
+                props.setRecommendationModalOpen(false),
+                setSelectedDifficulty("Mittel"),
+                setAmount(3)
+              )}
             >
-              <MyText
-                size={modalHeight * 0.025}
-                content={recommendation?.category}
-                color={
-                  recommendation?.category == "physisch"
-                    ? Colors.primaryLight
-                    : Colors.pink
-                }
+              <Icon
+                size={modalHeight * 0.036}
+                color={Colors.primaryDark}
+                name={"close"}
               />
-              <TouchableOpacity
-                onPress={() => (
-                  props.setRecommendationModalOpen(false),
-                  setSelectedDifficulty("Mittel"),
-                  setAmount(3)
-                )}
-              >
-                <Icon
-                  size={modalHeight * 0.036}
-                  color={Colors.primaryDark}
-                  name={"close"}
-                />
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
 
             <Icon
               size={modalHeight * 0.15}

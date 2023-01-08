@@ -8,7 +8,6 @@ import { Icon } from "react-native-elements";
 const MyInfo = (props) => {
   useEffect(() => {
     if (props.isVisible) {
-      console.log("mount");
       return () => {
         // ComponentWillUnmount
         console.log("unmount"), props.onXPress;
@@ -44,7 +43,6 @@ const MyInfo = (props) => {
             height: 60,
             width: 60,
             borderRadius: 420,
-            // alignContent: "center",
             justifyContent: "center",
           }}
         >

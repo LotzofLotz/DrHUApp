@@ -3,37 +3,6 @@ import { View, Image } from "react-native";
 import Svg, { Path, ClipPath, G, Rect, Defs, Circle } from "react-native-svg";
 
 const MySpeechBubble = ({ character }) => {
-  //   return (
-  // <Svg
-  //   id="Group_587"
-  //   width="159.901"
-  //   height="168.202"
-  //   viewBox="0 0 159.901 168.202"
-  // >
-  //   <ClipPath id="clip-Path">
-  //     <Rect
-  //       id="Rectangle_379"
-  //       data-name="Rectangle 379"
-  //       width="159.901"
-  //       height="168.202"
-  //       // fill="yellow"
-  //     />
-  //   </ClipPath>
-
-  //   <G id="Group_586" data-name="Group 586" clip-Path="url(#clip-Path)">
-  //     <Image
-  //       source={require("../../assets/DRHUSpeechBubblePingu.png")}
-  //       style={{ width: "60%", height: "60%", resizeMode: "contain" }}
-  //     />
-  //     <Path
-  //       id="Path_858"
-  //       data-name="Path 858"
-  //       fill="red"
-  //       d="M80.053,0A79.832,79.832,0,0,0,19.029,131.321L.682,161.17A4.616,4.616,0,0,0,6.9,167.6L39.872,148.84A79.845,79.845,0,1,0,80.053,0"
-  //     ></Path>
-  //   </G>
-  // </Svg>
-
   // {  character =="DrHU" ? (
   return (
     <Svg width="78.062" height="81.644" viewBox="0 0 78.062 81.644">
@@ -492,10 +461,5 @@ const MySpeechBubble = ({ character }) => {
     </Svg>
   );
 };
-//     ))
-//      :
-//     return({})}
-
-// };
 
 export default MySpeechBubble;

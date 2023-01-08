@@ -11,7 +11,6 @@ const MyLevelUp = (props) => {
 
   useEffect(() => {
     if (props.isVisible) {
-      console.log("mount");
       return () => {
         // ComponentWillUnmount
         console.log("unmount"), props.onXPress;
