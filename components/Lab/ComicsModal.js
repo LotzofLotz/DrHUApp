@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import Modal from "react-native-modal";
@@ -12,7 +12,10 @@ const ComicsModal = ({
   height,
   colors,
   setReaderVisible,
+  setSelectedComic,
 }) => {
+  console.log(colors);
+
   const fillColors = (colors) => {
     let i = 0;
     let array = [];
@@ -25,6 +28,19 @@ const ComicsModal = ({
       i++;
     }
     return array;
+  };
+
+  const getComicName = (color) => {
+    switch (color) {
+      case "#8C91BF":
+        return "ComicSleep";
+      case "#8CBF9B":
+        return "ComicFood";
+      case "#EEBF91":
+        return "ComicRun";
+      default:
+        console.log("no comic returned");
+    }
   };
 
   return (
@@ -69,7 +85,9 @@ const ComicsModal = ({
           <View>
             <MyText content="Prolog" semiBold size={height * 0.03} />
             <TouchableOpacity
-              onPress={() => setReaderVisible(true)}
+              onPress={() => {
+                setSelectedComic("Prolog"), setReaderVisible(true);
+              }}
               style={{
                 width: height * 0.08,
                 height: height * 0.08,
@@ -109,7 +127,7 @@ const ComicsModal = ({
               {fillColors(colors)
                 .slice(0, 4)
                 .map((color) => (
-                  <View
+                  <TouchableOpacity
                     key={color}
                     style={{
                       width: height * 0.08,
@@ -123,6 +141,10 @@ const ComicsModal = ({
                     }}
                   >
                     <FontAwesome5
+                      onPress={() => {
+                        setSelectedComic(getComicName(color)),
+                          setReaderVisible(true);
+                      }}
                       name="file"
                       size={30}
                       color={
@@ -151,7 +173,7 @@ const ComicsModal = ({
                         size={height * 0.02}
                       />
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 ))}
             </View>
             <View

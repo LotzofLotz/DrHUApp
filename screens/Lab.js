@@ -37,6 +37,8 @@ const Lab = () => {
   const [readerVisible, setReaderVisible] = useState(false);
   const [infoVisible, setInfoVisible] = useState(false);
 
+  const [selectedComic, setSelectedComic] = useState("");
+
   useEffect(() => {
     getEnergy();
     getMachines();
@@ -151,10 +153,12 @@ const Lab = () => {
         comicModalVisible={comicModalVisible}
         colors={colors}
         setReaderVisible={setReaderVisible}
+        setSelectedComic={setSelectedComic}
       />
       <ComicReader
         isVisible={readerVisible}
         setReaderVisible={setReaderVisible}
+        selectedComic={selectedComic}
       />
       {names.length > 0 ? ( // not ideal, but works
         <View>
