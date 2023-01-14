@@ -12,6 +12,7 @@ import MyStatusBar from "../components/Global/MyStatusBar";
 import { useIsFocused } from "@react-navigation/native";
 import getWeek from "date-fns/getWeek";
 import { useFocusEffect } from "@react-navigation/native";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 const Focus = ({}) => {
   const [energy, setEnergy] = useState(0);
@@ -89,18 +90,39 @@ const Focus = ({}) => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("fokus visible?: ", focusModalVisible);
-  //   console.log("darkmode: ", darkModalVisible);
-  //   console.log(
-  //     "focus - Status- Color: ",
-  //     focusModalVisible && darkModalVisible
-  //       ? "#132224"
-  //       : focusModalVisible
-  //       ? "#13222499"
-  //       : "transparent"
-  //   );
-  // }, [focusModalVisible, darkModalVisible]);
+  const handleLeftSwipe = (machine) => {
+    console.log("machine,", machine);
+    switch (machine) {
+      case "Cryo":
+        console.log("setting machine");
+        setMachine("Energy");
+        break;
+      case "Energy":
+        setMachine("Breath");
+        break;
+      case "Breath":
+        setMachine("Mind");
+        break;
+      default:
+        console.log("lelmao");
+    }
+  };
+
+  const handleRightSwipe = (machine) => {
+    switch (machine) {
+      case "Energy":
+        setMachine("Cryo");
+        break;
+      case "Mind":
+        setMachine("Breath");
+        break;
+      case "Breath":
+        setMachine("Energy");
+        break;
+      default:
+        console.log("lelmao");
+    }
+  };
 
   const getEnergy = async () => {
     try {
@@ -112,7 +134,11 @@ const Focus = ({}) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <GestureRecognizer
+      onSwipeLeft={() => handleLeftSwipe(machine)}
+      onSwipeRight={() => handleRightSwipe(machine)}
+      style={{ flex: 1, backgroundColor: "white" }}
+    >
       <MyStatusBar
         translucent={true}
         backgroundColor={
@@ -125,7 +151,8 @@ const Focus = ({}) => {
       />
       <MyHeader title="Fokus" energy={energy} design={design} />
 
-      <View // machines-View
+      <View
+        // machines-View
         style={{
           flex: 1.3,
           alignItems: "center",
@@ -143,6 +170,7 @@ const Focus = ({}) => {
           <Mind completed={mindComplete} ratio={ratio} />
         )}
       </View>
+
       <SockelContent
         machine={machine}
         setMachine={setMachine}
@@ -165,7 +193,7 @@ const Focus = ({}) => {
         energyCount={energyCount}
         setMachineCounts={setMachineCounts}
       />
-    </View>
+    </GestureRecognizer>
   );
 };
 

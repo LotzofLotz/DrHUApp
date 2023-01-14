@@ -14,8 +14,6 @@ const ComicsModal = ({
   setReaderVisible,
   setSelectedComic,
 }) => {
-  console.log(colors);
-
   const fillColors = (colors) => {
     let i = 0;
     let array = [];

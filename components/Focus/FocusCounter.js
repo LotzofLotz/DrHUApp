@@ -2,7 +2,7 @@ import React from "react";
 import Svg, { Path, G, Rect, Circle } from "react-native-svg";
 
 const FocusCounter = ({ count, width, machine, height }) => {
-  console.log("width:", width, " height: ", height);
+  
   return count == 0 ? (
     <Svg
       xmlns="http://www.w3.org/2000/svg"

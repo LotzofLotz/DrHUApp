@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import { MyText } from "../Global/MyText";
-import {
-  View,
-  TouchableOpacity,
-  StatusBar,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, StatusBar } from "react-native";
 import Colors from "../../constants/Colors";
 import MyHeader from "../Global/MyHeader";
-import PowerBoxSVG from "./PowerBoxSVG";
+
 import FullBatteryBox from "./FullBatteryBox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MyLevelUp from "../Global/MyLevelUp";
-import { FontAwesome } from "@expo/vector-icons";
+
 import Unlockables from "./Unlockables";
 import { Icon } from "react-native-elements";
 
@@ -95,12 +90,6 @@ const PowerBox = ({
             ) {
               parsed["machine" + (currentMachine + 1)].level = 1;
             }
-            // if (currentLevel == 1) {
-            //   const newState = resetState();
-            //   parsed["machine" + currentMachine].state = newState;
-            //   setCurrentState(newState);
-            //   console.log("NEW STATE:", newState);
-            // }
           }
           await AsyncStorage.mergeItem("Machines", JSON.stringify(parsed));
         } catch (e) {
@@ -138,9 +127,7 @@ const PowerBox = ({
             position: "absolute",
             top: 0,
             right: 0,
-            // height: "20%",
             width: "100%",
-
             top: -StatusBar.currentHeight,
           }}
         >
@@ -175,13 +162,6 @@ const PowerBox = ({
               justifyContent: "center",
             }}
           >
-            {/* <FontAwesome
-              style={{ right: "3%" }}
-              color={"white"}
-              name={"circle-xmark"}
-              size={height * 0.04}
-              onPress={() => setPowerBoxVisible(false)}
-            /> */}
             <Icon
               name="close"
               size={height * 0.04}
@@ -193,9 +173,7 @@ const PowerBox = ({
             style={{
               justifyContent: "center",
               alignItems: "center",
-              // height: "60%",
               flex: 4,
-              // backgroundColor: "green",
             }}
           >
             <FullBatteryBox

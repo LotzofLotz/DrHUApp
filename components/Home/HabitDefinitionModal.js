@@ -46,7 +46,7 @@ const HabitDefinitionModal = (props) => {
     try {
       const keys = await AsyncStorage.getAllKeys();
       const habitKeys = keys.filter((key) => key.startsWith("Habit_"));
-      console.log("keys:", habitKeys);
+      
       if (habitKeys.includes("Habit_" + chosenName)) {
         setExistingInfoVisible(true);
       } else {

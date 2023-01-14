@@ -16,7 +16,6 @@ const PickerView = (props) => {
     try {
       const colors = await AsyncStorage.getItem("Colors");
       setUnlockedColors(colors);
-      console.log("unlocked colors in getColors:", colors);
     } catch (e) {
       console.log(e);
     }

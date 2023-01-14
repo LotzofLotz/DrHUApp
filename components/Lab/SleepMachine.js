@@ -4,8 +4,6 @@ import Svg, { Path, Rect, G, Circle, Ellipse } from "react-native-svg";
 const SleepMachine = ({ level, height }) => {
   let width = (height / 2.3).toString();
   let heightx = (height / 3.1).toString();
-  let viewBox = "0 0 " + width + " " + heightx;
-  console.log(width, heightx);
 
   return level == 3 ? (
     <Svg

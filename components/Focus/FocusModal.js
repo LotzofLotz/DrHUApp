@@ -32,7 +32,6 @@ const FocusModal = ({
     Dimensions.get("window").height * 0.9;
 
   const width = Dimensions.get("window").width;
-  console.log("WWW:", width);
 
   const bodyAudios = ["BodyScan1", "BodyScan2", "BodyScan3"];
   const soulAudios = [

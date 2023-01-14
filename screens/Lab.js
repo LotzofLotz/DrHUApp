@@ -16,6 +16,7 @@ import ComicsModal from "../components/Lab/ComicsModal";
 import ComicReader from "../components/Lab/ComicReader";
 import MachineChangeView from "../components/Lab/MachineChangeView";
 import BatteryBoxButton from "../components/Lab/BatteryBoxButton";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 const Lab = () => {
   const [energy, setEnergy] = useState(0);
@@ -75,7 +76,7 @@ const Lab = () => {
       let colors = [];
       const machines = await AsyncStorage.getItem("Machines"); // dauert lange !!!
       const parsedMachines = JSON.parse(machines);
-      console.log("parsed Machines :::", parsedMachines);
+
       for (let key in parsedMachines) {
         levels.push(parsedMachines[key].level);
         names.push(parsedMachines[key].name);
@@ -128,7 +129,13 @@ const Lab = () => {
   };
 
   return (
-    <View
+    <GestureRecognizer
+      onSwipeLeft={() => {
+        currentMachine != 3 ? onForward() : console.log("nene");
+      }} // hier irgwann 8 oder maxMachine
+      onSwipeRight={() => {
+        currentMachine != 1 ? onBackward() : console.log("nene");
+      }}
       style={{
         flex: 1,
         backgroundColor: "white",
@@ -155,6 +162,7 @@ const Lab = () => {
         setReaderVisible={setReaderVisible}
         setSelectedComic={setSelectedComic}
       />
+
       <ComicReader
         isVisible={readerVisible}
         setReaderVisible={setReaderVisible}
@@ -244,7 +252,7 @@ const Lab = () => {
           <MyText content="loading" />
         </View>
       )}
-    </View>
+    </GestureRecognizer>
   );
 };
 

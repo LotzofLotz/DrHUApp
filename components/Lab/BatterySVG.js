@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import Svg, { Defs, G, Path, Rect } from "react-native-svg";
+import React from "react";
+import { G, Path, Rect } from "react-native-svg";
 import Colors from "../../constants/Colors";
 
 const BatterySVG = ({

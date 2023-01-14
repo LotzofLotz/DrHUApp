@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-native-modal";
-import { ScrollView, Image, Dimensions, View, FlatList } from "react-native";
+import { Dimensions, View } from "react-native";
 import Prolog from "./Comics/Prolog";
 import RunComic from "./Comics/RunComic";
 import { MyText } from "../Global/MyText";
 import Colors from "../../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { Asset } from "expo-asset";
-import { render } from "react-dom";
 
 const ComicReader = ({ isVisible, setReaderVisible, selectedComic }) => {
-  // const width = Dimensions.get("window").width;
   const width = Dimensions.get("window").width;
-  console.log("widtjh", width);
 
   const setHeader = (selectedComic) => {
     switch (selectedComic) {
@@ -30,8 +26,6 @@ const ComicReader = ({ isVisible, setReaderVisible, selectedComic }) => {
   }, [selectedComic]);
   const [text, setText] = useState();
 
-  console.log("selectedCOMIC: ", selectedComic);
-
   const renderComic = (selectedComic) => {
     switch (selectedComic) {
       case "Prolog":
@@ -41,7 +35,7 @@ const ComicReader = ({ isVisible, setReaderVisible, selectedComic }) => {
         return <RunComic width={width} />;
 
       default:
-        console.log("lelmao");
+        return;
     }
   };
 
