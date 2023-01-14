@@ -105,11 +105,25 @@ const MyTabBar = ({ navigation }) => {
       </TouchableOpacity>
       <View style={{ flexDirection: "row", bottom: "14%" }}>
         <TouchableOpacity
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            left: 5,
+            justifyContent: "center",
+            // alignItems: "center",
+            height: 50,
+            width: 50, //? why not round?
+            backgroundColor:
+              focused == "Profile" && design == 1
+                ? Colors.primaryLight
+                : Colors.primaryDark,
+            borderRadius: 420,
+          }}
+          onPress={() => {
+            navigation.navigate("Profile"), setFocused("Profile");
+          }}
         >
           <Image
             source={require("../../assets/NAVBarLaborIcon.png")}
-            style={{ width: 32, height: 32 }}
+            style={{ width: 32, height: 32, left: 10 }}
           />
         </TouchableOpacity>
         <TouchableOpacity

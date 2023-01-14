@@ -86,23 +86,27 @@ const MyHeader = ({ title, energy, scrolled, design }) => {
             </View>
           </View>
 
-          <View
-            style={{
-              bottom: 5,
-              flexDirection: "row",
-            }}
-          >
-            <Image
-              source={require("../../assets/Batterieicon_Currency_alt.png")}
-              style={{ width: width * 0.08, height: width * 0.08, top: 2 }}
-            />
-            <MyText
-              color={Colors.primaryDark}
-              content={energy + "x"}
-              bold
-              size={width * 0.07}
-            />
-          </View>
+          {energy != undefined ? (
+            <View
+              style={{
+                bottom: 5,
+                flexDirection: "row",
+              }}
+            >
+              <Image
+                source={require("../../assets/Batterieicon_Currency_alt.png")}
+                style={{ width: width * 0.08, height: width * 0.08, top: 2 }}
+              />
+              <MyText
+                color={Colors.primaryDark}
+                content={energy + "x"}
+                bold
+                size={width * 0.07}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
         </View>
       </View>
     </View>
